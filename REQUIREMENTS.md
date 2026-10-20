@@ -94,6 +94,10 @@ MVP flags retain the earlier baseline's priorities. “No — required milestone
 
 Persistence uses JSON arrays under **vibetracker.tasks** and **vibetracker.anchors**; demo uses **vibetracker.demo.tasks** and **vibetracker.demo.anchors**. Storage is browser/origin-specific, without a hosted database, encryption promise, backup or synchronisation. Invalid data is retained instead of overwritten with fixtures. Clearing browser storage removes data. Schema migration for future entity changes needs a deliberate plan.
 
+## Expanded acceptance audit
+
+[CHECKLIST.md](CHECKLIST.md) retains the 199 supplied acceptance points, all unchecked. [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) separately records code inspection, actual checks, gaps and provisional scope. Fresh quota tests expose incomplete draft recovery, failed-delete visibility and timestamp durability despite the existing warning messages; long insertion is silently clipped by maxlength. These are open issues, not completed NFR acceptance.
+
 ## Verification routes and limits
 - `npm test`: date boundaries/validation, schema fixtures, timestamps, context formatting/review hints, URL rules and demo validity (10 tests at this checkpoint).
 - `npm run build`: actual production compilation, not proof of deployment or usability.

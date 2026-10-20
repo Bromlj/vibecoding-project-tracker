@@ -13,7 +13,7 @@ npm run build
 npm run preview
 ```
 
-Open the URL printed by Vite. No accounts, environment variables or database setup required. React 18, Vite 5 and Tailwind 3 are retained from the supplied starter. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md).
+Open the URL printed by Vite. No accounts, environment variables or database setup required. React 18, Vite 5 and Tailwind 3 are retained from the supplied starter. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md). Detailed acceptance points are in [CHECKLIST.md](CHECKLIST.md); current coverage and known gaps are in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md).
 
 ## Use
 - Add task or select a task title to edit. Save explicitly. Status moves the task between To Do, In Progress, Review and Done.
