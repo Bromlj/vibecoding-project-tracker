@@ -6,6 +6,7 @@ import TypeBadge from './TypeBadge';
 import OwnerBadge from './OwnerBadge';
 import CopyContext from './CopyContext';
 import AnchorBoard from './AnchorBoard';
+import { demoTasks } from './demo';
 import BriefingReview from './BriefingReview';
 import { dueState, DUE_STYLES, displayDate } from './deadlines';
 import { CONTEXT_TEMPLATE } from './context';
@@ -13,7 +14,8 @@ import { button, primaryButton } from './ui';
 export { STAGES, TEAM } from './data';
 
 export default function App() {
-  const [tasks,setTasks,storageError] = useLocalStorage('vibetracker.tasks',seedTasks,validTasks);
+  const isDemo = new URLSearchParams(window.location.search).get('demo') === '1';
+  const [tasks,setTasks,storageError] = useLocalStorage(isDemo?'vibetracker.demo.tasks':'vibetracker.tasks',isDemo?demoTasks:seedTasks,validTasks);
   const [editing,setEditing] = useState(null);
   const [reviewing,setReviewing] = useState(null);
   const reviewOpener=useRef(null);
@@ -27,7 +29,7 @@ export default function App() {
     setEditing(null);
     requestAnimationFrame(()=> (opener.current?.isConnected?opener.current:addButton.current)?.focus());
   }
-  function add(event) { open({id:'',title:'',description:'',type:'feature',status:'todo',assignee:TEAM[0],dueDate:null,createdDate:localDate(),context:CONTEXT_TEMPLATE,contextTool:null,contextUpdatedAt:null},event); }
+  function add(event, status = 'todo') { open({id:'',title:'',description:'',type:'feature',status,assignee:TEAM[0],dueDate:null,createdDate:localDate(),context:CONTEXT_TEMPLATE,contextTool:null,contextUpdatedAt:null},event); }
   function save(task) {
     setTasks(old=>old.some(t=>t.id===task.id)?old.map(t=>t.id===task.id?task:t):[...old,task]);
     setMessage(editing?.id && editing.assignee !== task.assignee ? 'Task assigned to '+task.assignee+'.' : 'Task saved.'); close();
@@ -39,18 +41,18 @@ export default function App() {
       <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-4">
         <div><h1 className="text-3xl font-semibold tracking-tight">Vibecoding Project Tracker<span className="text-brand-accent">.</span></h1>
         <p className="mt-2 text-ink-muted">From intent to ship. Keep the task and its context together.</p></div>
-        <button ref={addButton} className={primaryButton} onClick={add}><span aria-hidden="true">+</span> Add task</button>
+        <div className="flex flex-wrap gap-3"><a href={isDemo?window.location.pathname:"?demo=1"} className={button}>{isDemo?"Back to my workspace":"Open demo workspace"}</a><button ref={addButton} className={primaryButton} onClick={add}><span aria-hidden="true">+</span> Add task</button></div>
       </div>
     </header>
     <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-8">
       {storageError&&<p role="alert" className="mb-5 rounded-lg border border-red-400 bg-red-50 p-4 text-red-900">{storageError}</p>}
       <p role="status" aria-live="polite" className="mb-4 min-h-6 text-sm text-brand-primary">{message}</p>
-      <AnchorBoard/><div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+      {isDemo&&<p className="mb-5 rounded-lg border border-brand-primary bg-white p-4 text-brand-primary">Demo workspace — synthetic tasks, stored separately from your work.</p>}<AnchorBoard storageKey={isDemo?"vibetracker.demo.anchors":"vibetracker.anchors"}/><div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div><h2 id="board-title" className="text-2xl font-semibold">Project board</h2>
         <p className="mt-1 text-sm text-ink-muted">{tasks.length} tasks · {storageError ? "changes not saved" : "saved in this browser"}</p></div>
         <p className="text-sm text-ink-muted">Team names are demo placeholders.</p>
       </div>
-      <p className="mb-4 text-sm text-ink-muted">Deadline tint: calm beyond 48h · warning within 48h · overdue after the due day · completed tasks neutral.</p><section id="board" aria-labelledby="board-title" className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <p className="mb-4 text-sm text-ink-muted">Deadline tint: calm beyond 48h · warning within 48h · overdue after the due day · completed tasks neutral.</p><section id="board" tabIndex={-1} aria-labelledby="board-title" className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {STAGES.map(stage=><section key={stage.id} aria-labelledby={'stage-'+stage.id} className="min-w-0">
           <div className="mb-4 flex items-center gap-3 border-b-2 border-slate-300 pb-3">
             <span className="h-2 w-2 rounded-full bg-brand-primary" aria-hidden="true"/>
@@ -63,7 +65,7 @@ export default function App() {
             <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-muted">{task.description}</p>
             <p className="mt-4 text-sm font-medium">{dueState(task,now).label}</p><p className="mt-1 text-sm text-ink-muted">{task.dueDate ? <>Due: <time dateTime={task.dueDate}>{displayDate(task.dueDate)}</time></> : "No deadline set"}</p><div className="mt-4 border-t border-slate-200 pt-3"><OwnerBadge name={task.assignee}/></div><div className="mt-4"><CopyContext task={task}/><button type="button" className={button+" mt-2 w-full"} onClick={e=>{reviewOpener.current=e.currentTarget;setReviewing(task);}}>Review briefing</button></div>
           </li>)}</ul>
-          {!tasks.some(t=>t.status===stage.id)&&<div className="rounded-xl border border-dashed border-slate-300 p-5"><p className="mb-3 text-sm text-ink-muted">No tasks here yet.</p><button className={button} onClick={add}>Add task</button></div>}
+          {!tasks.some(t=>t.status===stage.id)&&<div className="rounded-xl border border-dashed border-slate-300 p-5"><p className="mb-3 text-sm text-ink-muted">No tasks here yet.</p><button className={button} onClick={e=>add(e,stage.id)}>Add task</button></div>}
         </section>)}
       </section>
     </main>

@@ -25,3 +25,10 @@ test('calendar validation rejects impossible dates; fixtures satisfy model',()=>
  assert.equal(validTasks(seedTasks()),true);
  const bad=seedTasks();bad[0].status='unknown';assert.equal(validTasks(bad),false);
 });
+
+import { demoTasks } from './demo.js';
+test('demo has three valid synthetic tasks per stage and complete context',()=>{
+ const tasks=demoTasks();assert.equal(tasks.length,12);assert.equal(validTasks(tasks),true);
+ for(const status of ['todo','in-progress','review','done']) assert.equal(tasks.filter(t=>t.status===status).length,3);
+ assert.ok(tasks.every(t=>t.context.includes('Synthetic prompt example')));
+});

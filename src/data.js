@@ -1,3 +1,4 @@
+import { AI_TOOLS } from './context.js';
 export const STAGES = [
   { id: 'todo', label: 'To Do' }, { id: 'in-progress', label: 'In Progress' },
   { id: 'review', label: 'Review' }, { id: 'done', label: 'Done' },
@@ -31,11 +32,11 @@ export function validDate(value) {
 }
 export function validTasks(value) {
   return Array.isArray(value) && new Set(value.map(t=>t?.id)).size===value.length && value.every(t=>
-    t && typeof t.id==='string' && t.id.length>0 && typeof t.title==='string' && t.title.trim().length>0 &&
-    typeof t.description==='string' && ['feature','bug'].includes(t.type) &&
+    t && typeof t.id==='string' && t.id.length>0 && typeof t.title==='string' && t.title.trim().length>0 && t.title.length<=160 &&
+    typeof t.description==='string' && t.description.length<=4000 && ['feature','bug'].includes(t.type) &&
     STAGES.some(s=>s.id===t.status) && TEAM.includes(t.assignee) &&
     (t.dueDate===null || validDate(t.dueDate)) && validDate(t.createdDate) &&
-    typeof t.context==='string' && (t.contextTool===null || typeof t.contextTool==='string') &&
+    typeof t.context==='string' && t.context.length<=30000 && (t.contextTool===null || AI_TOOLS.includes(t.contextTool)) &&
     (t.contextUpdatedAt===null || (typeof t.contextUpdatedAt==='string' && !Number.isNaN(Date.parse(t.contextUpdatedAt))))
   );
 }

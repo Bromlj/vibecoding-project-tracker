@@ -1,3 +1,4 @@
+import { containDialogFocus } from './dialog';
 import { useEffect, useRef, useState } from 'react';
 import { STAGES, TEAM, localDate } from './data';
 import { button, primaryButton, input } from './ui';
@@ -14,6 +15,7 @@ export default function TaskEditor({ task, onSave, onDelete, onClose }) {
   useEffect(() => {
     const node = dialog.current;
     if (!node.open) node.showModal();
+    node.querySelector("input")?.focus();
     return () => node.close();
   }, []);
   function requestClose() {
@@ -25,7 +27,7 @@ export default function TaskEditor({ task, onSave, onDelete, onClose }) {
     if (!draft.title.trim()) { setError('Enter a task title.'); return; }
     onSave({ ...withContextTimestamp(draft,task), title: draft.title.trim(), id: draft.id || crypto.randomUUID(), createdDate: draft.createdDate || localDate() });
   }
-  return <dialog ref={dialog} aria-labelledby="editor-title" onCancel={event=>{event.preventDefault();requestClose();}}
+  return <dialog onKeyDown={containDialogFocus} ref={dialog} aria-labelledby="editor-title" onCancel={event=>{event.preventDefault();requestClose();}}
     className="m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-2xl border border-slate-300 bg-white p-0 text-ink-primary shadow-xl backdrop:bg-slate-900/50">
     <form onSubmit={save} className="p-5 sm:p-7">
       <div className="mb-6 flex items-center justify-between gap-4">

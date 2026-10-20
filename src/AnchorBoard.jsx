@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { ANCHORS, initialAnchors, validAnchors, safeUrl } from './anchors';
 import { useLocalStorage } from './storage';
 import { button, input } from './ui';
-export default function AnchorBoard() {
- const [anchors,setAnchors,error]=useLocalStorage('vibetracker.anchors',initialAnchors,validAnchors);
+export default function AnchorBoard({ storageKey = "vibetracker.anchors" }) {
+ const [anchors,setAnchors,error]=useLocalStorage(storageKey,initialAnchors,validAnchors);
  const [draft,setDraft]=useState(()=>Object.fromEntries(ANCHORS.map(a=>[a.id,anchors.find(x=>x.id===a.id)?.url||''])));
  const [errors,setErrors]=useState({});
  const [message,setMessage]=useState('');
