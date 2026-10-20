@@ -16,3 +16,10 @@ test('copied briefing includes complete context without altering whitespace',()=
  assert.ok(output.includes(context));assert.ok(output.includes('Example'));assert.ok(output.includes('Description'));
  assert.ok(output.includes('AI tool: Not specified'));assert.ok(output.includes('Due date: Not set'));
 });
+
+import { briefingGaps, CONTEXT_TEMPLATE } from './context.js';
+test('review identifies empty template sections without treating headings as evidence',()=>{
+ assert.equal(briefingGaps(CONTEXT_TEMPLATE).length,5);
+ assert.deepEqual(briefingGaps('## Background\nGoal\n## Constraints\nNone known\n## Prompts and outcomes\nRecorded\n## Tried so far\nAttempt\n## Pick up\nNext step'),[]);
+ assert.ok(briefingGaps('## Background\n\n## Constraints\nDetails').includes('Background'));
+});

@@ -6,6 +6,7 @@ import TypeBadge from './TypeBadge';
 import OwnerBadge from './OwnerBadge';
 import CopyContext from './CopyContext';
 import AnchorBoard from './AnchorBoard';
+import BriefingReview from './BriefingReview';
 import { dueState, DUE_STYLES, displayDate } from './deadlines';
 import { CONTEXT_TEMPLATE } from './context';
 import { button, primaryButton } from './ui';
@@ -14,6 +15,8 @@ export { STAGES, TEAM } from './data';
 export default function App() {
   const [tasks,setTasks,storageError] = useLocalStorage('vibetracker.tasks',seedTasks,validTasks);
   const [editing,setEditing] = useState(null);
+  const [reviewing,setReviewing] = useState(null);
+  const reviewOpener=useRef(null);
   const [message,setMessage] = useState('');
   const [now,setNow] = useState(()=>new Date());
   useEffect(()=>{const tick=()=>setNow(new Date());const timer=setInterval(tick,60000);document.addEventListener('visibilitychange',tick);return ()=>{clearInterval(timer);document.removeEventListener('visibilitychange',tick);};},[]);
@@ -58,13 +61,13 @@ export default function App() {
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><p className="break-all font-mono text-xs text-ink-muted">{task.id}</p><TypeBadge type={task.type}/></div>
             <h4><button onClick={e=>open(task,e)} className="min-h-11 w-full break-words rounded text-left font-semibold underline-offset-4 hover:text-brand-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary" aria-label={'Edit task: '+task.title}>{task.title}</button></h4>
             <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-muted">{task.description}</p>
-            <p className="mt-4 text-sm font-medium">{dueState(task,now).label}</p><p className="mt-1 text-sm text-ink-muted">{task.dueDate ? <>Due: <time dateTime={task.dueDate}>{displayDate(task.dueDate)}</time></> : "No deadline set"}</p><div className="mt-4 border-t border-slate-200 pt-3"><OwnerBadge name={task.assignee}/></div><div className="mt-4"><CopyContext task={task}/></div>
+            <p className="mt-4 text-sm font-medium">{dueState(task,now).label}</p><p className="mt-1 text-sm text-ink-muted">{task.dueDate ? <>Due: <time dateTime={task.dueDate}>{displayDate(task.dueDate)}</time></> : "No deadline set"}</p><div className="mt-4 border-t border-slate-200 pt-3"><OwnerBadge name={task.assignee}/></div><div className="mt-4"><CopyContext task={task}/><button type="button" className={button+" mt-2 w-full"} onClick={e=>{reviewOpener.current=e.currentTarget;setReviewing(task);}}>Review briefing</button></div>
           </li>)}</ul>
           {!tasks.some(t=>t.status===stage.id)&&<div className="rounded-xl border border-dashed border-slate-300 p-5"><p className="mb-3 text-sm text-ink-muted">No tasks here yet.</p><button className={button} onClick={add}>Add task</button></div>}
         </section>)}
       </section>
     </main>
     <footer className="mx-auto max-w-[1600px] px-4 pb-8 text-sm text-ink-muted sm:px-8">Local workspace · no account or AI connection. Initial tasks are synthetic examples.</footer>
-    {editing&&<TaskEditor task={editing} onSave={save} onDelete={remove} onClose={close}/>}
+    {reviewing&&<BriefingReview task={reviewing} onClose={()=>{setReviewing(null);requestAnimationFrame(()=>reviewOpener.current?.focus());}}/>}{editing&&<TaskEditor task={editing} onSave={save} onDelete={remove} onClose={close}/>}
   </div>;
 }

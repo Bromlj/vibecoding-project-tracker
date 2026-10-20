@@ -21,3 +21,16 @@ export function serializeContext(task) {
     +'\n\n## Task context\n'+(task.context||'Not provided')+'\n';
 }
 
+
+export const CONTEXT_SECTIONS = ['Background','Constraints','Prompts and outcomes','Tried so far','Pick up'];
+export function briefingGaps(context) {
+  const sections = new Map();
+  let heading = '';
+  for(const line of context.split(/\r?\n/)) {
+    const match = line.match(/^#{1,6}\s+(.+?)\s*#*\s*$/);
+    if(match) {heading=match[1].toLowerCase();if(!sections.has(heading))sections.set(heading,'');}
+    else if(heading) sections.set(heading,(sections.get(heading)||'')+'\n'+line);
+  }
+  return CONTEXT_SECTIONS.filter(label=>!sections.get(label.toLowerCase())?.trim());
+}
+
