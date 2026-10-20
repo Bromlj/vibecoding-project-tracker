@@ -11,7 +11,7 @@ The student reports fixing the webhook and explicitly requested fresh commits, i
 | M5 | crud-modal | Task create/edit/delete, draft protection, validation, durable saves and failure recovery. |
 | M6 | tag-style | Feature/Bug labels, icons and independent selectable category palettes. |
 | M7 | task-owner | Editable roster, stable assignments, owner badges and handoff. Contact/profile fields do not connect an account. |
-| M8 | due-tint | Implemented adaptation, not literal slide acceptance: red groups overdue/within-24h, amber covers 24–48h, Done is green. Alternatives/text cues exist; client approval of changed semantics is not recorded. See M8_SPECIFICATION_DECISION.md. |
+| M8 | due-tint | Corrected to match the slide: distinct warning/alarm, neutral Done in every palette; calm future/undated. 24–48h warning is the documented gap resolution. Node/build and focused local browser checks pass; see M8_SPECIFICATION_DECISION.md. |
 | M9 | task-context | Editable prompt/outcome/context template, optional tool, saved freshness metadata. |
 | M10 | copy-context | Saved-card/current-draft copying, pending feedback and manual fallback; no automatic AI transmission. |
 | M11 | project-deliverables | Four persistent URL slots above each board; safe explicit opening and labelled presence. |

@@ -22,6 +22,10 @@ test('personal colour access overrides both badges and all urgency fills without
   assert.equal(grey['--card-complete-bg'],CARD_PALETTES.mono.complete[0]);
   assert.equal(grey['--feature-bg'],'#CBD5E1');
   assert.equal(grey['--bug-bg'],'#F1F5F9');
+  for (const palette of Object.values(CARD_PALETTES)) {
+    assert.equal(palette.complete[0],'#E2E8F0', 'completed work stays neutral in every palette');
+    assert.notEqual(palette.urgent[0],palette.soon[0], 'warning and alarm retain distinct fills');
+  }
   assert.equal(JSON.stringify(CARD_PALETTES),original);
-  assert.equal(appearanceColours('forest','traffic','workspace')['--card-complete-bg'],'#4ADE80');
+  assert.equal(appearanceColours('forest','traffic','workspace')['--card-complete-bg'],'#E2E8F0');
 });

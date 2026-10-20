@@ -1,6 +1,6 @@
 ---
 
-**Reading this decision history:** the current interface uses strong red/amber/green card fills and Attempts & lessons. Earlier neutral-Done and Review-only plans remain historical. Student authorization to implement the colour change is not verified client approval to vary M8; see [M8_SPECIFICATION_DECISION.md](M8_SPECIFICATION_DECISION.md) and [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md).
+**Current decision:** M8 now follows warning/alarm/neutral-Done semantics; M12 remains Attempts & lessons. Earlier red/amber/green choices below are historical and superseded by the final M8 correction entry. See M8_SPECIFICATION_DECISION.md and CURRENT_ACCEPTANCE.md.
 name: Vibecoding Project Tracker
 description: A clear workspace for project tasks, AI context and handovers.
 colors:
@@ -298,3 +298,13 @@ The student challenged Review briefing as too close to the client-required conte
 A third task tab keeps the main editing form focused. Newest attempts appear first; expandable details reduce scanning effort while result words, author and lesson remain visible. Native controls, persistent labels, keyboard tab navigation, return focus and high-contrast boundaries reuse the established design. No colour alone communicates a result. Selection defaults off so an old failed attempt is not unknowingly included. Save persists the whole draft; review/copy do not save. Records remain editable/removable, so this is not an immutable audit log.
 
 The populated StudySprint project demonstrates one team working on a project. Existing demo edits are retained; adding the example is idempotent. Three names and reserved example.test emails are fictional. Deliverable links lead to clearly labelled bundled examples, not fabricated coursework or an actual StudySprint deployment. A member switcher was removed at the student's request before delivery. Global appearance/accessibility choices are not reset by adding the project.
+
+## M8 correction — 20 October 2026
+
+The student explicitly requested correction to meet the client specification after reviewing the mismatch. The slide requires separate warning/alarm presentations and neutral completed tasks. Earlier red/amber/green decisions below are superseded, not evidence of client approval.
+
+Overdue tasks use a distinct alarm fill (red by default); tasks due within 48 hours use a warning fill (amber), with a specific within-24-hours label. More than 48 hours is calm; undated tasks and completed tasks are neutral. Done overrides overdue status. Completion is neutral grey in every palette; labels, type badges, icons and solid/dashed/double borders remain.
+
+The 24–48-hour interval remains a documented interpretation because the slide leaves it undefined: extend the warning presentation with “Due soon”. Date-only end-of-local-day semantics and stable stored task/palette IDs are retained. Existing data and demo tasks adopt the corrected styling without resetting anything. Appearance and accessibility previews and the legend now explain the same rules.
+
+Validation: 28 Node tests passed, including strengthened warning/alarm and completed-state regression assertions and palette contrast checks; production build passed. Focused local Chrome 155.0.8059.82 check passed: today versus overdue, neutral Done with task-type badge, three palettes in both themes, preview cancellation and strong borders. Two tested automated accessibility scans reported zero violations; no browser JavaScript errors. Screenshot inspected. Evidence: M8-restored-local-results.json and M8-restored-local-board.png in Milestone evidence. These are developer checks, not participant evaluation or complete accessibility conformance. Hosted recheck is recorded separately after deployment.

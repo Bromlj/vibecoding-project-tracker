@@ -14,8 +14,8 @@ export const PALETTES = {
 };
 // Card urgency is independent of feature/bug colours. Every state also has words.
 export const CARD_PALETTES = {
-  traffic: {name:'Red, amber and green',urgent:['#F87171','#7F1D1D','#450A0A'],soon:['#FBBF24','#78350F','#422006'],complete:['#4ADE80','#14532D','#052E16']},
-  blue: {name:'Blue, amber and purple',urgent:['#60A5FA','#1E3A8A','#172554'],soon:['#FBBF24','#78350F','#422006'],complete:['#C084FC','#581C87','#3B0764']},
+  traffic: {name:'Red, amber and neutral grey',urgent:['#F87171','#7F1D1D','#450A0A'],soon:['#FBBF24','#78350F','#422006'],complete:['#E2E8F0','#334155','#1E293B']},
+  blue: {name:'Blue, amber and neutral grey',urgent:['#60A5FA','#1E3A8A','#172554'],soon:['#FBBF24','#78350F','#422006'],complete:['#E2E8F0','#334155','#1E293B']},
   mono: {name:'Greys with labels and borders',urgent:['#94A3B8','#1E293B','#0F172A'],soon:['#CBD5E1','#334155','#1E293B'],complete:['#E2E8F0','#334155','#1E293B']},
 };
 export function cardPaletteStyle(id='traffic') {

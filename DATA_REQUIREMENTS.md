@@ -43,7 +43,7 @@ Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen
 | Anchor.id | presentation / demo / report / documentation | Fixed supplied slot IDs |
 | Anchor.label | matching fixed human label | App configuration |
 | Anchor.url | HTTP(S) URL without embedded username/password, or null | User input trimmed on Save; max 2,048 input characters; no remote validation |
-| Deadline state | derived, not saved | Done green Complete (or selected alternative); undated/>48h neutral; 24–48h amber Next; <=24h/overdue red Now. Derived from dates/status; no manual-priority claim |
+| Deadline state | derived, not saved | Completed neutral grey; undated/>48h calm neutral surface; <=48h warning with distinct within24h text; overdue alarm. Derived from dates/status; no manual-priority field. |
 | Owner initials | derived, not saved | Name display aid; full name remains available |
 | Link presence | derived, not saved | url non-empty; does not assert completion |
 

@@ -1,5 +1,18 @@
 # M8 specification reconciliation
 
+## M8 correction — 20 October 2026
+
+The student explicitly requested correction to meet the client specification after reviewing the mismatch. The slide requires separate warning/alarm presentations and neutral completed tasks. Earlier red/amber/green decisions below are superseded, not evidence of client approval.
+
+Overdue tasks use a distinct alarm fill (red by default); tasks due within 48 hours use a warning fill (amber), with a specific within-24-hours label. More than 48 hours is calm; undated tasks and completed tasks are neutral. Done overrides overdue status. Completion is neutral grey in every palette; labels, type badges, icons and solid/dashed/double borders remain.
+
+The 24–48-hour interval remains a documented interpretation because the slide leaves it undefined: extend the warning presentation with “Due soon”. Date-only end-of-local-day semantics and stable stored task/palette IDs are retained. Existing data and demo tasks adopt the corrected styling without resetting anything. Appearance and accessibility previews and the legend now explain the same rules.
+
+Validation: 28 Node tests passed, including strengthened warning/alarm and completed-state regression assertions and palette contrast checks; production build passed. Focused local Chrome 155.0.8059.82 check passed: today versus overdue, neutral Done with task-type badge, three palettes in both themes, preview cancellation and strong borders. Two tested automated accessibility scans reported zero violations; no browser JavaScript errors. Screenshot inspected. Evidence: M8-restored-local-results.json and M8-restored-local-board.png in Milestone evidence. These are developer checks, not participant evaluation or complete accessibility conformance. Hosted recheck is recorded separately after deployment.
+
+## Historical decision — superseded by the correction above
+
+
 Recorded 20 October 2026. This is a development decision record, not final report prose or client approval.
 
 ## Current decision

@@ -6,6 +6,8 @@ test('date-only deadline changes only after end of selected local day',()=>{
  const task={dueDate:'2026-10-20',status:'todo'};
  assert.equal(dueState(task,new Date('2026-10-20T23:59:59.999')).label,'Due within 24 hours');
  assert.equal(dueState(task,new Date('2026-10-21T00:00:00')).label,'Overdue');
+ assert.equal(dueState(task,new Date('2026-10-20T23:59:59.999')).card,'soon');
+ assert.equal(dueState(task,new Date('2026-10-21T00:00:00')).card,'urgent');
 });
 test('24/48 hour boundaries have no undefined interval',()=>{
  const task={dueDate:'2026-10-22',status:'review'};
@@ -18,6 +20,7 @@ test('24/48 hour boundaries have no undefined interval',()=>{
 test('completed cards override overdue with Complete; undated cards stay neutral',()=>{
  assert.equal(dueState({status:'done',dueDate:'2000-01-01'}).label,'Complete');
  assert.equal(dueState({status:'done',dueDate:'2000-01-01'}).card,'complete');
+ assert.equal(dueState({status:'done',dueDate:'2000-01-01'}).id,'neutral');
  assert.equal(dueState({status:'todo',dueDate:null}).id,'neutral');
  assert.equal(dueState({status:'todo',dueDate:null}).card,'plain');
 });

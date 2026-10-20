@@ -2,9 +2,9 @@
 
 Reconciled 20 October 2026 for report preparation. This is an engineering register, not assessed report prose. It supersedes ambiguous current-status statements in older notes, while preserving their historical evidence.
 
-**Current outcome:** publicly accessible interactive prototype, with working browser-local interactions and a populated team example. One known client-specification variance (M8) remains unapproved; some self-imposed evaluation criteria remain unverified. There is enough material to begin writing, but this is not an assertion of complete client acceptance or assessment completion.
+**Current outcome:** publicly accessible interactive prototype, with working browser-local interactions and a populated team example. The identified M8 specification mismatch has been corrected; some self-imposed evaluation criteria remain unverified. There is enough material to begin writing, but this is not an assertion of complete client acceptance or assessment completion.
 
-No application code, palette, requirement priority or historical tag was changed during this reconciliation. No new user study, manual accessibility session or browser test is claimed here. The user's pasted audit reports fresh checks; the evidence below is the independently available stored record, rather than a fabricated new rerun.
+The earlier documentation-only reconciliation is followed by a scoped M8 code correction. Historical tags and priorities are unchanged. New checks are identified as E12; older evidence retains its original scope.
 
 ## Evidence key
 
@@ -22,6 +22,7 @@ Files are in the coursework `Milestone evidence` folder and copied under `Report
 | E8 | Release-performance-results.json: synthetic workload/timing only. Earlier benchmark is not a new hosted performance measurement. |
 | E9 | Source implementation and FR/NFR/DR dictionaries: inspection/documentation, not independent user evidence. |
 | E10 | Client screenshot collection, user-pasted portal instructions and repository tags: product/event inputs. Portal recognition and participation are not independently verified. |
+| E12 | M8-restored-local-results.json / screenshot: fresh Chrome check of warning/alarm/neutral completion, light/dark and three palettes, cancellation and borders; two automated scans, zero reported violations. Fresh 28 Node tests and production build passed. |
 | E11 | Latest supplied Assessment 1 DOCX, copied into Report/01 Assessment: submission and grading authority. |
 
 ## Status language
@@ -46,7 +47,7 @@ Files are in the coursework `Milestone evidence` folder and copied under `Report
 | FR-12 | Saved-card/current-draft copy and manual fallback | E1, E2, E4 | Implemented / checked; HTTPS success and local rejection cases have distinct evidence. |
 | FR-13 | Versioned local persistence, migration, backup/restore and demo isolation | E1, E2, E7 | Implemented / checked; device/origin storage is not synchronised. |
 | FR-14 | Feature/bug text, icon and palette distinction | E3, E5, E9 | Implemented / checked; no colour-perception participant study. |
-| FR-15 / M8 | Date-based red Now, amber Next and green Done | E1, E5, E9, E10 | Variance open: warning/alarm share red, Done is not neutral. No recorded client approval; see M8_SPECIFICATION_DECISION.md. |
+| FR-15 / M8 | Distinct warning/alarm and neutral completed cards; calm future/undated | E1, E10, E12 | Implemented / checked against slide semantics; 24–48h warning is an explicit gap-resolution choice. See M8_SPECIFICATION_DECISION.md. |
 | FR-16 / M11 | Four per-project safe URL slots above board, shared editing dialog | E1, E2, E4 | Implemented / checked; dialog is an interaction adaptation from inline fields; sample links are not actual submitted deliverables. |
 | FR-17 | User-controlled project milestones, criteria and reached timestamp | E1, E2, E4 | Implemented / checked; achievement is manually asserted, not independently verified. |
 | FR-18 | Editable roster and optional email/GitHub/GitLab metadata | E1, E2 | Implemented / checked; no connected-account or remote collaboration claim. |
@@ -88,7 +89,7 @@ Files are in the coursework `Milestone evidence` folder and copied under `Report
 | DR-07 | App-generated creation/freshness times | E1, E2 | Implemented / checked; local clock, not trusted audit time. |
 | DR-08 | Four URL slots with fixed labels | E1, E2, E4 | Implemented / checked; presence does not prove deliverable completion. |
 | DR-09 | Project milestone criteria/state/date/time | E1, E2, E4 | Implemented / checked; user controls reached state. |
-| DR-10 | Workspace palette identifiers/defaults | E1, E5 | Implemented / checked; M8 semantic variance remains. |
+| DR-10 | Workspace palette identifiers/defaults | E1, E5 | Implemented / checked; neutral completion across all palettes rechecked in E12. |
 | DR-11 | Browser appearance/access preferences and transient previews | E1, E5, E6 | Implemented / checked; actual voice output remains unverified. |
 | DR-12 | Guide and synthetic demo records | E7, E4 | Implemented / checked; examples are not actual client/research records. |
 | DR-13 | Optional nested manual attempt records and selected briefing content | E1, E4 | Implemented / checked locally; prepared cloud validator not activated/tested live. |
@@ -100,7 +101,7 @@ Files are in the coursework `Milestone evidence` folder and copied under `Report
 | M1 / M2 | Repository marker and requirements documentation recorded | E9/E10; not proof of portal recognition or attendance |
 | M3 / M4 / M5 | Design, model/board and CRUD implemented | FR-01–05, E1/E2/E9 |
 | M6 / M7 | Task-type distinction and ownership/handoff implemented | FR-06/14/18, E2/E4/E5 |
-| M8 | Implemented adaptation, specification variance open | FR-15; M8_SPECIFICATION_DECISION.md |
+| M8 | Slide semantics restored and locally checked | FR-15; M8_SPECIFICATION_DECISION.md |
 | M9 / M10 | Context and copy implemented | FR-08–12, E1/E2/E4 |
 | M11 | Four links with dialog-based editing implemented | FR-16; link presence is not completion |
 | M12 | Attempts & lessons implemented | FR-24/DR-13; Review is supporting behaviour |
@@ -117,7 +118,7 @@ Files are in the coursework `Milestone evidence` folder and copied under `Report
 | Browser zoom / physical mobile / audible speech / switch-device checks | Chosen accessibility/compatibility evidence beyond automated checks | Not recorded; keep distinct from CSS resizing and viewport emulation |
 | Provisional persona | Persona is assessed; validation evidence remains limited | Use supported information and explicit unknowns; no invented quotes/biography |
 | Final written submission | Compulsory individual report up to 2,000 words, screenshots/justification, coversheet and accessible prototype | Report prose, source reading/references, final figures, AI-use statement and official coversheet remain the student's work |
-| M8 client agreement | Needed to call changed semantics client-approved; no agreement recorded | Retain open variance or later restore specification; do not infer approval |
+| M8 specification correction | Original slide semantics restored at the student’s request | Prior adaptation is superseded; no invented client approval. The unspecified 24–48-hour interval remains a documented design choice. |
 
 The supplied assessment explicitly permits AI prototype creation and requires a tools/use statement. Its written-work rules remain separate. Relevant methods from teaching should be selected and explained; this register does not claim interviews, questionnaires, card sorting, SDDP, statistical significance testing or participant studies occurred.
 

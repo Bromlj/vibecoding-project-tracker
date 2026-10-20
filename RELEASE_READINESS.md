@@ -1,6 +1,6 @@
 # Product readiness evidence history — 20 October 2026
 
-**Current record:** public prototype hosting/access is verified; the latest recorded suite has 28 tests. M12 is Attempts & lessons. M8 remains a documented specification variance. See [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md). The sections below are dated development checkpoints, retained chronologically; earlier “pending”, 23-test, neutral-Done or Review-only statements are historical, not current status.
+**Current record:** public prototype hosting/access is verified; the latest recorded suite has 28 tests. M12 is Attempts & lessons. M8 has been corrected to the client slide; the final correction entry records fresh scoped checks. See [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md). The sections below are dated development checkpoints, retained chronologically; earlier “pending”, 23-test, neutral-Done or Review-only statements are historical, not current status.
 
 Engineering evidence, not assessed report prose. This record supersedes the runtime gap statuses in the historical b685ad7 audit in IMPLEMENTATION_STATUS.md. Source history and milestone tags remain intact.
 
@@ -105,3 +105,13 @@ Direct demo: https://vibecoding-project-tracker-umber.vercel.app/?demo=1
 The student deployed the GitHub project to Vercel. A fresh unauthenticated Chrome context opened the HTTPS homepage and demo without a Vercel login or account registration. The StudySprint example loaded 12 tasks. Hosted checks passed: reviewed briefing equals actual HTTPS clipboard contents; add/save/reload an attempt; handoff persists; cancelling removal preserves the saved timeline; keyboard return focus; project milestones and bundled sample deliverable links. No page errors. One timeline axe scan returned zero violations and a 320px dialog reflow check passed. These are focused developer checks, not participant evaluation or full accessibility certification.
 
 This supersedes earlier statements that public prototype hosting was pending. Actual simultaneous collaboration, authenticated shared accounts and live Supabase activation remain deferred. Each visitor's demo/local records are browser/origin-specific. Tests used isolated browser data and did not change the student's records. Evidence: Milestone evidence/hosted-demo-check.cjs, hosted-demo-results.txt and hosted-demo desktop/mobile screenshots. Application code checked corresponds to b2b9760.
+
+## M8 correction — 20 October 2026
+
+The student explicitly requested correction to meet the client specification after reviewing the mismatch. The slide requires separate warning/alarm presentations and neutral completed tasks. Earlier red/amber/green decisions below are superseded, not evidence of client approval.
+
+Overdue tasks use a distinct alarm fill (red by default); tasks due within 48 hours use a warning fill (amber), with a specific within-24-hours label. More than 48 hours is calm; undated tasks and completed tasks are neutral. Done overrides overdue status. Completion is neutral grey in every palette; labels, type badges, icons and solid/dashed/double borders remain.
+
+The 24–48-hour interval remains a documented interpretation because the slide leaves it undefined: extend the warning presentation with “Due soon”. Date-only end-of-local-day semantics and stable stored task/palette IDs are retained. Existing data and demo tasks adopt the corrected styling without resetting anything. Appearance and accessibility previews and the legend now explain the same rules.
+
+Validation: 28 Node tests passed, including strengthened warning/alarm and completed-state regression assertions and palette contrast checks; production build passed. Focused local Chrome 155.0.8059.82 check passed: today versus overdue, neutral Done with task-type badge, three palettes in both themes, preview cancellation and strong borders. Two tested automated accessibility scans reported zero violations; no browser JavaScript errors. Screenshot inspected. Evidence: M8-restored-local-results.json and M8-restored-local-board.png in Milestone evidence. These are developer checks, not participant evaluation or complete accessibility conformance. Hosted recheck is recorded separately after deployment.

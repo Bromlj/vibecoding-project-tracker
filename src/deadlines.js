@@ -9,7 +9,7 @@ export function dueState(task, now = new Date()) {
   if (Number.isNaN(deadline.getTime())) return {id:'neutral',card:'plain',label:'Check due date'};
   const hours = (deadline.getTime()-now.getTime())/3600000;
   if (hours<0) return {id:'overdue',card:'urgent',label:'Overdue'};
-  if (hours<=24) return {id:'warning',card:'urgent',label:'Due within 24 hours'};
+  if (hours<=24) return {id:'warning',card:'soon',label:'Due within 24 hours'};
   if (hours<=48) return {id:'warning',card:'soon',label:'Due soon'};
   return {id:'safe',card:'plain',label:'On track'};
 }
