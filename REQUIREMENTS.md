@@ -33,7 +33,7 @@ See [DATA_REQUIREMENTS.md](DATA_REQUIREMENTS.md) for 10 requirements (DR-01–10
 - `npm run build`: actual production compilation, not proof of deployment or usability.
 - Browser checks conducted locally: CRUD/movement/reload/cancellation/delete; handoff/context persistence; clipboard success/denial; URLs; review; invalid-storage preservation; demo isolation; keyboard focus; cross-tab protection; selected contrast/reflow checks.
 - Private screenshots, browser scripts/results and per-stage rationale are retained in the subject workspace, outside this public code repository. They contain no invented participant evidence. A separate coursework evaluation must distinguish intention, code and observed results.
-- Public deployment, student rehearsal, Firefox, screen-reader evaluation, representative-user study and performance measurements remain pending.
+- Public deployment, Firefox, screen-reader evaluation, representative-user study and performance measurements remain unverified. These are different kinds of outstanding evidence; they are not all prerequisites for an initial hosted demo. There is no formal presentation or mandatory rehearsal, following the student's latest clarification.
 
 ## Decisions still requiring reconciliation
 The locked starter explains the implemented hackathon boundary; it does not erase S1/S4 or establish that every wider assessment requirement is met. Resolve multiple boards, actual roster/metadata, explicit project milestones and palette preference against the client record before treating the entire coursework baseline as fulfilled. Team identity remains unprovided; do not invent members or interviews. The live portal's exact markers supersede old starter marker spellings.

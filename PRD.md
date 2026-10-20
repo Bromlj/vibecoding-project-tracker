@@ -3,6 +3,8 @@
 ## Status and provenance
 M2 engineering requirements are recorded in [REQUIREMENTS.md](REQUIREMENTS.md): functional, non-functional and data requirements, stable IDs, MVP flags, sources, checks and honest implementation gaps. This is a reviewed development specification, not proof that all requirements are satisfied.
 
+Category documents: [functional](FUNCTIONAL_REQUIREMENTS.md), [non-functional](NON_FUNCTIONAL_REQUIREMENTS.md), [data and dictionary](DATA_REQUIREMENTS.md). They were separated in three documentation commits after the original combined `prd-done` checkpoint; the original history is preserved.
+
 Based on the supplied hackathon starter PRD and client material. The unmodified starter is retained in Git history. This working version corrects reused semester/module language and outdated marker spellings rather than attributing new text to the lecturer.
 
 ## Product and users
@@ -51,7 +53,7 @@ This repository: https://github.com/Bromlj/vibecoding-project-tracker
 | M10 | copy-context | Copy/manual fallback pushed |
 | M11 | project-deliverables | Anchor board pushed |
 | M12 | secret-sauce | Briefing review/hints pushed |
-| M13 | pitch-done | Local demo prepared; final marker held pending public check/rehearsal |
+| M13 | pitch-done | Local demo prepared; public deployment check pending; no formal presentation requirement |
 
 M2 was initially understood as omitted; latest student instruction requires these requirements saved/pushed. Add this checkpoint now without rewriting earlier milestone history or claiming it preceded implementation.
 
@@ -60,6 +62,6 @@ Starter exclusions remain accounts/authentication, real GitHub integration, shar
 
 M12 extension: review the exact copied briefing with optional missing-template hints. Hints do not certify truth or completeness.
 
-Local build, regression and named browser checks are recorded; screen-reader/user-study/performance/public deployment evidence is not invented. A classroom demo is not automatically a user test. Follow [DEMO.md](DEMO.md) for operational preparation and write/rehearse the short pitch in your own voice, following the latest class instruction rather than the reused starter's five-minute wording.
+Local build, regression and named browser checks are recorded; screen-reader/user-study/performance/public deployment evidence is not invented. A classroom demo is not automatically a user test. The student clarified that there is no formal presentation; at most an informal 30-second app demonstration if requested. No rehearsal is a completion condition. [DEMO.md](DEMO.md) is an optional operational walkthrough, not a presentation assignment. The M11 Presentation anchor remains a specified app feature and does not establish a CM6312 presentation submission.
 
 Completion means the actual required behaviour and delivery checks are satisfied, not simply that tags exist. Wider coursework requirements and prototype/evaluation marks require further evidence beyond the hackathon checkpoint list.

@@ -13,4 +13,4 @@
 | Playwright (bundled environment) | Development checks | Browser smoke tests/screenshots; not an app dependency. |
 | Codex | Development assistance | Student reviews/explains the implementation; assessment AI declaration remains required. |
 
-Vercel is the suggested hosting platform, not an already deployed service. No hosted database, font service, paid API or AI integration is required. Existing audit findings need a separate dependency review; no forced major upgrades here.
+Vercel is the student's selected hosting platform and an account has been created. No deployed tracker URL has yet been verified. Import the existing GitHub fork as Vite; build npm run build, output dist, root ./, no environment variables. No hosted database, font service, paid API or AI integration is required. Existing audit findings need a separate dependency review; no forced major upgrades here.

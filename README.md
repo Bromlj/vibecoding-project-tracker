@@ -15,6 +15,8 @@ npm run preview
 
 Open the URL printed by Vite. No accounts, environment variables or database setup required. React 18, Vite 5 and Tailwind 3 are retained from the supplied starter. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md). Detailed acceptance points are in [CHECKLIST.md](CHECKLIST.md); current coverage and known gaps are in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md).
 
+Requirements are separated for navigation: [functional](FUNCTIONAL_REQUIREMENTS.md), [non-functional](NON_FUNCTIONAL_REQUIREMENTS.md), and [data with dictionary](DATA_REQUIREMENTS.md). The shared source/scope record stays in REQUIREMENTS.md.
+
 ## Use
 - Add task or select a task title to edit. Save explicitly. Status moves the task between To Do, In Progress, Review and Done.
 - Hand off to changes a local assignee label. Teammate A/B/C are demo placeholders, not authenticated collaborators.
@@ -48,14 +50,16 @@ Each completed code stage has its exact live portal marker in its commit message
 | M10 | copy-context |
 | M11 | project-deliverables |
 | M12 | secret-sauce |
-| M13 | pitch-done (reserved; deployment and student rehearsal still pending) |
+| M13 | pitch-done (reserved; local demo prepared, public deployment check pending) |
 
-M1's correct pushed commit has not yet been recognised by the portal. No webhook is configured. Do not rewrite historical tags to hide fixes; later commits document corrections.
+M1's correct pushed commit was not recognised at the last supplied portal observation. No webhook is configured, following the student's choice. Current portal recognition has not been rechecked. Do not rewrite historical tags to hide fixes; later commits document corrections.
 
 ## Deployment and demo
-Import this fork into Vercel as a Vite project. Build: `npm run build`; output: `dist`. There are no secrets/environment variables. Test the resulting public URL without registration. Deployment is pending; the lecturer's hackathon portal is separate.
+The student has created a Vercel account; importing/deploying the app is still pending. Choose GitHub under Import Git Repository, then import Bromlj/vibecoding-project-tracker. Use the Vite preset, repository root `./`, build `npm run build`, and output `dist`. There are no environment variables or database requirements. Use the free Hobby option for this personal coursework prototype; no paid trial or add-on is required. See [Vercel Git deployment guidance](https://vercel.com/docs/git) and [Hobby plan](https://vercel.com/docs/plans/hobby).
 
-See [DEMO.md](DEMO.md) for the demonstration walkthrough and remaining live-pitch steps.
+Test the resulting production URL in a private browser window without Vercel login or app registration. The lecturer's hackathon portal is separate. Browser storage on the new hosted origin starts separately from localhost; hosting does not add shared storage.
+
+The student's latest class clarification is that there is no formal presentation; at most an informal 30-second app demonstration if requested. Rehearsal is not a delivery prerequisite. See [DEMO.md](DEMO.md) for the optional walkthrough.
 
 ## CM6312 working fork
 Working repository: https://github.com/Bromlj/vibecoding-project-tracker

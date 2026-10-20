@@ -2,7 +2,7 @@
 
 Recorded 20 October 2026. Runtime code audited at commit **b685ad7**. Documentation added after that commit does not alter the audited runtime. This is an engineering status record, not assessed report prose or a full accessibility/usability certification.
 
-**Current position:** a working initial hackathon prototype exists. M2 documentation and M3–M12 code checkpoints are pushed. M13 local preparation is committed, but public deployment and the student's timed rehearsal remain pending. Milestone tags do not establish that every detailed acceptance condition is satisfied.
+**Current position:** a working initial hackathon prototype exists. M2 documentation and M3–M12 code checkpoints are pushed. M13 local preparation is committed, but public deployment/access verification is pending. The student clarified there is no formal presentation; at most an informal 30-second app demonstration if requested. A presentation or rehearsal is not a blocker. Milestone tags do not establish that every detailed acceptance condition is satisfied.
 
 The [199-point checklist](CHECKLIST.md) remains unchecked by design. This file records its current coverage separately; no overall completion percentage is calculated because provisional and optional scope would distort it.
 
@@ -13,6 +13,28 @@ The [199-point checklist](CHECKLIST.md) remains unchecked by design. This file r
 - Fresh isolated Chrome checks reproduced failed-save, failed-delete and long-paste behaviour. No real user data was altered. Exact JSON/scripts/screenshots retained privately under Milestone evidence.
 - Re-ran the existing 10 Node tests: all passed. These tests do not cover all 199 checklist points and their passing result does not cancel the new gaps.
 - No new slide-by-slide review, assessment re-marking, user study, screen-reader session or performance benchmark is claimed in this pass.
+
+The statement above describes the earlier 199-point runtime audit. The subsequent progress review on 20 October re-read the Assessment 1 DOCX, original starter PRD and all 16 supplied client screenshot images (including a duplicate M9), and reconsulted the existing teaching-review records. It did not replay every lecture recording or newly inspect every slide image in the teaching decks. No new runtime or participant test was performed for the documentation reorganisation.
+
+## M1–M13 checkpoint review — 20 October 2026
+
+| Stage | Exact portal marker | Git checkpoint | Current meaning / limit |
+|---|---|---|---|
+| M1 | git-linked | 9a8ac09 | Correct commit/tag pushed and repository URL saved. Portal recognition remained pending at the last supplied observation; not rechecked now. No webhook, by student choice. |
+| M2 | prd-done | 77e5eb2 | Reviewed PRD and all three requirements categories committed together. Separate navigation commits now provide functional, non-functional and data documents without moving this tag. |
+| M3 | design-done | b797494 | Design/tokens/typography/interaction principles documented; preview captured. |
+| M4 | data-model | 8c15710 | Locked task model and four-column board implemented, seeded and inspected. |
+| M5 | crud-modal | 3a9900a | Normal modal create/edit/delete and reload implemented/checked. Failure recovery has the open gaps below; later button/focus fixes are preserved in later commits. |
+| M6 | tag-style | 40f6b47 | Type labels/icons/colours implemented; primary-button correction included. |
+| M7 | task-owner | 4f41704 | Owner badges and handoff implemented for the configured example roster; not authenticated collaboration. |
+| M8 | due-tint | ade28a6 | Written/coloured deadline states and automatic recalculation implemented; documented gap policy for 24–48 hours. |
+| M9 | task-context | 60ea98b | Context/tool/template/freshness implemented; failed-write freshness remains a known limitation. |
+| M10 | copy-context | 2169cfe | Card/editor copying and manual fallback implemented/checked. |
+| M11 | project-deliverables | 240fa82 | Four persistent URL slots and link-presence states implemented/checked. Presentation is a required slot label, not evidence of a formal coursework presentation. |
+| M12 | secret-sauce | 3c1ba9a | Optional exact briefing review and missing-section hints implemented/checked. Draft review remains a detailed acceptance gap. |
+| M13 | pitch-done | No completion tag; local preparation e12a376 | Isolated 12-task demo and walkthrough prepared. Vercel account created; public deployment/access check pending. No formal presentation/rehearsal prerequisite. |
+
+The twelve M1–M12 tags are checkpoint evidence. They do not award participation marks, prove portal synchronisation or certify the full coursework requirements. The 199-point checklist includes provisional extensions and optional suggestions; all 199 are not automatically mandatory for a first deployment. See [functional](FUNCTIONAL_REQUIREMENTS.md), [non-functional](NON_FUNCTIONAL_REQUIREMENTS.md), and [data requirements](DATA_REQUIREMENTS.md) for retained IDs and scope.
 
 ## Findings needing attention before claiming checklist completion
 
@@ -329,6 +351,6 @@ Sources: [App.save/remove](src/App.jsx), [storage hook](src/storage.js), [editor
 2. Make input limits and exact freshness understandable, identify the task in delete confirmation, and complete the agreed draft-review interaction.
 3. Expand checks to the uncovered boundary, keyboard, screen-reader, resizing and browser cases. Record actual outcomes; gather representative feedback only when real participants exist.
 4. Resolve provisional scope against client/starter evidence separately. Do not add boards, members, project milestones, palette settings or search merely to increase feature count.
-5. Deploy this fork, check a public assessor-style entry, and have the student rehearse the pitch. Only then complete the held M13 delivery marker.
+5. Import the existing fork into Vercel and check public access without login. Hosting can proceed alongside refinement; account creation alone is not deployment. Complete the held M13 marker only when the actual hosted-demo check is recorded. No formal presentation or rehearsal is required.
 
 These are recommendations from this audit, not a claim that any fix was implemented during it. Application code is unchanged by the checklist/status update.
