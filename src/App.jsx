@@ -3,6 +3,7 @@ import { STAGES, TEAM, seedTasks, localDate, validTasks } from './data';
 import { useLocalStorage } from './storage';
 import TaskEditor from './TaskEditor';
 import TypeBadge from './TypeBadge';
+import OwnerBadge from './OwnerBadge';
 import { button, primaryButton } from './ui';
 export { STAGES, TEAM } from './data';
 
@@ -20,7 +21,7 @@ export default function App() {
   function add(event) { open({id:'',title:'',description:'',type:'feature',status:'todo',assignee:TEAM[0],dueDate:null,createdDate:localDate(),context:'',contextTool:null,contextUpdatedAt:null},event); }
   function save(task) {
     setTasks(old=>old.some(t=>t.id===task.id)?old.map(t=>t.id===task.id?task:t):[...old,task]);
-    setMessage('Task saved.'); close();
+    setMessage(editing?.id && editing.assignee !== task.assignee ? 'Task assigned to '+task.assignee+'.' : 'Task saved.'); close();
   }
   function remove(id) { setTasks(old=>old.filter(t=>t.id!==id)); setMessage('Task deleted.'); close(); }
   return <div className="min-h-screen bg-surface-page text-ink-primary">
@@ -37,7 +38,7 @@ export default function App() {
       <p role="status" aria-live="polite" className="mb-4 min-h-6 text-sm text-brand-primary">{message}</p>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div><h2 id="board-title" className="text-2xl font-semibold">Project board</h2>
-        <p className="mt-1 text-sm text-ink-muted">{tasks.length} tasks · saved in this browser</p></div>
+        <p className="mt-1 text-sm text-ink-muted">{tasks.length} tasks · {storageError ? "changes not saved" : "saved in this browser"}</p></div>
         <p className="text-sm text-ink-muted">Team names are demo placeholders.</p>
       </div>
       <section id="board" aria-labelledby="board-title" className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
@@ -51,7 +52,7 @@ export default function App() {
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><p className="break-all font-mono text-xs text-ink-muted">{task.id}</p><TypeBadge type={task.type}/></div>
             <h4><button onClick={e=>open(task,e)} className="min-h-11 w-full break-words rounded text-left font-semibold underline-offset-4 hover:text-brand-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary" aria-label={'Edit task: '+task.title}>{task.title}</button></h4>
             <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-muted">{task.description}</p>
-            <p className="mt-5 border-t border-slate-200 pt-3 text-sm text-ink-muted">Assigned to {task.assignee}</p>
+            <div className="mt-5 border-t border-slate-200 pt-3"><OwnerBadge name={task.assignee}/></div>
           </li>)}</ul>
           {!tasks.some(t=>t.status===stage.id)&&<div className="rounded-xl border border-dashed border-slate-300 p-5"><p className="mb-3 text-sm text-ink-muted">No tasks here yet.</p><button className={button} onClick={add}>Add task</button></div>}
         </section>)}

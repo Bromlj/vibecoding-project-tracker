@@ -43,8 +43,8 @@ export default function TaskEditor({ task, onSave, onDelete, onClose }) {
         <label className="block font-medium">Status
           <select aria-label="Status" className={input} value={draft.status} onChange={e=>field('status',e.target.value)}>{STAGES.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select>
         </label>
-        <label className="block font-medium">Assignee
-          <select aria-label="Assignee" className={input} value={draft.assignee} onChange={e=>field('assignee',e.target.value)}>{TEAM.map(name=><option key={name}>{name}</option>)}</select>
+        <label className="block font-medium">{task.id ? "Hand off to" : "Assignee"}
+          <select aria-label={task.id ? "Hand off to" : "Assignee"} className={input} value={draft.assignee} onChange={e=>field('assignee',e.target.value)}>{TEAM.map(name=><option key={name}>{name}</option>)}</select>
         </label>
         <label className="block font-medium">Due date
           <input type="date" min="1000-01-01" max="9999-12-31" className={input} value={draft.dueDate||''} onChange={e=>field('dueDate',e.target.value||null)}/>
