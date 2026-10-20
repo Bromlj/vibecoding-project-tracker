@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { blankWorkspace, createWorkspace, makeBoard, validWorkspace, initialWorkspace, changeBoard, removeMember, boardNameError } from './workspace.js';
+import { blankWorkspace, createWorkspace, makeBoard, validWorkspace, initialWorkspace, changeBoard, removeMember, boardNameError, PALETTES } from './workspace.js';
 import { seedTasks } from './data.js';
 import { writeSnapshot } from './storage.js';
 
@@ -40,4 +40,20 @@ test('durable commit rejects failed writes and stale snapshots without advancing
   const newer=memory();newer.setItem('state','newer');
   assert.throws(()=>writeSnapshot(newer,'state',first,initial,validWorkspace),/another tab/);
   assert.equal(newer.getItem('state'),'newer');
+});
+
+test('milestones require a criterion and reached timestamp, with per-project isolation',()=>{
+  const ws=createWorkspace('Team',member,'Website'),board=ws.boards[0];
+  const milestone={id:'release',title:'Release',criterion:'Checks pass',targetDate:'2028-02-29',status:'reached',reachedAt:'2026-10-20T12:00:00Z'};
+  board.milestones.push(milestone);assert.equal(validWorkspace(ws),true);
+  milestone.reachedAt=null;assert.equal(validWorkspace(ws),false);
+  milestone.status='pending';assert.equal(validWorkspace(ws),true);
+  milestone.criterion=' ';assert.equal(validWorkspace(ws),false);
+  assert.equal(validWorkspace({...ws,boards:[null]}),false);
+});
+test('all offered type palettes meet normal-text contrast and keep independent text colours',()=>{
+  const luminance=hex=>hex.match(/[a-f\d]{2}/gi).map(h=>parseInt(h,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+  for(const palette of Object.values(PALETTES))for(const type of ['feature','bug']){
+    const [text,bg]=palette[type],a=luminance(text),b=luminance(bg);assert.ok((Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5,palette.name+' '+type);
+  }
 });

@@ -8,30 +8,27 @@ Category documents: [functional](FUNCTIONAL_REQUIREMENTS.md), [non-functional](N
 Based on the supplied hackathon starter PRD and client material. The unmodified starter is retained in Git history. This working version corrects reused semester/module language and outdated marker spellings rather than attributing new text to the lecturer.
 
 ## Product and users
-Track AI-assisted development tasks from intent to ship, retaining useful prompts/results and context for resumption. Initial client description requires Kanban, project information and key milestones. General developers are the audience reported in the client's discussion; the three roster slots are a starter implementation constraint, not invented research about users.
+Track AI-assisted development tasks from intent to ship, retaining useful prompts/results and context for resumption. Initial client description requires Kanban, project information and key milestones. General developers are the audience reported in the client's discussion; the original three roster slots were starter examples, not research about users. Fresh work now creates a real user-entered roster.
 
-Current prototype: one local workspace, a four-column board, a task editor and four deliverable anchors. Context is a current curated briefing, not automatic AI chat capture, immutable prompt history or verified results. No comparative claim about Jira/Linear/Notion is treated as independently researched.
+Current prototype: one local team workspace, Projects home, multiple four-column boards, per-project milestones/anchors, editable team metadata and Appearance/accessibility settings. Context is a current curated briefing, not automatic AI chat capture, immutable prompt history or verified results. No comparative claim about Jira/Linear/Notion is treated as independently researched.
 
 ## Workflow
-1. Open the workspace; recover saved local tasks/anchors or show an actionable error.
+1. Set up or reopen the workspace, then choose a project on Projects. Recover validated saved data or show an actionable error.
 2. Add a task; enter title, description, type, status, assignee, optional date and context/tool.
 3. Save explicitly, change status as work progresses, or hand off through the assignee dropdown.
 4. Review or copy context for use in another tool. Copying does not save a draft or call AI.
 5. Record deliverable URLs; saved-link presence does not imply completed work.
 
-## Locked starter data model
-Implementation remains Task and Anchor as supplied; see [implemented dictionary](DATA_REQUIREMENTS.md#implemented-dictionary).
+## Data model and deliberate scope expansion
+Version 2 extends the starter with Workspace, Board, Member and Milestone entities. Task ownership uses stable member IDs, not mutable name strings. Each project owns tasks, four anchors and milestones. Legacy arrays migrate without deletion. See the [implemented dictionary](DATA_REQUIREMENTS.md#implemented-dictionary).
 
-Task fields: id, title, description, type, status, assignee, dueDate, createdDate, context, contextTool, contextUpdatedAt.
-Anchor fields: id, label, url.
-
-Exact stages: To Do (todo), In Progress (in-progress), Review (review), Done (done). Do not add entities/change identity without a deliberate requirements/schema decision. Earlier proposals for board IDs, member entities and project milestones remain explicit gaps in REQUIREMENTS.md.
+Exact stages remain To Do (todo), In Progress (in-progress), Review (review), Done (done). The student explicitly requested the wider client-discussion functionality; starter exclusions do not silently override that later authorization.
 
 ## Stack and storage
-React 18 via Vite 5, Tailwind 3, React state and a localStorage hook. No backend/database, accounts, AI or GitHub API integration. Retain supplied stack. See [tool purposes](TOOLS.md). Vercel is the suggested host; this tracker is not the lecturer's portal.
+React 18, Vite 5, Tailwind 3 and browser localStorage remain the local foundation. Optional Supabase client/Auth/PostgreSQL code is prepared for genuine shared access; its live schema/providers are not ready. See [CLOUD_SETUP.md](CLOUD_SETUP.md). No automatic AI execution or repository access is added. Vercel is the selected future host; this tracker is separate from the lecturer's portal.
 
 ## Team and identity
-Repository owner: Bromlj. Real team name, roster and role allocation have not been supplied. UI Teammate A/B/C remain explicitly synthetic/configuration placeholders; no classmates, handles or email addresses are invented.
+Repository owner: Bromlj. Real team name, roster and role allocation have not been supplied. Teammate A/B/C are explicitly synthetic demo/import examples; fresh setup accepts the user's own members. No classmates, handles or email addresses are invented.
 
 Product name: Vibecoding Project Tracker.
 Chosen interface line: From intent to ship. Keep the task and its context together.
@@ -55,10 +52,10 @@ This repository: https://github.com/Bromlj/vibecoding-project-tracker
 | M12 | secret-sauce | Briefing review/hints pushed |
 | M13 | pitch-done | Local demo prepared; public deployment check pending; no formal presentation requirement |
 
-M2 was initially understood as omitted; latest student instruction requires these requirements saved/pushed. Add this checkpoint now without rewriting earlier milestone history or claiming it preceded implementation.
+M2 was initially understood as omitted; the updated instruction was completed in the combined requirements commit and later category-specific commits. Historic tags remain unchanged.
 
 ## Scope and verification
-Starter exclusions remain accounts/authentication, real GitHub integration, shared backend/database, multi-team/real-time collaboration. Responsive layout is a chosen quality improvement although the starter allows desktop-only. Multiple projects for one team are a separate reported need, not the same as multi-team support; its current absence is recorded, not concealed.
+The current scope includes one team with multiple project boards and optional separately configured shared sign-in. Repository integration, automatic AI calls, simultaneous multi-team administration and live push synchronisation are outside this build. Responsive/accessibility improvements are deliberate quality decisions. See DESIGN_REVIEW.md for adaptation rationale and verification boundaries.
 
 M12 extension: review the exact copied briefing with optional missing-template hints. Hints do not certify truth or completeness.
 

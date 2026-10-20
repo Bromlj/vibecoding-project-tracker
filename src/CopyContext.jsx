@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import Icon from './Icon';
 import { serializeContext } from './context';
 import { button, input } from './ui';
 export default function CopyContext({ task, compact = false }) {
@@ -17,7 +18,7 @@ export default function CopyContext({ task, compact = false }) {
     }
   }
   return <div className="min-w-0">
-    <button type="button" className={button+(compact?'':' w-full')} onClick={copy}>Copy context</button>
+    <button type="button" className={button+(compact?'':' w-full')} onClick={copy}><Icon name="copy" size={17}/>Copy context</button>
     {feedback&&<p role="status" className="mt-2 text-sm text-ink-muted">{feedback}</p>}
     {manual&&<label className="mt-3 block text-sm font-medium">Context to copy manually
       <textarea ref={fallback} aria-label="Context to copy manually" readOnly rows={7} className={input+' font-mono text-sm'} value={serializeContext(task)}/>

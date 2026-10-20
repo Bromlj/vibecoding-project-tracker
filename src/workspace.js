@@ -48,6 +48,7 @@ export function validWorkspace(value) {
   if (!unique(value.members.map(m=>m?.id)) || !unique(value.boards.map(b=>b?.id))) return false;
   if (!value.members.every(m=>m && text(m.id,100,true) && !memberError(m))) return false;
   if (!value.name.trim()) return value.members.length===0 && value.boards.length===0 && value.selectedBoardId===null;
+  if (!value.boards.every(b=>b && typeof b.name==='string')) return false;
   if (!value.boards.length || !value.boards.some(b=>b.id===value.selectedBoardId)) return false;
   if (!unique(value.boards.map(b=>b.name?.trim().toLowerCase()))) return false;
   const members = new Set(value.members.map(m=>m.id));
@@ -90,5 +91,5 @@ export function initialWorkspace(storage, demo = false) {
     const {assignee,...rest}=t;
     return {...rest,assigneeId:members.find(m=>m.name===assignee)?.id || null};
   })};
-  return {...blankWorkspace(),name:demo?'Example workspace':'My workspace',members,boards:[board],selectedBoardId:board.id};
+  return {...blankWorkspace(),name:demo?'Example workspace':'My workspace',members,boards:[board],selectedBoardId:board.id,...(!demo?{needsSetup:true}:{})};
 }

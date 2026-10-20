@@ -1,6 +1,8 @@
 # Implementation status and gaps
 
-**Latest workspace expansion, 20 October 2026:** see [WORKSPACE_WORKFLOW.md](WORKSPACE_WORKFLOW.md). Workspace setup, stable editable members, separate boards/anchors/milestones, palette/accessibility preferences and transactional save/delete are now implemented. 13 Node tests and 14 grouped Chrome scenarios pass. The point-by-point audit below is retained as the earlier b685ad7 baseline; its deferred/gap entries must not be mistaken for the latest implementation. Named screen-reader, participant and live cloud verification are still not claimed.
+**Latest checkpoint — design adaptation, 20 October 2026:** [DESIGN_REVIEW.md](DESIGN_REVIEW.md) records current design decisions and final evidence; [WORKSPACE_WORKFLOW.md](WORKSPACE_WORKFLOW.md) describes the current product. Functional/non-functional/data category tables have been reconciled with this checkpoint. Build, 18 Node tests, 14 scenarios each in Chrome/Edge/Firefox and 24 automated accessibility scans pass within their stated scope. Failed save/delete, over-limit paste, draft review, roster/boards/milestones/palettes gaps below have been implemented and rechecked.
+
+**Everything below this notice is the historical b685ad7 audit**, retained for traceability. Its gap statuses and statement of then-unperformed checks must not be read as a new audit. Live Supabase configuration, public deployment, named screen-reader and participant evaluation remain pending. No entire-checklist or coursework-completion claim is made.
 
 Recorded 20 October 2026. Runtime code audited at commit **b685ad7**. Documentation added after that commit does not alter the audited runtime. This is an engineering status record, not assessed report prose or a full accessibility/usability certification.
 

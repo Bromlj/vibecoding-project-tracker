@@ -2,7 +2,7 @@
 
 A local-first Kanban workspace for AI-assisted development. Track tasks, keep curated prompts/outcomes, copy a briefing to another tool, and pin deliverable links.
 
-**20 October workspace expansion:** first-use setup, editable members/email/GitHub/GitLab metadata, multiple project boards, project milestones, task palettes, visible accessibility settings and transactional save recovery are now implemented. See [current workspace workflow and checks](WORKSPACE_WORKFLOW.md). Older milestone/audit records describe their original checkpoints; shared-account configuration is tracked separately.
+**20 October design checkpoint:** Projects home, sidebar/mobile navigation, compact board/anchors, protected Details/AI context editor, exact briefing review, team management and visible appearance/accessibility settings now follow the supplied design reference. See [design decisions and verified checks](DESIGN_REVIEW.md), [design system](DESIGN.md) and [workflow](WORKSPACE_WORKFLOW.md).
 
 ## Run
 Requires Node.js 20.19+ (this build checked with Node 24) and npm.
@@ -15,25 +15,26 @@ npm run build
 npm run preview
 ```
 
-Open the URL printed by Vite. No accounts, environment variables or database setup required. React 18, Vite 5 and Tailwind 3 are retained from the supplied starter. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md). Detailed acceptance points are in [CHECKLIST.md](CHECKLIST.md); current coverage and known gaps are in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md).
+Open the URL printed by Vite. Local/demo mode requires no accounts, environment variables or database setup. Optional shared access is prepared separately in [CLOUD_SETUP.md](CLOUD_SETUP.md). React 18, Vite 5 and Tailwind 3 are retained from the supplied starter. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md). Detailed acceptance points are in [CHECKLIST.md](CHECKLIST.md); current coverage and known gaps are in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md).
 
 Requirements are separated for navigation: [functional](FUNCTIONAL_REQUIREMENTS.md), [non-functional](NON_FUNCTIONAL_REQUIREMENTS.md), and [data with dictionary](DATA_REQUIREMENTS.md). The shared source/scope record stays in REQUIREMENTS.md.
 
 ## Use
-- Add task or select a task title to edit. Save explicitly. Status moves the task between To Do, In Progress, Review and Done.
-- Hand off to changes a local assignee label. Teammate A/B/C are demo placeholders, not authenticated collaborators.
-- Record prompts, actual outcomes, constraints and next steps in Context. Optional AI tool records metadata; no AI request is made.
-- Copy context from the card/editor. Editor copy uses the current draft without saving. Blocked clipboard offers manual copy.
-- Review briefing shows exact copied text and optional missing-template hints. It cannot validate correctness.
-- Save four HTTP(S) deliverable URLs above the board. A link is not proof of completion.
-- Open demo workspace uses separate storage keys and three synthetic examples per column. Return to your workspace without replacing real data.
+- Set up your workspace and first project, then open a board from Projects. Create additional projects from New project.
+- Add task or select a task title. Details holds type/status/owner/date; AI context holds useful prompts, actual outcomes, errors and next steps. Tab changes preserve the draft.
+- Save explicitly. Status moves the task through To Do, In Progress, Review and Done. Hand off to assigns a real roster member or Unassigned.
+- Copy context uses the saved card or the current editor draft. Review briefing shows the exact output; neither action saves or calls AI. Blocked clipboard access offers selectable text.
+- Team manages names and optional email/GitHub/GitLab metadata. Contact details alone do not connect accounts or invite people.
+- Project Milestones records achievement criteria; four deliverable links remain above each board. Neither a saved link nor a task count automatically marks a milestone reached.
+- Appearance & settings includes palette preview, accessibility preferences and backup download/restore. Accessibility is also reachable before setup.
+- Explore demo opens separate synthetic examples without replacing your local work. On mobile choose a stage or View all stages.
 
 ## Data and limits
-Data lives in this browser/origin's localStorage. It does not synchronise or create backups; clearing browser data removes it. Save errors remain visible. Invalid stored data is preserved, not silently reset. If it cannot be read, export the original key using browser developer tools before deliberately removing/resetting it. Cross-tab writes are blocked if a newer saved version is detected; reload before continuing.
+Local data lives in this browser/origin's localStorage. Download a workspace backup before changing origin or clearing browser data; validated restore is explicit. Saving errors retain drafts and previous saved data. Invalid records are preserved with recovery download. Stale writes from another tab are blocked.
 
 Date-only deadlines end at 23:59:59.999 in the local timezone. More than 48h is calm; 24–48h is Due soon; under 24h is warning; overdue begins after the selected day; Done is neutral. Text labels accompany colours.
 
-No authentication, backend, AI integration, GitHub integration, real-time collaboration, multi-team support or automatic milestone completion. Prototype checks are not a full WCAG conformance or user-study claim. Current dependency audit findings still require separate review; do not run forced major upgrades blindly.
+Optional authentication/database code needs live Supabase configuration before shared use. There is no automatic AI execution, repository integration, real-time push collaboration, simultaneous multi-team administration or automatic milestone completion. Prototype checks are not a full WCAG conformance or user-study claim. Current dependency audit findings still require separate review; do not run forced major upgrades blindly.
 
 ## Milestone checkpoints
 Each completed code stage has its exact live portal marker in its commit message and as a Git tag. Markers may differ from the original starter README.
@@ -57,7 +58,7 @@ Each completed code stage has its exact live portal marker in its commit message
 M1's correct pushed commit was not recognised at the last supplied portal observation. No webhook is configured, following the student's choice. Current portal recognition has not been rechecked. Do not rewrite historical tags to hide fixes; later commits document corrections.
 
 ## Deployment and demo
-The student has created a Vercel account; importing/deploying the app is still pending. Choose GitHub under Import Git Repository, then import Bromlj/vibecoding-project-tracker. Use the Vite preset, repository root `./`, build `npm run build`, and output `dist`. There are no environment variables or database requirements. Use the free Hobby option for this personal coursework prototype; no paid trial or add-on is required. See [Vercel Git deployment guidance](https://vercel.com/docs/git) and [Hobby plan](https://vercel.com/docs/plans/hobby).
+The student has created a Vercel account; importing/deploying the app is still pending. Choose GitHub under Import Git Repository, then import Bromlj/vibecoding-project-tracker. Use the Vite preset, repository root `./`, build `npm run build`, and output `dist`. Local/demo-only hosting needs no environment variables. Shared sign-in uses the public variables and live configuration described in CLOUD_SETUP.md; server secrets must never enter the frontend. Use the free Hobby option for this personal coursework prototype; no paid trial or add-on is required. See [Vercel Git deployment guidance](https://vercel.com/docs/git) and [Hobby plan](https://vercel.com/docs/plans/hobby).
 
 Test the resulting production URL in a private browser window without Vercel login or app registration. The lecturer's hackathon portal is separate. Browser storage on the new hosted origin starts separately from localhost; hosting does not add shared storage.
 

@@ -13,7 +13,7 @@ export function writeSnapshot(storage, key, expectedRaw, next, validate) {
   return raw;
 }
 
-export function useLocalStorage(key, createInitial, validate) {
+export function useLocalStorage(key, createInitial, validate, persistInitial = false) {
   const [initial] = useState(() => {
     try {
       const raw = localStorage.getItem(key);
@@ -46,6 +46,10 @@ export function useLocalStorage(key, createInitial, validate) {
       return { ok: false, error: message };
     }
   }
+  // Persist a validated import/demo once. A genuinely fresh workspace waits for setup.
+  useEffect(()=>{
+    if(persistInitial && current.current?.name && rawRef.current===null && !blocked.current) commit(v=>v);
+  },[key]);
   useEffect(() => {
     const changed = event => {
       if ((event.key === key || event.key === null) && event.storageArea === localStorage) {
