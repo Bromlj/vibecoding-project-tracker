@@ -23,3 +23,19 @@ export function seedTasks(now = new Date()) {
     context:'',contextTool:null,contextUpdatedAt:null,
   }));
 }
+
+export function validDate(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(value+'T12:00:00');
+  return !Number.isNaN(date.getTime()) && localDate(date) === value;
+}
+export function validTasks(value) {
+  return Array.isArray(value) && new Set(value.map(t=>t?.id)).size===value.length && value.every(t=>
+    t && typeof t.id==='string' && t.id.length>0 && typeof t.title==='string' && t.title.trim().length>0 &&
+    typeof t.description==='string' && ['feature','bug'].includes(t.type) &&
+    STAGES.some(s=>s.id===t.status) && TEAM.includes(t.assignee) &&
+    (t.dueDate===null || validDate(t.dueDate)) && validDate(t.createdDate) &&
+    typeof t.context==='string' && (t.contextTool===null || typeof t.contextTool==='string') &&
+    (t.contextUpdatedAt===null || (typeof t.contextUpdatedAt==='string' && !Number.isNaN(Date.parse(t.contextUpdatedAt))))
+  );
+}
