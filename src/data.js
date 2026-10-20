@@ -1,4 +1,5 @@
 import { AI_TOOLS } from './context.js';
+import {validAttempts} from './attempts.js';
 export const STAGES = [
   { id: 'todo', label: 'To Do' }, { id: 'in-progress', label: 'In Progress' },
   { id: 'review', label: 'Review' }, { id: 'done', label: 'Done' },
@@ -37,6 +38,6 @@ export function validTasks(value) {
     STAGES.some(s=>s.id===t.status) && TEAM.includes(t.assignee) &&
     (t.dueDate===null || validDate(t.dueDate)) && validDate(t.createdDate) &&
     typeof t.context==='string' && t.context.length<=30000 && (t.contextTool===null || AI_TOOLS.includes(t.contextTool)) &&
-    (t.contextUpdatedAt===null || (typeof t.contextUpdatedAt==='string' && !Number.isNaN(Date.parse(t.contextUpdatedAt))))
+    validAttempts(t.attempts) && (t.contextUpdatedAt===null || (typeof t.contextUpdatedAt==='string' && !Number.isNaN(Date.parse(t.contextUpdatedAt))))
   );
 }

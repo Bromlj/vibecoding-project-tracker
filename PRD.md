@@ -57,7 +57,7 @@ M2 was initially understood as omitted; the updated instruction was completed in
 ## Scope and verification
 The current scope includes one team with multiple project boards and optional separately configured shared sign-in. Repository integration, automatic AI calls, simultaneous multi-team administration and live push synchronisation are outside this build. Responsive/accessibility improvements are deliberate quality decisions. See DESIGN_REVIEW.md for adaptation rationale and verification boundaries.
 
-M12 extension: review the exact copied briefing with optional missing-template hints. Hints do not certify truth or completeness.
+Current M12 extension: Attempts & lessons retains successive prompts, outcomes and reasons, with selected records carried into the next briefing. Review and optional template hints remain supporting interactions. This supersedes the earlier Review-only choice; see PROTOTYPE_DEMO.md.
 
 Local build, regression and named browser checks are recorded; screen-reader/user-study/performance/public deployment evidence is not invented. A classroom demo is not automatically a user test. The student clarified that there is no formal presentation; at most an informal 30-second app demonstration if requested. No rehearsal is a completion condition. [DEMO.md](DEMO.md) is an optional operational walkthrough, not a presentation assignment. The M11 Presentation anchor remains a specified app feature and does not establish a CM6312 presentation submission.
 

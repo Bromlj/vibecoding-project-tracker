@@ -12,6 +12,7 @@ import AnchorBoard from './AnchorBoard';
 import BriefingReview from './BriefingReview';
 import Milestones from './Milestones';
 import { CONTEXT_TEMPLATE } from './context';
+import {addExampleProject,EXAMPLE_PROJECT_ID} from './exampleProject';
 import { button, primaryButton } from './ui';
 import NavigationHelp from './NavigationHelp';
 import { shortcutAction } from './navigationAccess';
@@ -65,6 +66,7 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
     else if(action==='links'){if(navigate('board'))requestAnimationFrame(()=>document.getElementById('anchors-title')?.focus());}
     else navigate(action);
   }
+  async function openExample(){const result=await change(old=>addExampleProject(old,window.location.origin),'Team example ready.');if(result.ok)navigate('board');}
   async function resetDemo(){if(!demo)return{ok:false,error:'Only the demo can be reset here.'};const result=await change(initialWorkspace({getItem:()=>null},true),'Demo reset with fresh examples.');if(result.ok)navigate('projects');return result;}
   useEffect(()=>{
     const key=e=>{
@@ -90,6 +92,7 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
     <div className="workspace-content">
     <main id="main-content" aria-label="Workspace content" tabIndex={-1} ref={main}>
       {demo&&<p className="demo-notice">Demo workspace · Synthetic examples, separate from your work.</p>}
+      {demo&&ready&&<section className="demo-team-panel" aria-label="Team example"><div><strong>Explore a team project</strong><p>Fictional teammates, assigned tasks, handovers and recorded attempts demonstrate working together. This example is saved in this browser; no other people are connected.</p></div><button className={button} onClick={openExample}>{workspace.boards.some(b=>b.id===EXAMPLE_PROJECT_ID)?'Open team example':'Add team example project'}</button></section>}
       {demo&&workspace&&<DemoGuide onAction={guideAction} onReset={resetDemo}/>}
       {error&&<div role="alert" className="error-notice"><p>{error}</p><button className={button+' mt-3'} onClick={downloadRecovery}>Download recovery data</button></div>}
       <p role="status" aria-live="polite" className={'workspace-feedback '+(!message?'sr-only':'')}>{error?'':message}</p>

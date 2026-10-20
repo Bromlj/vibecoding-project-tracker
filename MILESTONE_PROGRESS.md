@@ -15,7 +15,7 @@ The student reports fixing the webhook and explicitly requested fresh commits, i
 | M9 | task-context | Editable prompt/outcome/context template, optional tool, saved freshness metadata. |
 | M10 | copy-context | Saved-card/current-draft copying, pending feedback and manual fallback; no automatic AI transmission. |
 | M11 | project-deliverables | Four persistent URL slots above each board; safe explicit opening and labelled presence. |
-| M12 | secret-sauce | Exact optional Review briefing, advisory empty-section hints and return/copy without saving. |
-| M13 | pitch-done | Twelve synthetic demo tasks, useful prompt/tool/outcome examples, eight-step guided practice and optional short walkthrough. No formal presentation or rehearsal required by the student's clarification. |
+| M12 | secret-sauce | Attempts & lessons timeline: retain successive prompts, tools, outcomes and lessons; select useful attempts for the next briefing. Review remains a supporting interaction. |
+| M13 | pitch-done | Populated StudySprint team example with 12 tasks, three fictional members, three milestones, working sample deliverable links, attributed attempts and handovers; existing practice project retained. Eight-step guide and optional short walkthrough. No formal presentation or rehearsal required by the student's clarification. |
 
 M13 means the local demonstration is prepared; it does not claim a delivered speech or deployed site. Public Vercel hosting, live Supabase schema/provider configuration and real-account checks remain the next release phase. See RELEASE_READINESS.md for verification and limits. Milestone records do not establish coursework completion or award marks.

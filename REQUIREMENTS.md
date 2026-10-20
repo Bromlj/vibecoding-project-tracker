@@ -14,7 +14,7 @@ MVP flags retain the earlier baseline's priorities. “No — required milestone
 
 ## Functional requirements
 
-See [FUNCTIONAL_REQUIREMENTS.md](FUNCTIONAL_REQUIREMENTS.md) for 23 requirements (FR-01–23), including the later accessibility and guided-learning extensions.
+See [FUNCTIONAL_REQUIREMENTS.md](FUNCTIONAL_REQUIREMENTS.md) for 24 requirements (FR-01–24), including the later accessibility and guided-learning extensions.
 
 ## Non-functional requirements
 
@@ -39,3 +39,5 @@ See [DATA_REQUIREMENTS.md](DATA_REQUIREMENTS.md) for 12 requirements (DR-01–12
 The student explicitly requested the fuller local workspace after reviewing the starter-only gap. Version 2 implements editable members, multiple projects, project milestones, safe saving, palettes and visible accessibility preferences. This supersedes starter fixed-roster/single-board restrictions while preserving the four task stages and prompt/context workflow. The chosen schemas remain implementation decisions, not verbatim client statements.
 
 Supabase Auth/PostgreSQL is a later user-authorized optional sharing extension; local/demo access stays registration-free. Live configuration and verification remain separate from code readiness. The portal's exact markers supersede starter spellings, and historic tags are preserved.
+
+Latest M12 addition: FR-24 / DR-13, Attempts & lessons, is a student-selected extension beyond the client's current-context and copy requirements. See PROTOTYPE_DEMO.md for decisions, prototype scope and checks.

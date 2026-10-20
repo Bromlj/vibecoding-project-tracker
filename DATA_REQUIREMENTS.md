@@ -38,8 +38,8 @@ Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen
 | Task.dueDate | valid YYYY-MM-DD or null | Optional user calendar date; end of local day for urgency |
 | Task.createdDate | valid YYYY-MM-DD | App local calendar date at creation; not editable |
 | Task.context | string, max 30,000 characters | User text or template; exact current briefing, not append-only history |
-| Task.contextTool | Claude / ChatGPT / Cursor / Lovable / Replit / Other / null | Optional user selection |
-| Task.contextUpdatedAt | ISO timestamp or null | Updated when context/tool change is saved; unrelated title edit leaves it unchanged |
+| Task.contextTool | Claude / ChatGPT / Codex / Cursor / Lovable / Replit / Other / null | Optional user selection |
+| Task.contextUpdatedAt | ISO timestamp or null | Updated when context/tool or selected-attempt briefing content changes are saved; unrelated title edit leaves it unchanged |
 | Anchor.id | presentation / demo / report / documentation | Fixed supplied slot IDs |
 | Anchor.label | matching fixed human label | App configuration |
 | Anchor.url | HTTP(S) URL without embedded username/password, or null | User input trimmed on Save; max 2,048 input characters; no remote validation |
@@ -50,3 +50,8 @@ Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen
 Persistence uses versioned snapshots under **vibetracker.workspace.v2** and **vibetracker.demo.workspace.v2**. Browser preferences use **vibetracker.accessibility**. Legacy task/anchor arrays are validated and migrated without deleting original keys. Invalid/unsupported records remain available for recovery. Deliberately emptied boards remain empty. Storage is browser/origin-specific; clearing it removes local records, so explicit backups are available.
 
 Optional shared access has prepared Supabase tables for workspace state/revision/owner, membership and verified allowed-email joins. Authentication metadata is separate from manual roster entries. The schema and live providers still need configuration; see [CLOUD_SETUP.md](CLOUD_SETUP.md) and `supabase/schema.sql`. The local schema is implemented; no live shared persistence claim follows from this dictionary.
+
+### DR-13 — Attempt timeline (selected non-MVP / M12)
+Task.attempts is optional for legacy compatibility; new timelines contain at most 50 records. Each has a stable app-generated id; required prompt (1–12,000 characters), outcome (1–4,000), lesson (1–2,000); result worked/partial/failed; nullable tool from the AI-tool enum; includeInBrief boolean; optional self-reported author (0–100); and app-created createdAt/updatedAt instants. Whitespace and code remain plain text. Creation time is retained on edits; update time changes only with saved attempt changes. New attempts default to exclusion from copied briefings. Limits produce errors, not truncation.
+
+These are editable manual records, not immutable audit history or authenticated authorship. Demo names, results and timestamps are synthetic. Export/restore includes the timeline. Old workspaces without it remain valid. The prepared SQL validator accepts the same additional fields; live shared deployment and SQL execution of this revision are deferred with hosting.

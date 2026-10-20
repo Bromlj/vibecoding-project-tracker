@@ -9,20 +9,21 @@ import { AI_TOOLS, CONTEXT_TEMPLATE, withContextTimestamp, updatedLabel, seriali
 import { taskError, newId, memberLabel } from './workspace';
 import Icon from './Icon';
 import ReadAloud from './ReadAloud';
+import AttemptsPanel from './AttemptsPanel';
 
-export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
+export default function TaskEditor({task,members,onSave,onDelete,onClose,attemptAuthor=''}) {
   const [draft,setDraft]=useState(task),[error,setError]=useState(''),[busy,setBusy]=useState(false),[deleting,setDeleting]=useState(false),[review,setReview]=useState(false);
   const [tab,setTab]=useState('details'),[invalidField,setInvalidField]=useState('');
   const tabsId=useId();
   const dirty=JSON.stringify(task)!==JSON.stringify(draft);
-  useEffect(()=>{requestAnimationFrame(()=>{const dialog=document.querySelector('dialog[open]');if(review)dialog?.querySelector('textarea')?.focus();else document.getElementById(tabsId+'-field-'+(tab==='context'?'context':'title'))?.focus();});},[review]);
+  useEffect(()=>{requestAnimationFrame(()=>{const dialog=document.querySelector('dialog[open]');if(review)dialog?.querySelector('textarea')?.focus();else document.getElementById(tab==='attempts'?tabsId+'-attempts':tabsId+'-field-'+(tab==='context'?'context':'title'))?.focus();});},[review]);
   function field(name,value){setDraft(old=>({...old,[name]:value}));setError('');setInvalidField('');}
-  function tabKeys(e){const names=['details','context'];let target;if(e.key==='ArrowRight'||e.key==='ArrowLeft')target=names[1-names.indexOf(tab)];if(e.key==='Home')target='details';if(e.key==='End')target='context';if(target){e.preventDefault();setTab(target);document.getElementById(tabsId+'-'+target)?.focus();}}
+  function tabKeys(e){const names=['details','context','attempts'];let target;if(e.key==='ArrowRight'||e.key==='ArrowLeft')target=names[(names.indexOf(tab)+(e.key==='ArrowRight'?1:names.length-1))%names.length];if(e.key==='Home')target='details';if(e.key==='End')target='attempts';if(target){e.preventDefault();setTab(target);document.getElementById(tabsId+'-'+target)?.focus();}}
   const owner=members.find(m=>m.id===draft.assigneeId);
   const copyDraft={...draft,assignee:owner?memberLabel(owner,members):'Unassigned'};
   async function save(e){
     e.preventDefault();const dateInput=document.getElementById(tabsId+'-field-dueDate');
-    const invalid=taskError(draft)||(!dateInput.validity.valid?'Choose a valid due date, or clear it completely.':'');if(invalid){setError(invalid);const name=invalid.startsWith('Context')?'context':invalid.startsWith('Description')?'description':invalid.includes('due date')?'dueDate':'title';setInvalidField(name);setTab(name==='context'?'context':'details');requestAnimationFrame(()=>document.getElementById(tabsId+'-field-'+name)?.focus());return;}
+    const invalid=taskError(draft)||(!dateInput.validity.valid?'Choose a valid due date, or clear it completely.':'');if(invalid){setError(invalid);const name=invalid.startsWith('Attempt')?'attempts':invalid.startsWith('Context')?'context':invalid.startsWith('Description')?'description':invalid.includes('due date')?'dueDate':'title';setInvalidField(name);setTab(name==='attempts'?'attempts':name==='context'?'context':'details');requestAnimationFrame(()=>document.getElementById(name==='attempts'?'task-error':tabsId+'-field-'+name)?.focus());return;}
     setBusy(true);
     const result=await onSave({...withContextTimestamp(draft,task),title:draft.title.trim(),id:draft.id||newId(),createdDate:draft.createdDate||localDate()});
     setBusy(false);if(!result.ok)setError(result.error);
@@ -31,7 +32,7 @@ export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
   function cancel(e){e.currentTarget.closest('dialog').dispatchEvent(new Event('cancel',{cancelable:true}));}
   return <Dialog title={review?'Review briefing':task.id?'Edit task':'Add task'} subtitle={draft.title.trim()||undefined} dirty={dirty} busy={busy} onClose={onClose} wide>
     {review?<><BriefingContent task={copyDraft} draft={dirty}/><footer className="dialog-actions"><button className={button} onClick={()=>setReview(false)}>Back to editing</button><span className="text-sm text-ink-muted">Your draft is kept.</span></footer></>:<form onSubmit={save} noValidate>
-      <div role="tablist" aria-label="Task sections" className="editor-tabs" onKeyDown={tabKeys}>{[['details','Details'],['context','AI context']].map(([id,label])=><button type="button" key={id} role="tab" id={tabsId+'-'+id} aria-controls={tabsId+'-panel-'+id} aria-selected={tab===id} tabIndex={tab===id?0:-1} onClick={()=>setTab(id)}>{label}</button>)}</div>
+      <div role="tablist" aria-label="Task sections" className="editor-tabs" onKeyDown={tabKeys}>{[['details','Details'],['context','AI context'],['attempts','Attempts & lessons']].map(([id,label])=><button type="button" key={id} role="tab" id={tabsId+'-'+id} aria-controls={tabsId+'-panel-'+id} aria-selected={tab===id} tabIndex={tab===id?0:-1} onClick={()=>setTab(id)}>{label}</button>)}</div>
       <div className="p-5 sm:p-7">
         <div role="tabpanel" id={tabsId+'-panel-details'} aria-labelledby={tabsId+'-details'} hidden={tab!=='details'}>
         <label className="block font-medium">Task title <span className="text-sm text-ink-muted">(required)</span><input id={tabsId+'-field-title'} data-initial-focus required className={input} value={draft.title} aria-invalid={invalidField==='title'} aria-describedby={'title-limit'+(invalidField==='title'?' task-error':'')} onChange={e=>field('title',e.target.value)}/></label>
@@ -63,8 +64,11 @@ export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
           </div></div>
           {tab==='context'&&<ReadAloud text={serializeContext(copyDraft)}/>}
         </section>
+        <div role="tabpanel" id={tabsId+'-panel-attempts'} aria-labelledby={tabsId+'-attempts'} hidden={tab!=='attempts'}>
+          <AttemptsPanel author={attemptAuthor} attempts={draft.attempts} savedAttempts={task.attempts} onChange={value=>field('attempts',value)} onReview={()=>setReview(true)}/>
+        </div>
         {deleting&&<div className="mt-5 rounded-lg border border-red-400 bg-red-50 p-4"><p role="alert" className="font-medium">Delete “{task.title}”? This cannot be undone.</p><div className="mt-3 flex flex-wrap gap-3"><button type="button" disabled={busy} className={button} onClick={()=>setDeleting(false)}>Keep task</button><button type="button" disabled={busy} className={button+' text-red-800'} onClick={remove}>Confirm delete</button></div></div>}
-        {error&&<p id="task-error" role="alert" className="mt-4 rounded-lg border border-red-400 bg-red-50 p-3 text-red-900">{error}</p>}
+        {error&&<p id="task-error" tabIndex={-1} role="alert" className="mt-4 rounded-lg border border-red-400 bg-red-50 p-3 text-red-900">{error}</p>}
       </div>
       <footer className="dialog-actions"><div>{task.id&&!deleting&&<button type="button" disabled={busy} className={button+' text-red-800'} onClick={()=>setDeleting(true)}>Delete task</button>}</div><div className="flex flex-wrap gap-3"><button type="button" disabled={busy} className={button} onClick={cancel}>Cancel</button><button disabled={busy} className={primaryButton}>{busy?'Saving…':error?'Retry save task':'Save task'}</button></div></footer>
     </form>}

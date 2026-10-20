@@ -309,3 +309,15 @@ html[data-theme="dark"] :is(.task-card-plain,.kanban-column,.project-card,.deliv
 [data-contrast="high"] :is(.task-card,.kanban-column,.project-card,.deliverable-banner,.settings-preview,.empty-state,.how-to-steps > li,.ui-input,.ui-button,.app-dialog,.settings-layout form,.settings-layout > div > section) { border-width: 3px; }
 [data-contrast="high"] :is(.task-card-urgent,.task-card-soon,.task-card-complete) { border-left-width: 5px; }
 html[data-theme] .task-card:is(.task-card-urgent,.task-card-soon,.task-card-complete) { border-left-width: 5px; }
+
+/* Timeline and local team simulation use labelled, keyboard-native controls. */
+.attempt-timeline { list-style:none; padding:0; display:grid; gap:1rem; margin-top:1rem; }
+.attempt-entry,.demo-team-panel { border:2px solid #64788a; border-radius:.6rem; padding:1rem; overflow-wrap:anywhere; }
+.attempt-summary { white-space:pre-wrap; }
+.demo-team-panel { display:flex; flex-wrap:wrap; align-items:end; gap:1rem; margin-bottom:1rem; }
+.demo-team-panel > div { flex:1 1 20rem; }
+.demo-team-panel > p { flex-basis:100%; }
+.demo-team-panel label { min-width:0; max-width:100%; }
+html[data-theme="dark"] :is(.attempt-entry,.demo-team-panel) { border-color:#8ca0b1; }
+[data-contrast="high"] :is(.attempt-entry,.demo-team-panel) { border-width:3px; }
+.editor-tabs { flex-wrap:wrap; }

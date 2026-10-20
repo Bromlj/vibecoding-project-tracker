@@ -68,3 +68,6 @@ The student's latest class clarification is that there is no formal presentation
 
 ## CM6312 working fork
 Working repository: https://github.com/Bromlj/vibecoding-project-tracker
+
+## Team example and Attempts & lessons
+Open `?demo=1` and choose **Open team example** (or **Add team example project** for an existing demo). Open **Build accessible study timer → Attempts & lessons** to see three approaches attributed to fictional teammates. Record an attempt, choose which lessons to copy, and hand off the task from Details. The example includes working sample links and project milestones. There is no demo member switcher or simulated login. See [PROTOTYPE_DEMO.md](PROTOTYPE_DEMO.md).

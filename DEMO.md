@@ -26,3 +26,14 @@ Explain the product's purpose in your own words. Avoid claiming that the app aut
 - Test the actual public URL without login. A successful local build is not deployment verification.
 - The lecturer portal is a different application; it does not host this tracker.
 - Public deployment/access verification remains pending as a separate release step. The exact portal completion marker pitch-done records the prepared local demo and brief walkthrough. No formal presentation, rehearsal or completed speech is claimed.
+
+## Current team walkthrough
+1. Choose **Open team example** (existing demos may first show **Add team example project**).
+2. Open **Build accessible study timer** under In Progress, then **Attempts & lessons**.
+3. Show Failed, Partly worked and Worked approaches by Alex, Sam and Jordan. Expand an attempt to see prompt, outcome and lesson.
+4. Select the lessons to include, then **Review selected attempts in briefing**. Return to editing without losing the draft.
+5. In Details, **Hand off to** another teammate and save. The board shows the new owner.
+6. Open Milestones; inspect a reached milestone and pending criteria. Open the sample deliverable links.
+7. Use Team, Appearance & settings, Accessibility and How to use as needed. These are working local controls.
+
+The team example has 12 tasks, an unassigned task, dates across urgency states, both task types, three milestones and four sample URLs. Existing practice records stay intact. All examples are fictional; multi-user activity is demonstrated locally with no actual remote participants or member switcher. Timeline is the M12 extension; M13 remains demo preparation, not a formal presentation.

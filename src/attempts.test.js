@@ -1,0 +1,53 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {newAttempt,validAttempts,serializeAttempts,attemptsError} from './attempts.js';
+import {withContextTimestamp,serializeContext} from './context.js';
+import {initialWorkspace,validWorkspace} from './workspace.js';
+import {addExampleProject,EXAMPLE_PROJECT_ID} from './exampleProject.js';
+
+const now=new Date('2026-10-20T12:00:00Z');
+const attempt=()=>({...newAttempt('Alex'),prompt:'  <script>not executed</script>\nλ code  ',outcome:'Failed on a blank value.',lesson:'Validate before saving.',result:'failed',tool:'Codex',includeInBrief:true});
+test('attempts preserve full text, validate required records and retain legacy compatibility',()=>{
+  assert.equal(validAttempts(undefined),true);
+  const a=attempt();
+  assert.equal(validAttempts([a]),false);
+  const original={context:'Goal',contextTool:null,contextUpdatedAt:null};
+  const saved=withContextTimestamp({...original,attempts:[a]},original,now);
+  assert.equal(validAttempts(saved.attempts),true);
+  assert.ok(serializeAttempts(saved.attempts).includes(a.prompt));
+  assert.ok(attemptsError([{...a,prompt:' '}]));
+  assert.ok(attemptsError([a,a]));
+  assert.equal(validAttempts([{...saved.attempts[0],updatedAt:'2020-01-01'}]),false);
+});
+test('copy includes only chosen attempts and timestamps distinguish history from current briefing',()=>{
+  const original={context:'Goal',contextTool:null,contextUpdatedAt:null};
+  const saved=withContextTimestamp({...original,attempts:[attempt()]},original,now);
+  const later=new Date(now.getTime()+3600000);
+  assert.deepEqual(withContextTimestamp({...saved,title:'Renamed'},saved,later).attempts,saved.attempts);
+  const excluded=withContextTimestamp({...saved,attempts:saved.attempts.map(a=>({...a,includeInBrief:false}))},saved,later);
+  assert.equal(excluded.contextUpdatedAt,later.toISOString());
+  assert.equal(serializeAttempts(excluded.attempts),'');
+  const next=new Date(later.getTime()+3600000);
+  const edited=withContextTimestamp({...excluded,attempts:excluded.attempts.map(a=>({...a,lesson:'A revised private lesson'}))},excluded,next);
+  assert.equal(edited.contextUpdatedAt,excluded.contextUpdatedAt);
+  assert.equal(edited.attempts[0].createdAt,now.toISOString());
+  assert.equal(edited.attempts[0].updatedAt,next.toISOString());
+  assert.ok(!serializeContext({...edited,title:'Task',status:'todo',assignee:'Alex'}).includes('A revised private lesson'));
+});
+test('example project covers the local model without overwriting existing demo edits',()=>{
+  const ws=initialWorkspace({getItem:()=>null},true);
+  assert.equal(validWorkspace(ws),true);
+  const project=ws.boards.find(b=>b.id===EXAMPLE_PROJECT_ID);
+  assert.equal(project.tasks.length,12);
+  assert.equal(new Set(project.tasks.map(t=>t.status)).size,4);
+  assert.ok(project.tasks.some(t=>t.assigneeId===null));
+  assert.ok(project.milestones.some(m=>m.status==='reached'));
+  assert.ok(project.milestones.some(m=>m.status==='pending'));
+  assert.ok(project.anchors.every(a=>a.url.includes('/examples/studysprint.html#')));
+  assert.deepEqual(new Set(project.tasks.flatMap(t=>t.attempts.map(a=>a.result))),new Set(['failed','partial','worked']));
+  project.tasks[0].title='My practice edit';
+  const repeated=addExampleProject(ws,'https://example.test',now);
+  assert.equal(repeated.boards.length,ws.boards.length);
+  assert.equal(repeated.boards.find(b=>b.id===EXAMPLE_PROJECT_ID).tasks[0].title,'My practice edit');
+  assert.equal(validWorkspace(JSON.parse(JSON.stringify(repeated))),true);
+});

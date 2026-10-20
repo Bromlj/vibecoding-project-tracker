@@ -1,8 +1,9 @@
-export const AI_TOOLS = ['Claude','ChatGPT','Cursor','Lovable','Replit','Other'];
+export {AI_TOOLS} from './aiTools.js';
+import {serializeAttempts,stampAttempts} from './attempts.js';
 export const CONTEXT_TEMPLATE = '## Background\n\n## Constraints\n\n## Prompts and outcomes\n\n## Tried so far\n\n## Pick up\n';
 export function withContextTimestamp(draft, original, now = new Date()) {
-  const changed = draft.context !== original.context || draft.contextTool !== original.contextTool;
-  return {...draft, contextUpdatedAt:changed ? now.toISOString() : original.contextUpdatedAt};
+  const changed = draft.context !== original.context || draft.contextTool !== original.contextTool || serializeAttempts(draft.attempts)!==serializeAttempts(original.attempts);
+  return {...draft,...(draft.attempts?{attempts:stampAttempts(draft.attempts,original.attempts,now)}:{}),contextUpdatedAt:changed ? now.toISOString() : original.contextUpdatedAt};
 }
 export function updatedLabel(value, now = new Date()) {
   if (!value) return 'not yet saved';
@@ -18,7 +19,7 @@ export function serializeContext(task) {
   return '# Task: '+task.title+'\n\n'+(task.projectName?'Project: '+task.projectName+'\n':'')
     +'Status: '+task.status+'\nAssignee: '+task.assignee+'\nDue date: '+(task.dueDate||'Not set')+'\nAI tool: '+(task.contextTool||'Not specified')
     +'\n\n## Description\n'+(task.description||'Not provided')
-    +'\n\n## Task context\n'+(task.context||'Not provided')+'\n';
+    +'\n\n## Task context\n'+(task.context||'Not provided')+'\n'+serializeAttempts(task.attempts);
 }
 
 

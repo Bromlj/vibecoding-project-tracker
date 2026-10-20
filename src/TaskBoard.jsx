@@ -20,12 +20,12 @@ export default forwardRef(function TaskBoard({tasks,members,now,onAdd,onEdit,onR
     focusStage(index){const id=STAGES[index]?.id;if(!id)return;setStage(id);requestAnimationFrame(()=>document.getElementById('stage-'+id)?.focus());},
     focusTask(direction){const controls=[...boardElement.current?.querySelectorAll('.task-title')||[]].filter(el=>el.getClientRects().length);const current=controls.indexOf(document.activeElement);const next=current<0?(direction>0?0:controls.length-1):Math.max(0,Math.min(controls.length-1,current+direction));controls[next]?.focus();}
   }));
-  const filtered=tasks.filter(t=>(type==='all'||t.type===type)&&(owner==='all'||(owner==='unassigned'?t.assigneeId===null:t.assigneeId===owner))&&(!search.trim()||(t.title+'\n'+t.description+'\n'+t.context).toLowerCase().includes(search.trim().toLowerCase())));
+  const filtered=tasks.filter(t=>(type==='all'||t.type===type)&&(owner==='all'||(owner==='unassigned'?t.assigneeId===null:t.assigneeId===owner))&&(!search.trim()||(t.title+'\n'+t.description+'\n'+t.context+'\n'+(t.attempts||[]).map(a=>[a.prompt,a.outcome,a.lesson,a.author].join(' ')).join('\n')).toLowerCase().includes(search.trim().toLowerCase())));
   const active=Boolean(search||owner!=='all'||type!=='all');
   function clear(){setSearch('');setOwner('all');setType('all');}
   return <>
     <section aria-label="Find tasks" className="task-filters">
-      <label>Search tasks<input ref={searchInput} aria-keyshortcuts={shortcuts?'f':undefined} type="search" className={input} value={search} onChange={e=>setSearch(e.target.value)} placeholder="Title, description or context"/></label>
+      <label>Search tasks<input ref={searchInput} aria-keyshortcuts={shortcuts?'f':undefined} type="search" className={input} value={search} onChange={e=>setSearch(e.target.value)} placeholder="Title, context or lessons"/></label>
       <label>Owner<select className={input} value={owner} onChange={e=>setOwner(e.target.value)}><option value="all">Everyone</option><option value="unassigned">Unassigned</option>{members.map(m=><option key={m.id} value={m.id}>{memberLabel(m,members,true)}</option>)}</select></label>
       <label>Type<select className={input} value={type} onChange={e=>setType(e.target.value)}><option value="all">Features and bugs</option><option value="feature">Features</option><option value="bug">Bugs</option></select></label>
       {active&&<button className={button} onClick={clear}>Clear filters</button>}
@@ -42,6 +42,7 @@ export default forwardRef(function TaskBoard({tasks,members,now,onAdd,onEdit,onR
           <div className="task-owner"><OwnerBadge name={task.assignee}/></div>
           <Deadline task={task} now={now}/>
           <div className="task-context-state">{task.contextUpdatedAt?'Context saved':'Context not yet saved'}</div>
+          {!!task.attempts?.length&&<p className="task-context-state">{task.attempts.length} attempts · {task.attempts.filter(a=>a.includeInBrief).length} in briefing</p>}
           <div className="task-copy"><CopyContext task={task}/></div>
           <button className="text-action task-review" aria-label={'Review briefing for '+task.title} onClick={()=>onReview(task)}><Icon name="review" size={16}/>Review briefing</button>
         </li>)}</ul>

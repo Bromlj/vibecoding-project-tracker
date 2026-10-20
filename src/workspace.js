@@ -1,7 +1,9 @@
 import { AI_TOOLS } from './context.js';
 import { STAGES, TEAM, validDate, validTasks } from './data.js';
 import { initialAnchors, validAnchors } from './anchors.js';
+import {addExampleProject} from './exampleProject.js';
 import { demoTasks } from './demo.js';
+import {attemptsError,validAttempts} from './attempts.js';
 
 export const WORKSPACE_KEY = 'vibetracker.workspace.v2';
 export const DEMO_KEY = 'vibetracker.demo.workspace.v2';
@@ -45,6 +47,7 @@ export function taskError(task) {
   if (!text(task.description, 4000)) return 'Description exceeds 4,000 characters. Your full draft is retained; shorten it before saving.';
   if (!text(task.context, 30000)) return 'Context exceeds 30,000 characters. Your full draft is retained; shorten it before saving.';
   if (!optionalDate(task.dueDate)) return 'Choose a valid due date, or leave it empty.';
+  if(attemptsError(task.attempts))return attemptsError(task.attempts);
   return '';
 }
 export function milestoneError(milestone) {
@@ -65,7 +68,7 @@ export function validWorkspace(value) {
   return value.boards.every(board=>board && text(board.id,100,true) && text(board.name,100,true) && text(board.description,2000) && validAnchors(board.anchors) &&
     Array.isArray(board.tasks) && unique(board.tasks.map(t=>t?.id)) && board.tasks.every(t=>t && text(t.id,100,true) && !taskError(t) &&
       ['feature','bug'].includes(t.type) && STAGES.some(s=>s.id===t.status) && (t.assigneeId===null || members.has(t.assigneeId)) &&
-      validDate(t.createdDate) && (t.contextTool===null || AI_TOOLS.includes(t.contextTool)) && (t.contextUpdatedAt===null || instant(t.contextUpdatedAt))) &&
+      validDate(t.createdDate) && validAttempts(t.attempts) && (t.contextTool===null || AI_TOOLS.includes(t.contextTool)) && (t.contextUpdatedAt===null || instant(t.contextUpdatedAt))) &&
     Array.isArray(board.milestones) && unique(board.milestones.map(m=>m?.id)) && board.milestones.every(m=>m && text(m.id,100,true) && !milestoneError(m) &&
       ['pending','reached'].includes(m.status) && (m.status==='pending'?m.reachedAt===null:instant(m.reachedAt))));
 }
@@ -110,5 +113,6 @@ export function initialWorkspace(storage, demo = false) {
     const {assignee,...rest}=t;
     return {...rest,assigneeId:members.find(m=>m.name===assignee)?.id || null};
   })};
-  return {...blankWorkspace(),name:demo?'Example workspace':'My workspace',members,boards:[board],selectedBoardId:board.id,...(!demo?{needsSetup:true}:{})};
+  const result={...blankWorkspace(),name:demo?'Example workspace':'My workspace',members,boards:[board],selectedBoardId:board.id,...(!demo?{needsSetup:true}:{})};
+  return demo&&rawTasks===null&&rawAnchors===null?addExampleProject(result,globalThis.location?.origin||'http://localhost:5173'):result;
 }

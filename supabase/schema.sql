@@ -3,7 +3,7 @@
 
 create or replace function public.valid_tracker_state(data jsonb)
 returns boolean language plpgsql immutable set search_path = '' as $$
-declare member jsonb; board jsonb; task jsonb; milestone jsonb;
+declare member jsonb; board jsonb; task jsonb; milestone jsonb; attempt jsonb;
 begin
   if jsonb_typeof(data) is distinct from 'object' or data->'schemaVersion' is distinct from '2'::jsonb
     or jsonb_typeof(data->'name') is distinct from 'string'
@@ -53,8 +53,27 @@ begin
         if task->>'dueDate'!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$' then return false; end if;
         perform (task->>'dueDate')::date;
       end if;
-      if task->>'contextTool' is not null and task->>'contextTool' not in ('Claude','ChatGPT','Cursor','Lovable','Replit','Other') then return false; end if;
+      if task->>'contextTool' is not null and task->>'contextTool' not in ('Claude','ChatGPT','Codex','Cursor','Lovable','Replit','Other') then return false; end if;
       if task->>'contextUpdatedAt' is not null then perform (task->>'contextUpdatedAt')::timestamptz; end if;
+      -- Optional manual timeline: legacy tasks without attempts remain valid.
+      if task ? 'attempts' then
+        if jsonb_typeof(task->'attempts') is distinct from 'array' then return false; end if;
+        if jsonb_array_length(task->'attempts')>50 or
+          (select count(*)<>count(distinct a->>'id') from jsonb_array_elements(task->'attempts') a) then return false; end if;
+        for attempt in select * from jsonb_array_elements(task->'attempts') loop
+          if jsonb_typeof(attempt->'id') is distinct from 'string' or length(coalesce(attempt->>'id','')) not between 1 and 100
+            or jsonb_typeof(attempt->'prompt') is distinct from 'string' or length(btrim(coalesce(attempt->>'prompt','')))=0 or length(attempt->>'prompt')>12000
+            or jsonb_typeof(attempt->'outcome') is distinct from 'string' or length(btrim(coalesce(attempt->>'outcome','')))=0 or length(attempt->>'outcome')>4000
+            or jsonb_typeof(attempt->'lesson') is distinct from 'string' or length(btrim(coalesce(attempt->>'lesson','')))=0 or length(attempt->>'lesson')>2000
+            or coalesce(attempt->>'result','') not in ('worked','partial','failed')
+            or not (attempt ? 'tool') or (attempt->>'tool' is not null and attempt->>'tool' not in ('Claude','ChatGPT','Codex','Cursor','Lovable','Replit','Other'))
+            or jsonb_typeof(attempt->'includeInBrief') is distinct from 'boolean'
+            or (attempt ? 'author' and (jsonb_typeof(attempt->'author') is distinct from 'string' or length(attempt->>'author')>100))
+            or jsonb_typeof(attempt->'createdAt') is distinct from 'string' or jsonb_typeof(attempt->'updatedAt') is distinct from 'string' then return false; end if;
+          if not isfinite((attempt->>'createdAt')::timestamptz) or not isfinite((attempt->>'updatedAt')::timestamptz)
+            or (attempt->>'updatedAt')::timestamptz < (attempt->>'createdAt')::timestamptz then return false; end if;
+        end loop;
+      end if;
     end loop;
     for milestone in select * from jsonb_array_elements(board->'milestones') loop
       if jsonb_typeof(milestone->'id') is distinct from 'string' or jsonb_typeof(milestone->'title') is distinct from 'string' or jsonb_typeof(milestone->'criterion') is distinct from 'string' or length(coalesce(milestone->>'id','')) not between 1 and 100 or length(btrim(coalesce(milestone->>'title',''))) not between 1 and 160
