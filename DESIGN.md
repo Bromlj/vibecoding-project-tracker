@@ -1,4 +1,6 @@
 ---
+
+**Reading this decision history:** the current interface uses strong red/amber/green card fills and Attempts & lessons. Earlier neutral-Done and Review-only plans remain historical. Student authorization to implement the colour change is not verified client approval to vary M8; see [M8_SPECIFICATION_DECISION.md](M8_SPECIFICATION_DECISION.md) and [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md).
 name: Vibecoding Project Tracker
 description: A clear workspace for project tasks, AI context and handovers.
 colors:

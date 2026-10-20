@@ -1,4 +1,6 @@
-# Local product readiness — 20 October 2026
+# Product readiness evidence history — 20 October 2026
+
+**Current record:** public prototype hosting/access is verified; the latest recorded suite has 28 tests. M12 is Attempts & lessons. M8 remains a documented specification variance. See [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md). The sections below are dated development checkpoints, retained chronologically; earlier “pending”, 23-test, neutral-Done or Review-only statements are historical, not current status.
 
 Engineering evidence, not assessed report prose. This record supersedes the runtime gap statuses in the historical b685ad7 audit in IMPLEMENTATION_STATUS.md. Source history and milestone tags remain intact.
 
@@ -6,7 +8,7 @@ Engineering evidence, not assessed report prose. This record supersedes the runt
 
 **Separate next phase:** live Supabase schema/provider setup, real multi-account verification, Vercel deployment and public assessor-access check. The connected Supabase project's public/private application schemas were checked read-only and contain no tracker tables. No cloud schema, provider setting, webhook or production deployment was changed by this local product pass. The student separately reports repairing the webhook. Member email/GitHub/GitLab fields are contact metadata until real shared sign-in is configured.
 
-## Decisions in this pass
+## Historical local-release checkpoint decisions
 
 | Change | Reason and limits | Traceability |
 |---|---|---|
@@ -23,7 +25,7 @@ Engineering evidence, not assessed report prose. This record supersedes the runt
 
 The build now targets modern browsers supported by Vite/Tailwind 4. Use Node 22.12+ (Node 24 checked). Older browsers outside that toolchain baseline are not promised. Sources: [Vite migration](https://vite.dev/guide/migration), [Tailwind upgrade guide](https://tailwindcss.com/docs/upgrade-guide).
 
-## Acceptance coverage
+## Historical local-release checkpoint coverage
 
 The 199 CHECKLIST.md items remain a specification, not 199 asserted test passes. This table covers every checklist group. “Implemented” includes source inspection; the evidence column names the actual check scope. Research, assistive-technology and deployment checks remain explicit.
 
@@ -47,7 +49,7 @@ The 199 CHECKLIST.md items remain a specification, not 199 asserted test passes.
 | C16-01–15: evaluation | Current automated/browser/keyboard/performance evidence below. Fix/recheck evidence retained. Named human screen-reader test and representative-user completion/errors/help/feedback remain to be collected. Developer inspection is not participant research. |
 | C17-01–12: delivery | FR/NFR/DR IDs, priorities, sources/data dictionary, component mapping, selected extensions, tool inventory and engineering rationale exist. Local interactions work without registration. Public URL/access verification, student's own report/coversheet/screenshots selection/references/AI declaration and final submission remain separate. |
 
-## Fresh verification
+## Historical local-release checkpoint verification
 
 | Check | Result / exact boundary |
 |---|---|
@@ -85,7 +87,7 @@ Direct user feedback requested immediate appearance/accessibility previews, colo
 
 Traceability: FR-20 colour customization; NFR accessibility/readability; DR-11 browser preferences now include colourVision, with transient preview state excluded from persistence. No database/schema change is required.
 
-## Attempts, lessons and populated team prototype — 20 October 2026
+## Later attempts and team prototype checkpoint — 20 October 2026
 
 The student challenged Review briefing as too similar to required context/copy behaviour, then requested a stronger extension and a fully populated example project. M12 now adds Attempts & lessons (FR-24 / DR-13): manually recorded successive prompts/tools/results/outcomes/lessons, optional self-reported authors, saved timestamps and explicit inclusion in the next copied briefing. Review remains a supporting control. No claim of market-wide uniqueness or immutable history.
 

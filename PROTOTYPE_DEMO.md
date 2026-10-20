@@ -1,6 +1,6 @@
 # Interactive prototype checkpoint — 20 October 2026
 
-The current delivery target is a usable, clickable prototype for a short demonstration. The student explicitly deferred proper multi-user implementation and requested no demo member switcher. Real account setup, simultaneous remote collaboration and public hosting are not completion claims for this checkpoint.
+The current delivery target is a usable, clickable prototype for a short demonstration. The student explicitly deferred proper multi-user implementation and requested no demo member switcher. Real account setup and simultaneous remote collaboration remain deferred. This feature checkpoint preceded deployment; the public Vercel prototype has since been verified. CURRENT_ACCEPTANCE.md is the current acceptance authority.
 
 ## Selected M12 extension
 

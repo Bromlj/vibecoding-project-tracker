@@ -1,5 +1,7 @@
 # Design adaptation and verification — 20 October 2026
 
+**Historical checkpoint:** this document retains its original observations and decisions. Its completion/pending statements are not the latest status. Consult [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md) before using it in report preparation; identify the checkpoint when citing earlier screenshots or measurements.
+
 Engineering evidence for later student evaluation, not assessed report prose. This records the finished local design checkpoint; it does not certify the whole coursework or a live shared deployment.
 
 **Subsequent accessibility work:** [ACCESSIBILITY_NAVIGATION.md](ACCESSIBILITY_NAVIGATION.md) records opt-in single-key navigation, direct destination buttons, device-voice read aloud and clearer repeated action names. It includes the later 21-test/build checkpoint and additional Chrome/Edge/Firefox evidence. The design results below remain the earlier checkpoint, not a claim that every scan was repeated after every extension.

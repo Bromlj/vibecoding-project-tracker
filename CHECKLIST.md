@@ -1,5 +1,7 @@
 # Expanded requirements checklist
 
+**Status clarification:** unchecked boxes are an unexecuted item-by-item sign-off ledger, not evidence of either 199 failures or 199 passes. Use [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md) for the current requirement-level record. Do not infer client approval from a passing implementation test.
+
 Added 20 October 2026 from the student's supplied checklist. This supplements [REQUIREMENTS.md](REQUIREMENTS.md), retaining the earlier FR/NFR/DR identifiers and adding detailed acceptance points.
 
 **All boxes are intentionally unchecked.** This is a requirements checklist, not a claim of 199 completed tests. Current coverage and actual checks are recorded in [RELEASE_READINESS.md](RELEASE_READINESS.md); [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) preserves the historical audit. Cxx-yy IDs identify checklist points without replacing FR/NFR/DR IDs.
@@ -165,7 +167,7 @@ Teaching anchors: Web Usability.pptx and Usability on Small Screen Devices.pptx.
 - [ ] **C09-13** Use visible labels and familiar controls to reduce memory demands.
 - [ ] **C09-14** Keep status-dropdown movement available if drag and drop is added.
 
-## 10. Selected M12 feature: Review Brief
+## 10. Review Brief — original M12 choice, now a supporting feature
 
 Chosen extension from DEC-14. Some implementation exists; see the separate audit rather than interpreting these unchecked boxes as absence.
 

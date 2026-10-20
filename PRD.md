@@ -36,7 +36,7 @@ Public tracker URL: pending deployment.
 This repository: https://github.com/Bromlj/vibecoding-project-tracker
 
 ## Checkpoints
-| Stage | Exact live portal marker | Current state |
+| Stage | Marker from supplied portal text | Current state |
 |---|---|---|
 | M1 | git-linked | Correct commit/tag pushed; portal recognition pending |
 | M2 | prd-done | Requirements documentation checkpoint; broader gaps remain explicit |
@@ -45,14 +45,14 @@ This repository: https://github.com/Bromlj/vibecoding-project-tracker
 | M5 | crud-modal | Modal CRUD/storage pushed |
 | M6 | tag-style | Type markers pushed; primary-button correction recorded |
 | M7 | task-owner | Owner/handoff pushed |
-| M8 | due-tint | Deadline states pushed |
+| M8 | due-tint | Adapted deadline states implemented; literal slide mismatch and unrecorded client approval remain explicit |
 | M9 | task-context | Context/tool/freshness pushed |
 | M10 | copy-context | Copy/manual fallback pushed |
 | M11 | project-deliverables | Anchor board pushed |
-| M12 | secret-sauce | Briefing review/hints pushed |
-| M13 | pitch-done | Local demo prepared; public deployment check pending; no formal presentation requirement |
+| M12 | secret-sauce | Attempts & lessons implemented; Review briefing remains a supporting interaction |
+| M13 | pitch-done | Public demo and registration-free access verified; no formal presentation requirement in the supplied assessment brief |
 
-M2 was initially understood as omitted; the updated instruction was completed in the combined requirements commit and later category-specific commits. Historic tags remain unchanged.
+M2 was initially understood as omitted; the updated instruction was completed in the combined requirements commit and later category-specific commits. Historic tags remain unchanged. The pasted portal text uses pitch-done while the slide/starter uses pitch-ready; this records the chosen marker, not verified portal acceptance.
 
 ## Scope and verification
 The current scope includes one team with multiple project boards and optional separately configured shared sign-in. Repository integration, automatic AI calls, simultaneous multi-team administration and live push synchronisation are outside this build. Responsive/accessibility improvements are deliberate quality decisions. See DESIGN_REVIEW.md for adaptation rationale and verification boundaries.

@@ -1,5 +1,7 @@
 # Implementation status and gaps
 
+**Historical checkpoint:** this document retains its original observations and decisions. Its completion/pending statements are not the latest status. Consult [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md) before using it in report preparation; identify the checkpoint when citing earlier screenshots or measurements.
+
 **Current local product audit and milestone replay:** [MILESTONE_PROGRESS.md](MILESTONE_PROGRESS.md) records the latest M1–M13 interpretation and the student's webhook repair.  [RELEASE_READINESS.md](RELEASE_READINESS.md) supersedes the status notices and historical point-by-point gaps below. It records current coverage of all 17 checklist groups, the guided demo, updated dependency/tooling checks, 23 Node tests, three-browser checks and fresh performance measurements. Hosted collaboration and public access remain the next phase.
 
 **Earlier checkpoint — design adaptation, 20 October 2026:** [DESIGN_REVIEW.md](DESIGN_REVIEW.md) records current design decisions and final evidence; [WORKSPACE_WORKFLOW.md](WORKSPACE_WORKFLOW.md) describes the current product. Functional/non-functional/data category tables have been reconciled with this checkpoint. Build, 18 Node tests, 14 scenarios each in Chrome/Edge/Firefox and 24 automated accessibility scans pass within their stated scope. Failed save/delete, over-limit paste, draft review, roster/boards/milestones/palettes gaps below have been implemented and rechecked.
@@ -8,7 +10,7 @@
 
 Recorded 20 October 2026. Runtime code audited at commit **b685ad7**. Documentation added after that commit does not alter the audited runtime. This is an engineering status record, not assessed report prose or a full accessibility/usability certification.
 
-**Current position:** a working initial hackathon prototype exists. M2 documentation and M3–M12 code checkpoints are pushed. M13 local preparation is committed, but public deployment/access verification is pending. The student clarified there is no formal presentation; at most an informal 30-second app demonstration if requested. A presentation or rehearsal is not a blocker. Milestone tags do not establish that every detailed acceptance condition is satisfied.
+**Position at the historical audit checkpoint:** a working initial hackathon prototype exists. M2 documentation and M3–M12 code checkpoints are pushed. M13 local preparation is committed, but public deployment/access verification is pending. The student clarified there is no formal presentation; at most an informal 30-second app demonstration if requested. A presentation or rehearsal is not a blocker. Milestone tags do not establish that every detailed acceptance condition is satisfied.
 
 The [199-point checklist](CHECKLIST.md) remains unchecked by design. This file records its current coverage separately; no overall completion percentage is calculated because provisional and optional scope would distort it.
 

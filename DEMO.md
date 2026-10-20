@@ -25,7 +25,7 @@ Explain the product's purpose in your own words. Avoid claiming that the app aut
 - Deploy the fork as a Vite project, build command `npm run build`, output directory `dist`. No environment variables/database needed.
 - Test the actual public URL without login. A successful local build is not deployment verification.
 - The lecturer portal is a different application; it does not host this tracker.
-- Public deployment/access verification remains pending as a separate release step. The exact portal completion marker pitch-done records the prepared local demo and brief walkthrough. No formal presentation, rehearsal or completed speech is claimed.
+- Public deployment/access was verified on 20 October 2026. The recorded pitch-done marker follows the student-supplied portal text; leaderboard acceptance is not independently verified. No formal presentation, rehearsal or completed speech is claimed.
 
 ## Current team walkthrough
 1. Choose **Open team example** (existing demos may first show **Add team example project**).
@@ -38,4 +38,4 @@ Explain the product's purpose in your own words. Avoid claiming that the app aut
 
 The team example has 12 tasks, an unassigned task, dates across urgency states, both task types, three milestones and four sample URLs. Existing practice records stay intact. All examples are fictional; multi-user activity is demonstrated locally with no actual remote participants or member switcher. Timeline is the M12 extension; M13 remains demo preparation, not a formal presentation.
 
-Public prototype verified on 20 October 2026: [launch demo](https://vibecoding-project-tracker-umber.vercel.app/?demo=1). Choose Open team example. This supersedes the earlier pending-hosting checklist above; live shared-account configuration remains deferred. See RELEASE_READINESS.md for checks.
+Public prototype verified on 20 October 2026: [launch demo](https://vibecoding-project-tracker-umber.vercel.app/?demo=1). Choose Open team example. The hosting checklist above has been reconciled; live shared-account configuration remains deferred. See RELEASE_READINESS.md for checks.
