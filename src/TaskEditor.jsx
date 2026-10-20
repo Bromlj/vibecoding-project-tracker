@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { STAGES, TEAM, localDate } from './data';
 import { button, primaryButton, input } from './ui';
 import TypeBadge from './TypeBadge';
+import CopyContext from './CopyContext';
 import { AI_TOOLS, CONTEXT_TEMPLATE, withContextTimestamp, updatedLabel } from './context';
 
 export default function TaskEditor({ task, onSave, onDelete, onClose }) {
@@ -60,7 +61,7 @@ export default function TaskEditor({ task, onSave, onDelete, onClose }) {
         <label className="mt-4 block font-medium">AI tool
           <select aria-label="AI tool" className={input} value={draft.contextTool||''} onChange={e=>field('contextTool',e.target.value||null)}><option value="">Not specified</option>{AI_TOOLS.map(tool=><option key={tool}>{tool}</option>)}</select>
         </label>
-        <p className="mt-2 text-sm text-ink-muted">Context last updated: {draft.contextUpdatedAt?<time dateTime={draft.contextUpdatedAt} title={new Date(draft.contextUpdatedAt).toLocaleString()}>{updatedLabel(draft.contextUpdatedAt)}</time>:'not yet saved'}. Updates when saved.</p>
+        <div className="mt-4"><CopyContext task={draft}/><p className="mt-1 text-sm text-ink-muted">Copies the current draft; does not save changes.</p></div><p className="mt-2 text-sm text-ink-muted">Context last updated: {draft.contextUpdatedAt?<time dateTime={draft.contextUpdatedAt} title={new Date(draft.contextUpdatedAt).toLocaleString()}>{updatedLabel(draft.contextUpdatedAt)}</time>:'not yet saved'}. Updates when saved.</p>
       </section>      <p className="mt-4 text-sm text-ink-muted">Created: {draft.createdDate}. {task.id && 'Task ID: '+task.id}</p>
       {error&&<p role="alert" className="mt-4 text-red-800">{error}</p>}
       {confirmation ? <div className="mt-6 rounded-lg border border-red-300 bg-red-50 p-4">

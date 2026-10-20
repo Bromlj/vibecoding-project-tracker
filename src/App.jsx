@@ -4,6 +4,7 @@ import { useLocalStorage } from './storage';
 import TaskEditor from './TaskEditor';
 import TypeBadge from './TypeBadge';
 import OwnerBadge from './OwnerBadge';
+import CopyContext from './CopyContext';
 import { dueState, DUE_STYLES, displayDate } from './deadlines';
 import { CONTEXT_TEMPLATE } from './context';
 import { button, primaryButton } from './ui';
@@ -56,7 +57,7 @@ export default function App() {
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><p className="break-all font-mono text-xs text-ink-muted">{task.id}</p><TypeBadge type={task.type}/></div>
             <h4><button onClick={e=>open(task,e)} className="min-h-11 w-full break-words rounded text-left font-semibold underline-offset-4 hover:text-brand-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary" aria-label={'Edit task: '+task.title}>{task.title}</button></h4>
             <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-muted">{task.description}</p>
-            <p className="mt-4 text-sm font-medium">{dueState(task,now).label}</p><p className="mt-1 text-sm text-ink-muted">{task.dueDate ? <>Due: <time dateTime={task.dueDate}>{displayDate(task.dueDate)}</time></> : "No deadline set"}</p><div className="mt-4 border-t border-slate-200 pt-3"><OwnerBadge name={task.assignee}/></div>
+            <p className="mt-4 text-sm font-medium">{dueState(task,now).label}</p><p className="mt-1 text-sm text-ink-muted">{task.dueDate ? <>Due: <time dateTime={task.dueDate}>{displayDate(task.dueDate)}</time></> : "No deadline set"}</p><div className="mt-4 border-t border-slate-200 pt-3"><OwnerBadge name={task.assignee}/></div><div className="mt-4"><CopyContext task={task}/></div>
           </li>)}</ul>
           {!tasks.some(t=>t.status===stage.id)&&<div className="rounded-xl border border-dashed border-slate-300 p-5"><p className="mb-3 text-sm text-ink-muted">No tasks here yet.</p><button className={button} onClick={add}>Add task</button></div>}
         </section>)}
