@@ -1,6 +1,6 @@
 # Engineering requirements — CM6312 working baseline
 
-Version 2.0, 20 October 2026. This is a development specification, not assessed report prose. It retains IDs from the earlier working baseline and reconciles them with the supplied starter. A documented requirement is not necessarily implemented or verified.
+Version 2.1, reorganised 20 October 2026. This is a development specification, not assessed report prose. It retains IDs from the earlier working baseline and reconciles them with the supplied starter. A documented requirement is not necessarily implemented or verified.
 
 ## Sources and interpretation
 - **S1 — Initial client description:** intuitive project management for vibe-coding; track tasks over time, important information and key milestones; record useful prompts/results; include Kanban. Supplied in the lecturer announcement.
@@ -14,28 +14,7 @@ MVP flags retain the earlier baseline's priorities. “No — required milestone
 
 ## Functional requirements
 
-| ID | Required behaviour | MVP | Origin | Current implementation / acceptance evidence |
-|---|---|---|---|---|
-| FR-01 | Render To Do, In Progress, Review and Done in order, showing task title and identifiable owner. | Yes | S2 M4/M7 | Implemented. Chrome/Edge board inspection; every stage represented in synthetic fixtures. App/data/OwnerBadge. |
-| FR-02 | Create a task through a labelled modal with required title and defined defaults/validation. | Yes | S2 M5; D | Implemented. Browser create and persisted reload passed; title trimmed, whitespace-only title rejected. TaskEditor. |
-| FR-03 | Open a task prefilled; save edits explicitly; cancellation must not silently save. | Yes | S2 M5; D | Implemented. Edit/reload and dirty Escape/discard checks passed. TaskEditor/App. |
-| FR-04 | Delete the selected task only after confirmation and persist removal. | Yes | S2 M5; D | Implemented. Confirmed deletion and reload check passed. |
-| FR-05 | Change task status, including completion, with a dropdown and update its board position. | Yes | S2 M5 | Implemented. Browser movement from To Do to Review passed. |
-| FR-06 | Assign/reassign an available teammate and show the owner. Earlier Unassigned option requires a scope amendment because S3 fixes three names. | Yes | S2 M7; S3; D | Demo roster implementation verified through handoff/reload. Actual roster not provided. Unassigned not implemented; not silently claimed. |
-| FR-07 | Create, name, rename and switch project boards for one team. | Yes | S4; earlier D | Deferred scope gap. Current app has one workspace plus isolated demo, not multi-project boards. S3 has no board identity field. |
-| FR-08 | Edit and retain one current Markdown context briefing for each task. | Yes | S2 M9 | Implemented. Browser context round-trip and reopen passed. Plain text; no Markdown execution. |
-| FR-09 | Retain useful prompts and actual user-recorded outcomes in the context. | Yes | S1; S2 mission; D | Implemented as curated free text with Prompts and outcomes template section. No automatic AI capture or response verification. Reload tested; actual content accuracy remains the user's responsibility. |
-| FR-10 | Record an optional associated AI tool, including Other. | Yes | S2 M9; S3 | Implemented. Dropdown/tool retention checked after reload. |
-| FR-11 | Timestamp saved context changes and show last-updated information. | Yes | S2 M9; D | Implemented with saved-context/tool change detection. Node tests distinguish changed and unrelated edits. This timestamps the in-memory save action; durable storage can still fail and must be reported. |
-| FR-12 | Copy a complete task briefing from card/editor and offer manual copy if blocked. | Yes | S2 M10; D | Implemented. Readback matches title/description/full context; denied Clipboard API reveals selectable fallback. Editor copy explicitly copies unsaved draft without saving it. |
-| FR-13 | Restore all implemented workspace data across ordinary browser reloads; broader board/roster/milestone restoration depends on those entities existing. | Yes | S2 M5/M9; D | Tasks/context/anchors implemented and reload-tested. Broader entity coverage deferred with FR-07/17/18. Browser/origin specific, not shared storage or backup. |
-| FR-14 | Distinguish Feature/Bug consistently using text, colour and icon. | No — required milestone | S2 M6; S5 | Implemented shared badge in board/editor; developer inspection/count checks passed. |
-| FR-15 | Update deadline urgency automatically; Done is neutral. | No — required milestone | S2 M8; D | Implemented. Node 24/48h/end-of-day checks and overdue/Done browser rendering passed. Recompute every minute/on tab visibility. |
-| FR-16 | Edit/retain Presentation, Demo, Report and Documentation URLs; indicate link presence. | No — required milestone | S2 M11; D | Implemented for current workspace. Save/reload and unsafe-scheme rejection passed. Per-project association deferred with FR-07. Link presence does not indicate completion. |
-| FR-17 | Provide explicit project milestones with achievement criteria and Pending/Reached state. | Yes | S1 key milestones; earlier D | Not implemented. Explicit milestone entities were our interpretation of S1, not a prescribed schema; S3 omits them. Confirm/amend this interpretation before final coursework coverage is claimed. Hackathon Git checkpoints are not a substitute domain model. |
-| FR-18 | Maintain manual roster entries with optional email/GitHub metadata. | Yes | S4; earlier D | Not implemented. Current S3 roster is configured strings, no accounts or metadata. Do not infer that portal profile fields are tracker requirements. |
-| FR-19 | Offer an optional review of the exact copied briefing. | No — selected extension | S2 M12; D | Implemented. Review and clipboard use same serializer; production comparison passed, accounting for Windows line endings. Hints check text presence, not truth. |
-| FR-20 | Choose/reset a prevalidated task-type colour palette. | No — earlier selected scope | S4; earlier D | Deferred. Current starter design uses one consistent accessible-intent palette and excludes multiple themes. No settings control pretends otherwise. |
+See [FUNCTIONAL_REQUIREMENTS.md](FUNCTIONAL_REQUIREMENTS.md) for 20 requirements (FR-01–20).
 
 ## Non-functional requirements
 
