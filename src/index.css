@@ -12,3 +12,19 @@ body {
   background-color: #f8fafc; /* slate-50 */
   color: #0f172a;            /* slate-900 */
 }
+
+button:disabled { opacity: .65; cursor: wait; }
+::selection { background: #CCFBF1; color: #134E4A; }
+input, textarea { caret-color: #115E59; scroll-margin-block: 6rem; }
+.app-dialog { scroll-padding-block: 6rem; }
+.dialog-actions { position: sticky; bottom: 0; z-index: 10; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .75rem; border-top: 1px solid #CBD5E1; background: white; padding: 1rem 1.5rem; }
+:root[data-text-size="large"] { font-size: 18px; }
+:root[data-text-size="largest"] { font-size: 20px; }
+[data-contrast="high"] { --feature-text: #102A83 !important; --bug-text: #790E2E !important; }
+[data-contrast="high"] .text-ink-muted { color: #233B36; }
+[data-contrast="high"] input, [data-contrast="high"] textarea, [data-contrast="high"] select, [data-contrast="high"] button { border-color: #334155; }
+[data-contrast="high"] .text-sm { font-weight: 500; }
+html[data-reduced-motion="true"] { scroll-behavior: auto; }
+[data-reduce-effects="true"] .app-dialog { box-shadow: none; }
+[data-reduce-effects="true"] .app-dialog::backdrop { background-color: #334155; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

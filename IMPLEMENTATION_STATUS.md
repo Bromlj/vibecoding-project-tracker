@@ -1,5 +1,7 @@
 # Implementation status and gaps
 
+**Latest workspace expansion, 20 October 2026:** see [WORKSPACE_WORKFLOW.md](WORKSPACE_WORKFLOW.md). Workspace setup, stable editable members, separate boards/anchors/milestones, palette/accessibility preferences and transactional save/delete are now implemented. 13 Node tests and 14 grouped Chrome scenarios pass. The point-by-point audit below is retained as the earlier b685ad7 baseline; its deferred/gap entries must not be mistaken for the latest implementation. Named screen-reader, participant and live cloud verification are still not claimed.
+
 Recorded 20 October 2026. Runtime code audited at commit **b685ad7**. Documentation added after that commit does not alter the audited runtime. This is an engineering status record, not assessed report prose or a full accessibility/usability certification.
 
 **Current position:** a working initial hackathon prototype exists. M2 documentation and M3–M12 code checkpoints are pushed. M13 local preparation is committed, but public deployment/access verification is pending. The student clarified there is no formal presentation; at most an informal 30-second app demonstration if requested. A presentation or rehearsal is not a blocker. Milestone tags do not establish that every detailed acceptance condition is satisfied.

@@ -1,81 +1,57 @@
-import { containDialogFocus } from './dialog';
-import { useEffect, useRef, useState } from 'react';
-import { STAGES, TEAM, localDate } from './data';
+import { useEffect, useState } from 'react';
+import { STAGES, localDate } from './data';
 import { button, primaryButton, input } from './ui';
 import TypeBadge from './TypeBadge';
 import CopyContext from './CopyContext';
+import Dialog from './Dialog.jsx';
+import { BriefingContent } from './BriefingReview';
 import { AI_TOOLS, CONTEXT_TEMPLATE, withContextTimestamp, updatedLabel } from './context';
+import { taskError, newId } from './workspace';
 
-export default function TaskEditor({ task, onSave, onDelete, onClose }) {
-  const dialog = useRef(null);
-  const [draft, setDraft] = useState(task);
-  const [confirmation, setConfirmation] = useState('');
-  const [error, setError] = useState('');
-  const dirty = JSON.stringify(task) !== JSON.stringify(draft);
-  useEffect(() => {
-    const node = dialog.current;
-    if (!node.open) node.showModal();
-    node.querySelector("input")?.focus();
-    return () => node.close();
-  }, []);
-  function requestClose() {
-    if (dirty) setConfirmation('discard'); else onClose();
+export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
+  const [draft,setDraft]=useState(task),[error,setError]=useState(''),[busy,setBusy]=useState(false),[deleting,setDeleting]=useState(false),[review,setReview]=useState(false);
+  const dirty=JSON.stringify(task)!==JSON.stringify(draft);
+  useEffect(()=>{document.querySelector('dialog[open] [data-initial-focus]')?.focus();},[review]);
+  function field(name,value){setDraft(old=>({...old,[name]:value}));setError('');}
+  const owner=members.find(m=>m.id===draft.assigneeId);
+  const copyDraft={...draft,assignee:owner?.name||'Unassigned'};
+  async function save(e){
+    e.preventDefault();const invalid=taskError(draft);if(invalid){setError(invalid);return;}
+    setBusy(true);
+    const result=await onSave({...withContextTimestamp(draft,task),title:draft.title.trim(),id:draft.id||newId(),createdDate:draft.createdDate||localDate()});
+    setBusy(false);if(!result.ok)setError(result.error);
   }
-  function field(name, value) { setDraft(old=>({...old,[name]:value})); setError(''); }
-  function save(event) {
-    event.preventDefault();
-    if (!draft.title.trim()) { setError('Enter a task title.'); return; }
-    onSave({ ...withContextTimestamp(draft,task), title: draft.title.trim(), id: draft.id || crypto.randomUUID(), createdDate: draft.createdDate || localDate() });
-  }
-  return <dialog onKeyDown={containDialogFocus} ref={dialog} aria-labelledby="editor-title" onCancel={event=>{event.preventDefault();requestClose();}}
-    className="m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-2xl border border-slate-300 bg-white p-0 text-ink-primary shadow-xl backdrop:bg-slate-900/50">
-    <form onSubmit={save} className="p-5 sm:p-7">
-      <div className="mb-6 flex items-center justify-between gap-4">
-        <h2 id="editor-title" className="text-2xl font-semibold">{task.id ? 'Edit task' : 'Add task'}</h2>
-        <button type="button" className={button} onClick={requestClose}>Close</button>
-      </div>
-      <div className="mb-4"><TypeBadge type={draft.type}/></div><label className="block font-medium">Task title <span className="text-sm text-ink-muted">(required)</span>
-        <input autoFocus required maxLength={160} className={input} value={draft.title} onChange={e=>field('title',e.target.value)}/>
-      </label>
-      <label className="mt-4 block font-medium">Description
-        <textarea aria-label="Description" rows={3} maxLength={4000} className={input} value={draft.description} onChange={e=>field('description',e.target.value)}/>
-      </label>
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <label className="block font-medium">Task type
-          <select aria-label="Task type" className={input} value={draft.type} onChange={e=>field('type',e.target.value)}><option value="feature">Feature</option><option value="bug">Bug</option></select>
-        </label>
-        <label className="block font-medium">Status
-          <select aria-label="Status" className={input} value={draft.status} onChange={e=>field('status',e.target.value)}>{STAGES.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select>
-        </label>
-        <label className="block font-medium">{task.id ? "Hand off to" : "Assignee"}
-          <select aria-label={task.id ? "Hand off to" : "Assignee"} className={input} value={draft.assignee} onChange={e=>field('assignee',e.target.value)}>{TEAM.map(name=><option key={name}>{name}</option>)}</select>
-        </label>
-        <label className="block font-medium">Due date
-          <input type="date" min="1000-01-01" max="9999-12-31" className={input} value={draft.dueDate||''} onChange={e=>field('dueDate',e.target.value||null)}/>
-        </label>
-      </div>
-      <section aria-labelledby="context-heading" className="mt-6 border-t border-slate-200 pt-5">
-        <h3 id="context-heading" className="text-lg font-semibold">Prompt context</h3>
-        <p id="context-help" className="mt-1 text-sm text-ink-muted">Record useful prompts, actual outcomes, constraints and the next step. Stored locally; nothing is sent to an AI tool. Avoid passwords and secrets.</p>
-        <label className="mt-4 block font-medium">Context
-          <textarea aria-label="Context" aria-describedby="context-help" rows={8} maxLength={30000} className={input+' font-mono text-sm'} value={draft.context} placeholder={CONTEXT_TEMPLATE} onChange={e=>field('context',e.target.value)}/>
-        </label>
-        <label className="mt-4 block font-medium">AI tool
-          <select aria-label="AI tool" className={input} value={draft.contextTool||''} onChange={e=>field('contextTool',e.target.value||null)}><option value="">Not specified</option>{AI_TOOLS.map(tool=><option key={tool}>{tool}</option>)}</select>
-        </label>
-        <div className="mt-4"><CopyContext task={draft}/><p className="mt-1 text-sm text-ink-muted">Copies the current draft; does not save changes.</p></div><p className="mt-2 text-sm text-ink-muted">Context last updated: {draft.contextUpdatedAt?<time dateTime={draft.contextUpdatedAt} title={new Date(draft.contextUpdatedAt).toLocaleString()}>{updatedLabel(draft.contextUpdatedAt)}</time>:'not yet saved'}. Updates when saved.</p>
-      </section>      <p className="mt-4 text-sm text-ink-muted">Created: {draft.createdDate}. {task.id && 'Task ID: '+task.id}</p>
-      {error&&<p role="alert" className="mt-4 text-red-800">{error}</p>}
-      {confirmation ? <div className="mt-6 rounded-lg border border-red-300 bg-red-50 p-4">
-        <p className="font-medium" role="alert">{confirmation==='delete'?'Delete this task? This cannot be undone.':'Discard your unsaved changes?'}</p>
-        <div className="mt-3 flex flex-wrap gap-3">
-          <button type="button" className={button} onClick={()=>setConfirmation('')}>Continue editing</button>
-          <button type="button" className={button+' border-red-700 text-red-800'} onClick={()=>confirmation==='delete'?onDelete(task.id):onClose()}>{confirmation==='delete'?'Confirm delete':'Discard changes'}</button>
+  async function remove(){setBusy(true);const result=await onDelete(task.id);setBusy(false);if(!result.ok)setError(result.error);}
+  function cancel(e){e.currentTarget.closest('dialog').dispatchEvent(new Event('cancel',{cancelable:true}));}
+  return <Dialog title={review?'Review briefing':task.id?'Edit task':'Add task'} dirty={dirty} busy={busy} onClose={onClose} wide>
+    {review?<><BriefingContent task={copyDraft} draft={dirty}/><footer className="dialog-actions"><button className={button} onClick={()=>setReview(false)}>Back to editing</button><span className="text-sm text-ink-muted">Your draft is kept.</span></footer></>:<form onSubmit={save}>
+      <div className="p-5 sm:p-7">
+        <label className="block font-medium">Task title <span className="text-sm text-ink-muted">(required)</span><input data-initial-focus required className={input} value={draft.title} aria-describedby="title-limit" onChange={e=>field('title',e.target.value)}/></label>
+        <p id="title-limit" className="mt-1 text-sm text-ink-muted">{draft.title.length}/160 characters</p>
+        <label className="mt-4 block font-medium">Description<textarea aria-label="Description" rows={3} className={input} value={draft.description} aria-describedby="description-limit" onChange={e=>field('description',e.target.value)}/></label>
+        <p id="description-limit" className="mt-1 text-sm text-ink-muted">{draft.description.length.toLocaleString()}/4,000 characters</p>
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          <label className="block font-medium">Task type<select aria-label="Task type" className={input} value={draft.type} onChange={e=>field('type',e.target.value)}><option value="feature">Feature</option><option value="bug">Bug</option></select></label>
+          <label className="block font-medium">Status<select aria-label="Status" className={input} value={draft.status} onChange={e=>field('status',e.target.value)}>{STAGES.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></label>
+          <label className="block font-medium">{task.id?'Hand off to':'Assignee'}<select aria-label={task.id?"Hand off to":"Assignee"} className={input} value={draft.assigneeId||''} onChange={e=>field('assigneeId',e.target.value||null)}><option value="">Unassigned</option>{members.map(m=><option key={m.id} value={m.id}>{m.name}{m.email?' · '+m.email:' · '+m.id.slice(0,8)}</option>)}</select></label>
+          <label className="block font-medium">Due date <span className="text-sm text-ink-muted">(optional)</span><input type="date" min="1000-01-01" max="9999-12-31" className={input} value={draft.dueDate||''} onChange={e=>field('dueDate',e.target.value||null)}/></label>
         </div>
-      </div> : <div className="mt-7 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
-        {task.id?<button type="button" className={button+' text-red-800'} onClick={()=>setConfirmation('delete')}>Delete task</button>:<span/>}
-        <div className="flex flex-wrap gap-3"><button type="button" className={button} onClick={requestClose}>Cancel</button><button className={primaryButton} type="submit">Save task</button></div>
-      </div>}
-    </form>
-  </dialog>;
+        <div className="mt-3"><TypeBadge type={draft.type}/></div>
+        <section aria-labelledby="context-heading" className="mt-7 border-t border-slate-200 pt-5">
+          <h3 id="context-heading" className="text-xl font-semibold">Prompt and working context</h3>
+          <p id="context-help" className="mt-2 max-w-prose text-sm text-ink-muted">Keep your useful prompts, actual outcomes, errors and next step together. Use the headings or write in your own format. Nothing is sent to an AI service.</p>
+          <label className="mt-4 block font-medium">Context<textarea aria-label="Context" aria-describedby="context-help context-limit" rows={9} className={input+' font-mono text-sm'} value={draft.context} placeholder={CONTEXT_TEMPLATE} onChange={e=>field('context',e.target.value)}/></label>
+          <p id="context-limit" className="mt-1 text-sm text-ink-muted">{draft.context.length.toLocaleString()}/30,000 characters. Pasted text is kept in full; over-limit drafts must be shortened before saving.</p>
+          <label className="mt-4 block font-medium">AI tool <span className="text-sm text-ink-muted">(optional)</span><select aria-label="AI tool" className={input} value={draft.contextTool||''} onChange={e=>field('contextTool',e.target.value||null)}><option value="">Not specified</option>{AI_TOOLS.map(tool=><option key={tool}>{tool}</option>)}</select></label>
+          <p className="mt-3 text-sm text-ink-muted">Context last saved: {task.contextUpdatedAt?<><time dateTime={task.contextUpdatedAt}>{new Date(task.contextUpdatedAt).toLocaleString('en-GB')}</time> ({updatedLabel(task.contextUpdatedAt)})</>:'not yet saved'}.</p>
+          <div className="mt-5 flex flex-wrap gap-3"><button type="button" className={button} onClick={()=>setReview(true)}>Review briefing</button><CopyContext task={copyDraft} compact/></div>
+          <p className="mt-2 text-sm text-ink-muted">Review and copy use this draft, including unsaved edits.</p>
+        </section>
+        <p className="mt-6 break-all text-sm text-ink-muted">Created: <time dateTime={draft.createdDate}>{draft.createdDate}</time>{task.id&&<> · Task ID: {task.id}</>}</p>
+        {deleting&&<div className="mt-5 rounded-lg border border-red-400 bg-red-50 p-4"><p role="alert" className="font-medium">Delete “{task.title}”? This cannot be undone.</p><div className="mt-3 flex flex-wrap gap-3"><button type="button" disabled={busy} className={button} onClick={()=>setDeleting(false)}>Keep task</button><button type="button" disabled={busy} className={button+' text-red-800'} onClick={remove}>Confirm delete</button></div></div>}
+        {error&&<p role="alert" className="mt-4 rounded-lg border border-red-400 bg-red-50 p-3 text-red-900">{error}</p>}
+      </div>
+      <footer className="dialog-actions"><div>{task.id&&!deleting&&<button type="button" disabled={busy} className={button+' text-red-800'} onClick={()=>setDeleting(true)}>Delete task</button>}</div><div className="flex flex-wrap gap-3"><button type="button" disabled={busy} className={button} onClick={cancel}>Cancel</button><button disabled={busy} className={primaryButton}>{busy?'Saving…':error?'Retry save task':'Save task'}</button></div></footer>
+    </form>}
+  </Dialog>;
 }

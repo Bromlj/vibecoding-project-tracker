@@ -2,6 +2,8 @@
 
 A local-first Kanban workspace for AI-assisted development. Track tasks, keep curated prompts/outcomes, copy a briefing to another tool, and pin deliverable links.
 
+**20 October workspace expansion:** first-use setup, editable members/email/GitHub/GitLab metadata, multiple project boards, project milestones, task palettes, visible accessibility settings and transactional save recovery are now implemented. See [current workspace workflow and checks](WORKSPACE_WORKFLOW.md). Older milestone/audit records describe their original checkpoints; shared-account configuration is tracked separately.
+
 ## Run
 Requires Node.js 20.19+ (this build checked with Node 24) and npm.
 

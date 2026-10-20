@@ -15,7 +15,7 @@ export function updatedLabel(value, now = new Date()) {
 
 // Plain Markdown, not rendered HTML; user content is never executed.
 export function serializeContext(task) {
-  return '# Task: '+task.title+'\n\n'
+  return '# Task: '+task.title+'\n\n'+(task.projectName?'Project: '+task.projectName+'\n':'')
     +'Status: '+task.status+'\nAssignee: '+task.assignee+'\nDue date: '+(task.dueDate||'Not set')+'\nAI tool: '+(task.contextTool||'Not specified')
     +'\n\n## Description\n'+(task.description||'Not provided')
     +'\n\n## Task context\n'+(task.context||'Not provided')+'\n';
