@@ -1,114 +1,44 @@
 # Vibecoding Project Tracker — Design
 
-**Status:** Hackathon starter design doc · fill in the **`<TODO>`** sections before you tag `design-done`.
+## 1. Direction
+A quiet, practical workspace that makes the next task and its AI handover easy to understand. The Kanban board is the main surface. Retain the descriptive product name; no invented team brand.
 
-**Why this file exists.** This tracker is your tool. It should look like *your* tool — not a generic Kanban with default Tailwind blue. Twenty minutes of design decisions here will be visible on every screen for the next six weeks of Module 5.
+References consulted: [WCAG 2.2](https://www.w3.org/TR/WCAG22/) for legibility, keyboard operation, reflow and status messages; [WAI modal pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) for protected editing and focus; supplied M3–M11 slides for board/editor/anchor composition. These are functional references, not evidence of user preference. Avoid decorative blur, gradients, sound effects and icon-only controls.
 
-**Who owns this.** Person B, during the same window the rest of the team is reviewing the PRD. By the time the team converges to start M4 (`data-model`), this file should be filled in and the colors should already be in `tailwind.config.js`.
-
----
-
-## 1. Mood / vibe
-
-One sentence that captures the feeling the tracker should leave you with.
-
-`<TODO>`
-
-Two or three references that capture the vibe (links to dribbble shots, screenshots of apps you admire, Pinterest boards — anything visual):
-
-- `<TODO>`
-- `<TODO>`
-- `<TODO>`
-
-Anti-references — what we are explicitly **not** trying to look like:
-
-- `<TODO>`
-
-## 2. Color palette
-
-These are the colors the build milestones will reference. Once chosen, paste the hex values into `tailwind.config.js` so the rest of the team can use Tailwind utility classes (e.g. `bg-brand-primary`, `border-due-warning`).
-
-### Brand
-
-| Token | Hex | Where it shows up |
+## 2. Tokens
+| Token | Hex | Purpose |
 |---|---|---|
-| `brand-primary` | `<TODO>` | Header, "+" button, focus rings |
-| `brand-accent` | `<TODO>` | Highlights, hover states, links |
-| `surface-page` | `<TODO>` | Page background |
-| `surface-card` | `<TODO>` | Card background |
-| `text-primary` | `<TODO>` | Body text |
-| `text-muted` | `<TODO>` | Captions, dates, counts |
+| brand-primary | #115E59 | Main actions, wordmark, focus |
+| brand-accent | #0F766E | Hover |
+| surface-page | #F5F7F6 | Workspace |
+| surface-card | #FFFFFF | Tasks/editor |
+| ink-primary | #172D2A | Main text |
+| ink-muted | #536762 | Secondary text |
+| type-feature | #1D4ED8 | Feature badge |
+| type-bug | #9F1239 | Bug badge |
+| due-safe | #F0F7F4 | Calm task |
+| due-warning | #FFF4D6 | Within 48 hours |
+| due-overdue | #FFF0F0 | Overdue |
+| due-neutral | #FFFFFF | Done/undated |
 
-### Task type (M6 `tag-style`)
+Deadline tint is independent of type. Include written states and labelled dates: colour alone cannot communicate meaning (WCAG 1.4.1). Done overrides overdue. Resolve the slide's undefined 24–48 hour interval as "Due soon"; retain "Due within 24 hours". Date-only deadlines mean end of the selected local day. This is an explicit implementation policy, not a client quotation.
 
-| Token | Hex | When used |
-|---|---|---|
-| `type-feature` | `<TODO>` | Cards tagged `feature` (accent stripe + icon) |
-| `type-bug` | `<TODO>` | Cards tagged `bug` (accent stripe + icon) |
+## 3. Typography/layout
+Heading/body use the system UI stack (Segoe UI on Windows): familiar rendering without a font download. Code/context uses system monospace. Body/controls 16px, secondary text 14px, title 28–32px. Use rem units and browser zoom. Four desktop columns, two medium, one narrow, preserving reading order without page-wide horizontal scrolling. Aim for 44px action height, exceeding WCAG 2.5.8 minimum.
 
-### Due-date states (M8 `due-tint`)
+## 4. Components
+- Cards: 1px border, text title button, separate copy action; no nested buttons.
+- Buttons: explicit verbs, solid teal primary, visible 2px focus outline with separation.
+- Editor: native named dialog; initial focus, Escape, focus return, explicit save/cancel, deletion confirmation.
+- Empty states: "No tasks here yet." plus Add task.
+- Movement: status dropdown; no drag dependency.
+- Feedback: polite live status for success; persistent actionable storage errors. No animation needed.
+- Feature/bug: labelled badge with a simple consistent SVG icon as well as colour.
 
-| Token | Hex | When used |
-|---|---|---|
-| `due-safe` | `<TODO>` | More than 2 days out |
-| `due-warning` | `<TODO>` | Less than 24 hours |
-| `due-overdue` | `<TODO>` | Past due |
-| `due-neutral` | `<TODO>` | Done (overrides date) |
+## 5. Voice
+Add task. Context copied. Paste it into your AI tool. Delete this task? This cannot be undone. Task assigned to {name}.
 
-## 3. Typography
+## 6. Identity/scope
+Product name: Vibecoding Project Tracker, text wordmark. One light theme. No additional runtime dependencies, accounts, AI calls or backend. Teammate placeholders remain explicitly labelled until the real roster is supplied. No claim of full WCAG conformance.
 
-| Role | Font | Why |
-|---|---|---|
-| Heading | `<TODO>` | `<TODO one sentence>` |
-| Body | `<TODO>` | `<TODO one sentence>` |
-| Monospace (tags, badges, code) | `<TODO>` | `<TODO one sentence>` |
-
-Suggested sizes (override only if the design demands it):
-
-- Page title: 24 px / semibold
-- Section header: 16 px / semibold uppercase
-- Card title: 14 px / medium
-- Body: 14 px / regular
-- Caption: 12 px / regular muted
-
-## 4. Component principles
-
-One short sentence per element. These set the tone for the build phase — Person A's modal and Person B's anchor board should both feel like they came from this doc.
-
-- **Cards:** `<TODO>` (e.g. "Light, almost weightless; the only weight is from a 1px border, no shadow except on hover.")
-- **Buttons:** `<TODO>` (e.g. "Solid fill, no gradient, generous padding, rounded-md.")
-- **Modal:** `<TODO>` (e.g. "Centered, max-width-md, slate-900 backdrop at 50% opacity.")
-- **Empty states:** `<TODO>` (e.g. "Dashed border, muted text, never sad.")
-- **Drag affordance (if used):** `<TODO>` (e.g. "None — we use a status dropdown.")
-
-## 5. Voice / microcopy
-
-Three lines of microcopy that capture the tone of the product. Keep it short — these are the words a stressed user reads at 11pm.
-
-| Where | Text |
-|---|---|
-| "+" button label | `<TODO>` (e.g. "+ Task" or "Add task" or "New") |
-| Empty column placeholder | `<TODO>` (e.g. "Nothing here yet — keep going.") |
-| Toast after "Copy as Prompt Context" | `<TODO>` (e.g. "Copied. Now paste it into the AI.") |
-| Confirm-delete message | `<TODO>` (e.g. "Delete this task? You can't undo.") |
-| Handoff toast (M7 `task-owner`) | `<TODO>` (e.g. "Handed off to {name}. They've got it.") |
-
-## 6. Logo / wordmark
-
-The tracker probably doesn't need a logo, but it does need a name and a wordmark style.
-
-- **Product name:** `<TODO>` (match PRD §11 team identity)
-- **Wordmark style:** `<TODO>` (e.g. "Just the name in the heading font, brand-primary color, no icon.")
-
-## 7. Out of scope (this hackathon)
-
-To keep design tight, the following are explicitly not part of `design-done`:
-
-- A dark mode toggle. Pick one mode and ship it.
-- Multiple themes. One brand, applied consistently.
-- Animations beyond a 200 ms fade on toast notifications.
-- A custom icon set. Use [Lucide icons](https://lucide.dev) via Tailwind classes if you need any.
-
----
-
-*DESIGN.md version: hackathon-starter v1*
+M12 candidate: briefing review before copying, showing exact output and missing context headings. Human review assistance, not automated judgement of correctness.

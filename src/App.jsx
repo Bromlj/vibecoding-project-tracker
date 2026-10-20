@@ -84,15 +84,15 @@ export default function App() {
   //   const [anchors, setAnchors] = useLocalStorage('vibetracker.anchors', [...]);
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="min-h-screen bg-surface-page p-4 text-ink-primary sm:p-8">
       <header className="mb-6 flex items-end justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">
+          <h1 className="text-3xl font-semibold tracking-tight text-brand-primary">
             Vibecoding Project Tracker
           </h1>
           <p className="text-sm text-slate-500">
             {/* Replace this line with your team name from PRD §11. */}
-            Team starter
+            From intent to ship. Tasks, context and clear handovers.
           </p>
         </div>
       </header>
@@ -115,3 +115,4 @@ export default function App() {
     </div>
   );
 }
+
