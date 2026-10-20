@@ -101,3 +101,7 @@ Once M9 (`context`) is done, keep the Context field of each real task up to date
 ---
 
 *UXD Vibecoding Hackathon 2026 · Prof. Dr. Ignacio Alvarez*
+
+## CM6312 working fork
+
+Working repository: https://github.com/Bromlj/vibecoding-project-tracker
