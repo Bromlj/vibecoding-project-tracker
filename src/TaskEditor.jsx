@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { STAGES, TEAM, localDate } from './data';
 import { button, primaryButton, input } from './ui';
 import TypeBadge from './TypeBadge';
+import { AI_TOOLS, CONTEXT_TEMPLATE, withContextTimestamp, updatedLabel } from './context';
 
 export default function TaskEditor({ task, onSave, onDelete, onClose }) {
   const dialog = useRef(null);
@@ -21,7 +22,7 @@ export default function TaskEditor({ task, onSave, onDelete, onClose }) {
   function save(event) {
     event.preventDefault();
     if (!draft.title.trim()) { setError('Enter a task title.'); return; }
-    onSave({ ...draft, title: draft.title.trim(), id: draft.id || crypto.randomUUID(), createdDate: draft.createdDate || localDate() });
+    onSave({ ...withContextTimestamp(draft,task), title: draft.title.trim(), id: draft.id || crypto.randomUUID(), createdDate: draft.createdDate || localDate() });
   }
   return <dialog ref={dialog} aria-labelledby="editor-title" onCancel={event=>{event.preventDefault();requestClose();}}
     className="m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-2xl overflow-y-auto rounded-2xl border border-slate-300 bg-white p-0 text-ink-primary shadow-xl backdrop:bg-slate-900/50">
@@ -34,7 +35,7 @@ export default function TaskEditor({ task, onSave, onDelete, onClose }) {
         <input autoFocus required maxLength={160} className={input} value={draft.title} onChange={e=>field('title',e.target.value)}/>
       </label>
       <label className="mt-4 block font-medium">Description
-        <textarea rows={3} maxLength={4000} className={input} value={draft.description} onChange={e=>field('description',e.target.value)}/>
+        <textarea aria-label="Description" rows={3} maxLength={4000} className={input} value={draft.description} onChange={e=>field('description',e.target.value)}/>
       </label>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <label className="block font-medium">Task type
@@ -50,7 +51,17 @@ export default function TaskEditor({ task, onSave, onDelete, onClose }) {
           <input type="date" min="1000-01-01" max="9999-12-31" className={input} value={draft.dueDate||''} onChange={e=>field('dueDate',e.target.value||null)}/>
         </label>
       </div>
-      <p className="mt-4 text-sm text-ink-muted">Created: {draft.createdDate}. {task.id && 'Task ID: '+task.id}</p>
+      <section aria-labelledby="context-heading" className="mt-6 border-t border-slate-200 pt-5">
+        <h3 id="context-heading" className="text-lg font-semibold">Prompt context</h3>
+        <p id="context-help" className="mt-1 text-sm text-ink-muted">Record useful prompts, actual outcomes, constraints and the next step. Stored locally; nothing is sent to an AI tool. Avoid passwords and secrets.</p>
+        <label className="mt-4 block font-medium">Context
+          <textarea aria-label="Context" aria-describedby="context-help" rows={8} maxLength={30000} className={input+' font-mono text-sm'} value={draft.context} placeholder={CONTEXT_TEMPLATE} onChange={e=>field('context',e.target.value)}/>
+        </label>
+        <label className="mt-4 block font-medium">AI tool
+          <select aria-label="AI tool" className={input} value={draft.contextTool||''} onChange={e=>field('contextTool',e.target.value||null)}><option value="">Not specified</option>{AI_TOOLS.map(tool=><option key={tool}>{tool}</option>)}</select>
+        </label>
+        <p className="mt-2 text-sm text-ink-muted">Context last updated: {draft.contextUpdatedAt?<time dateTime={draft.contextUpdatedAt} title={new Date(draft.contextUpdatedAt).toLocaleString()}>{updatedLabel(draft.contextUpdatedAt)}</time>:'not yet saved'}. Updates when saved.</p>
+      </section>      <p className="mt-4 text-sm text-ink-muted">Created: {draft.createdDate}. {task.id && 'Task ID: '+task.id}</p>
       {error&&<p role="alert" className="mt-4 text-red-800">{error}</p>}
       {confirmation ? <div className="mt-6 rounded-lg border border-red-300 bg-red-50 p-4">
         <p className="font-medium" role="alert">{confirmation==='delete'?'Delete this task? This cannot be undone.':'Discard your unsaved changes?'}</p>

@@ -5,6 +5,7 @@ import TaskEditor from './TaskEditor';
 import TypeBadge from './TypeBadge';
 import OwnerBadge from './OwnerBadge';
 import { dueState, DUE_STYLES, displayDate } from './deadlines';
+import { CONTEXT_TEMPLATE } from './context';
 import { button, primaryButton } from './ui';
 export { STAGES, TEAM } from './data';
 
@@ -21,7 +22,7 @@ export default function App() {
     setEditing(null);
     requestAnimationFrame(()=> (opener.current?.isConnected?opener.current:addButton.current)?.focus());
   }
-  function add(event) { open({id:'',title:'',description:'',type:'feature',status:'todo',assignee:TEAM[0],dueDate:null,createdDate:localDate(),context:'',contextTool:null,contextUpdatedAt:null},event); }
+  function add(event) { open({id:'',title:'',description:'',type:'feature',status:'todo',assignee:TEAM[0],dueDate:null,createdDate:localDate(),context:CONTEXT_TEMPLATE,contextTool:null,contextUpdatedAt:null},event); }
   function save(task) {
     setTasks(old=>old.some(t=>t.id===task.id)?old.map(t=>t.id===task.id?task:t):[...old,task]);
     setMessage(editing?.id && editing.assignee !== task.assignee ? 'Task assigned to '+task.assignee+'.' : 'Task saved.'); close();

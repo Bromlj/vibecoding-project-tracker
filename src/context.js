@@ -1,0 +1,14 @@
+export const AI_TOOLS = ['Claude','ChatGPT','Cursor','Lovable','Replit','Other'];
+export const CONTEXT_TEMPLATE = '## Background\n\n## Constraints\n\n## Prompts and outcomes\n\n## Tried so far\n\n## Pick up\n';
+export function withContextTimestamp(draft, original, now = new Date()) {
+  const changed = draft.context !== original.context || draft.contextTool !== original.contextTool;
+  return {...draft, contextUpdatedAt:changed ? now.toISOString() : original.contextUpdatedAt};
+}
+export function updatedLabel(value, now = new Date()) {
+  if (!value) return 'not yet saved';
+  const minutes = Math.max(0,Math.floor((now.getTime()-new Date(value).getTime())/60000));
+  if(minutes<1) return 'just now';
+  if(minutes<60) return minutes+' min ago';
+  if(minutes<1440) return Math.floor(minutes/60)+' h ago';
+  return Math.floor(minutes/1440)+' days ago';
+}
