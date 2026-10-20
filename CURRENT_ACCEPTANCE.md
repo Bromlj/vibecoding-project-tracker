@@ -22,7 +22,7 @@ Files are in the coursework `Milestone evidence` folder and copied under `Report
 | E8 | Release-performance-results.json: synthetic workload/timing only. Earlier benchmark is not a new hosted performance measurement. |
 | E9 | Source implementation and FR/NFR/DR dictionaries: inspection/documentation, not independent user evidence. |
 | E10 | Client screenshot collection, user-pasted portal instructions and repository tags: product/event inputs. Portal recognition and participation are not independently verified. |
-| E12 | M8-restored-local-results.json / screenshot: fresh Chrome check of warning/alarm/neutral completion, light/dark and three palettes, cancellation and borders; two automated scans, zero reported violations. Fresh 28 Node tests and production build passed. |
+| E12 | M8-restored-local-results.json and M8-restored-hosted-results.json / screenshots: fresh local and public Chrome checks after bd6f9bc of warning/alarm/neutral completion, light/dark and three palettes, cancellation and borders; two automated scans per run, zero reported violations. Fresh 28 Node tests and production build passed. |
 | E11 | Latest supplied Assessment 1 DOCX, copied into Report/01 Assessment: submission and grading authority. |
 
 ## Status language
@@ -101,7 +101,7 @@ Files are in the coursework `Milestone evidence` folder and copied under `Report
 | M1 / M2 | Repository marker and requirements documentation recorded | E9/E10; not proof of portal recognition or attendance |
 | M3 / M4 / M5 | Design, model/board and CRUD implemented | FR-01–05, E1/E2/E9 |
 | M6 / M7 | Task-type distinction and ownership/handoff implemented | FR-06/14/18, E2/E4/E5 |
-| M8 | Slide semantics restored and locally checked | FR-15; M8_SPECIFICATION_DECISION.md |
+| M8 | Slide semantics restored; local and public checks passed | FR-15; M8_SPECIFICATION_DECISION.md |
 | M9 / M10 | Context and copy implemented | FR-08–12, E1/E2/E4 |
 | M11 | Four links with dialog-based editing implemented | FR-16; link presence is not completion |
 | M12 | Attempts & lessons implemented | FR-24/DR-13; Review is supporting behaviour |
