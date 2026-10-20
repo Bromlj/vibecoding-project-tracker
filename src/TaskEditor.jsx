@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { STAGES, TEAM, localDate } from './data';
 import { button, primaryButton, input } from './ui';
+import TypeBadge from './TypeBadge';
 
 export default function TaskEditor({ task, onSave, onDelete, onClose }) {
   const dialog = useRef(null);
@@ -29,7 +30,7 @@ export default function TaskEditor({ task, onSave, onDelete, onClose }) {
         <h2 id="editor-title" className="text-2xl font-semibold">{task.id ? 'Edit task' : 'Add task'}</h2>
         <button type="button" className={button} onClick={requestClose}>Close</button>
       </div>
-      <label className="block font-medium">Task title <span className="text-sm text-ink-muted">(required)</span>
+      <div className="mb-4"><TypeBadge type={draft.type}/></div><label className="block font-medium">Task title <span className="text-sm text-ink-muted">(required)</span>
         <input autoFocus required maxLength={160} className={input} value={draft.title} onChange={e=>field('title',e.target.value)}/>
       </label>
       <label className="mt-4 block font-medium">Description

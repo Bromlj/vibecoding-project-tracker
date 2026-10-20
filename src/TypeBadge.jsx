@@ -1,0 +1,8 @@
+export default function TypeBadge({ type }) {
+  const bug = type === 'bug';
+  return <span className={'inline-flex items-center gap-1.5 rounded-md border px-2 py-1 text-xs font-semibold '+(bug?'border-rose-200 bg-rose-50 text-type-bug':'border-blue-200 bg-blue-50 text-type-feature')}>
+    <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      {bug?<><rect x="7" y="6" width="10" height="14" rx="5"/><path d="M9 3l2 3m4-3l-2 3M3 10h4m10 0h4M3 16h4m10 0h4M12 6v14"/></>:<><path d="M12 3l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/></>}
+    </svg>{bug?'Bug':'Feature'}
+  </span>;
+}

@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { STAGES, TEAM, seedTasks, localDate, validTasks } from './data';
 import { useLocalStorage } from './storage';
 import TaskEditor from './TaskEditor';
+import TypeBadge from './TypeBadge';
 import { button, primaryButton } from './ui';
 export { STAGES, TEAM } from './data';
 
@@ -47,7 +48,7 @@ export default function App() {
             <span className="ml-auto text-sm tabular-nums text-ink-muted">{tasks.filter(t=>t.status===stage.id).length}<span className="sr-only"> tasks</span></span>
           </div>
           <ul className="space-y-3">{tasks.filter(t=>t.status===stage.id).map(task=><li key={task.id} data-task-id={task.id} className="rounded-xl border border-slate-300 bg-white p-4">
-            <p className="mb-2 break-all font-mono text-xs text-ink-muted">{task.id}</p>
+            <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><p className="break-all font-mono text-xs text-ink-muted">{task.id}</p><TypeBadge type={task.type}/></div>
             <h4><button onClick={e=>open(task,e)} className="min-h-11 w-full break-words rounded text-left font-semibold underline-offset-4 hover:text-brand-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary" aria-label={'Edit task: '+task.title}>{task.title}</button></h4>
             <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-muted">{task.description}</p>
             <p className="mt-5 border-t border-slate-200 pt-3 text-sm text-ink-muted">Assigned to {task.assignee}</p>
