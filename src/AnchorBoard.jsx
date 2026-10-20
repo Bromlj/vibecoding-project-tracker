@@ -28,7 +28,7 @@ export default function AnchorBoard({ storageKey = "vibetracker.anchors" }) {
      <input id={'anchor-'+slot.id} type="text" inputMode="url" maxLength={2048} placeholder="https://…" className={input} value={draft[slot.id]} aria-invalid={Boolean(errors[slot.id])} aria-describedby={errors[slot.id]?'error-'+slot.id:undefined} onChange={e=>setDraft(old=>({...old,[slot.id]:e.target.value}))}/>
      {errors[slot.id]&&<p id={'error-'+slot.id} role="alert" className="mt-2 text-sm text-red-800">{errors[slot.id]}</p>}
      <div className="mt-2 flex min-h-11 items-center justify-between gap-2 text-sm">
-      <span className="inline-flex items-center gap-2 text-ink-muted"><span aria-hidden="true" className={'h-2 w-2 rounded-full border border-brand-primary '+(saved?'bg-brand-primary':'bg-white')}/>{saved?'Link saved':'No link yet'}</span>
+      <span className="inline-flex items-center gap-2 text-ink-muted"><span aria-hidden="true" className={'h-2 w-2 rounded-full border border-brand-primary '+(saved?'bg-brand-primary':'bg-white')}/>{saved?'Link added':'No link yet'}</span>
       {saved&&<a className="inline-flex min-h-11 items-center rounded px-2 text-brand-primary underline underline-offset-4 focus-visible:outline focus-visible:outline-2" href={saved} target="_blank" rel="noopener noreferrer" aria-label={'Open '+slot.label}>Open<span className="sr-only"> {slot.label} in a new tab</span></a>}
      </div>
     </div>;

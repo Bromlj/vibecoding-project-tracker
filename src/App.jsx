@@ -32,7 +32,7 @@ export default function App() {
   function add(event, status = 'todo') { open({id:'',title:'',description:'',type:'feature',status,assignee:TEAM[0],dueDate:null,createdDate:localDate(),context:CONTEXT_TEMPLATE,contextTool:null,contextUpdatedAt:null},event); }
   function save(task) {
     setTasks(old=>old.some(t=>t.id===task.id)?old.map(t=>t.id===task.id?task:t):[...old,task]);
-    setMessage(editing?.id && editing.assignee !== task.assignee ? 'Task assigned to '+task.assignee+'.' : 'Task saved.'); close();
+    setMessage(editing?.id && editing.assignee !== task.assignee ? 'Task assigned to '+task.assignee+'.' : 'Task updated in this session.'); close();
   }
   function remove(id) { setTasks(old=>old.filter(t=>t.id!==id)); setMessage('Task deleted.'); close(); }
   return <div className="min-h-screen bg-surface-page text-ink-primary">
