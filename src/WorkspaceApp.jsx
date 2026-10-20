@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { STAGES, localDate } from './data';
-import { WORKSPACE_KEY, DEMO_KEY, changeBoard, taskForDisplay, PALETTES } from './workspace';
+import { WORKSPACE_KEY, DEMO_KEY, changeBoard, taskForDisplay, PALETTES, initialWorkspace, cardPaletteStyle } from './workspace';
 import { WorkspaceSetup, MemberEditor, ProjectEditor, Members } from './WorkspaceForms';
 import WorkspaceSettings, { useAccessibility, downloadJson, AccessibilityDialog } from './WorkspaceSettings';
 import TaskEditor from './TaskEditor';
@@ -14,6 +14,7 @@ import { CONTEXT_TEMPLATE } from './context';
 import { button, primaryButton } from './ui';
 import NavigationHelp from './NavigationHelp';
 import { shortcutAction } from './navigationAccess';
+import HowTo, {DemoGuide} from './HowTo';
 export { STAGES, TEAM } from './data';
 
 export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
@@ -27,7 +28,7 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
   useEffect(()=>{if(!menuOpen)return;const close=e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]')){setMenuOpen(false);document.querySelector('.mobile-header button[aria-controls]')?.focus();}};document.addEventListener('keydown',close);return()=>document.removeEventListener('keydown',close);},[menuOpen]);
   const board=workspace?.boards.find(b=>b.id===workspace.selectedBoardId);
   useEffect(()=>{const tick=()=>setNow(new Date());const timer=setInterval(tick,60000);document.addEventListener('visibilitychange',tick);return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',tick);};},[]);
-  function navigate(next){if(next!==view&&settingsDirty&&!window.confirm('Discard your unsaved settings changes?'))return;setView(next);setMenuOpen(false);setMessage('');requestAnimationFrame(()=>{const heading=main.current?.querySelector('h1');if(heading){heading.setAttribute('tabindex','-1');heading.focus();}});}
+  function navigate(next){if(next!==view&&settingsDirty&&!window.confirm('Discard your unsaved settings changes?'))return false;setView(next);setMenuOpen(false);setMessage('');requestAnimationFrame(()=>{const heading=main.current?.querySelector('h1');if(heading){heading.setAttribute('tabindex','-1');heading.focus();}});return true;}
   async function change(update,success){const result=await commit(update);if(result.ok&&success)setMessage(success);return result;}
   const changeCurrentBoard=update=>change(old=>changeBoard(old,board.id,update));
   const tasks=useMemo(()=>board?.tasks.map(t=>taskForDisplay(t,workspace,board))||[],[board,workspace]);
@@ -55,6 +56,14 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
     else navigate(action);
   }
   function helpAction(action){setHelp(null);requestAnimationFrame(()=>requestAnimationFrame(()=>accessAction(action)));}
+  function guideAction(action) {
+    if(!ready){navigate('projects');return;}
+    if(action==='add'){if(navigate('board'))add();}
+    else if(action==='edit'){if(navigate('board')){if(tasks.length)setEditing(tasks[0]);else add();}}
+    else if(action==='links'){if(navigate('board'))requestAnimationFrame(()=>document.getElementById('anchors-title')?.focus());}
+    else navigate(action);
+  }
+  async function resetDemo(){if(!demo)return{ok:false,error:'Only the demo can be reset here.'};const result=await change(initialWorkspace({getItem:()=>null},true),'Demo reset with fresh examples.');if(result.ok)navigate('projects');return result;}
   useEffect(()=>{
     const key=e=>{
       const action=shortcutAction(e,{enabled:access.shortcuts,ready,boardVisible:view==='board',modalOpen:Boolean(document.querySelector('dialog[open]'))});
@@ -64,7 +73,7 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
     return()=>document.removeEventListener('keydown',key);
   });
   async function openBoard(id){const result=await change(old=>({...old,selectedBoardId:id}));if(result.ok)navigate('board');}
-  return <div data-contrast={access.contrast} data-reduce-effects={String(access.reduceEffects)} className="app-shell" style={{'--feature-text':palette.feature[0],'--feature-bg':palette.feature[1],'--feature-border':palette.feature[2],'--bug-text':palette.bug[0],'--bug-bg':palette.bug[1],'--bug-border':palette.bug[2]}}>
+  return <div data-contrast={access.contrast} data-reduce-effects={String(access.reduceEffects)} className="app-shell" style={{...cardPaletteStyle(workspace?.cardPalette),'--feature-text':palette.feature[0],'--feature-bg':palette.feature[1],'--feature-border':palette.feature[2],'--bug-text':palette.bug[0],'--bug-bg':palette.bug[1],'--bug-border':palette.bug[2]}}>
     <a href="#main-content" className="skip-link" onClick={()=>main.current?.focus()}>Skip to main content</a>
     <header className="mobile-header"><button className="wordmark" onClick={()=>navigate('projects')} aria-label="Vibecoding Project Tracker home"><strong>Vibecoding</strong><span>Project Tracker</span></button><button className={button} aria-expanded={menuOpen} aria-controls="workspace-sidebar" onClick={()=>setMenuOpen(!menuOpen)}><Icon name={menuOpen?'close':'menu'}/>Menu</button></header>
     <aside id="workspace-sidebar" className={'workspace-sidebar '+(menuOpen?'is-open':'')} onKeyDown={e=>{if(e.key==='Escape'){setMenuOpen(false);document.querySelector('.mobile-header button[aria-controls]')?.focus();}}}>
@@ -73,15 +82,16 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
       {ready&&<nav aria-label="Workspace sections" className="sidebar-nav">
         {[['projects','Projects','projects'],['members','Team','team'],['settings','Appearance & settings','settings']].map(([id,label,icon])=><button key={id} aria-keyshortcuts={access.shortcuts?{projects:'p',members:'t',settings:'s'}[id]:undefined} aria-current={view===id||(id==='projects'&&projectView)?'page':undefined} onClick={()=>navigate(id)}><Icon name={icon}/><span>{label}</span></button>)}
       </nav>}
-      <div className="sidebar-utilities"><button className="text-action" aria-keyshortcuts={access.shortcuts?'h':undefined} onClick={openHelp}>Navigation & reading</button><button className="text-action" aria-keyshortcuts={access.shortcuts?'a':undefined} onClick={()=>setAccessOpen(true)}><Icon name="shield"/>Accessibility</button>{cloudControls}<a className="text-action" href={demo?window.location.pathname:'?demo=1'}>{demo?'Back to my workspace':'Explore demo'}<Icon name="arrow" size={16}/></a></div>
+      <div className="sidebar-utilities"><button className="text-action" aria-current={view==='guide'?'page':undefined} onClick={()=>navigate('guide')}>How to use</button><button className="text-action" aria-keyshortcuts={access.shortcuts?'h':undefined} onClick={openHelp}>Navigation & reading</button><button className="text-action" aria-keyshortcuts={access.shortcuts?'a':undefined} onClick={()=>setAccessOpen(true)}><Icon name="shield"/>Accessibility</button>{cloudControls}<a className="text-action" href={demo?window.location.pathname:'?demo=1'}>{demo?'Back to my workspace':'Explore demo'}<Icon name="arrow" size={16}/></a></div>
       <p className="sidebar-storage">{mode==='cloud'?'Shared with signed-in members':'Saved in this browser'}</p>
     </aside>
     <div className="workspace-content">
     <main id="main-content" aria-label="Workspace content" tabIndex={-1} ref={main}>
       {demo&&<p className="demo-notice">Demo workspace · Synthetic examples, separate from your work.</p>}
+      {demo&&workspace&&<DemoGuide onAction={guideAction} onReset={resetDemo}/>}
       {error&&<div role="alert" className="error-notice"><p>{error}</p><button className={button+' mt-3'} onClick={downloadRecovery}>Download recovery data</button></div>}
       <p role="status" aria-live="polite" className={'workspace-feedback '+(!message?'sr-only':'')}>{error?'':message}</p>
-      {!workspace?<section className="empty-state"><h1>Your saved data needs attention</h1><p>Your records have been preserved. Download recovery data above, then inspect the saved data before resetting anything.</p><button className={button} onClick={()=>window.location.reload()}>Reload workspace</button></section>:!ready?<WorkspaceSetup existing={workspace} commit={commit} onDone={()=>{setView('projects');setMessage('Workspace created. Open your project to add the first task.');}}/>:<>
+      {!workspace?<section className="empty-state"><h1>Your saved data needs attention</h1><p>Your records have been preserved. Download recovery data above, then inspect the saved data before resetting anything.</p><button className={button} onClick={()=>window.location.reload()}>Reload workspace</button></section>:view==='guide'?<HowTo ready={ready} onAction={guideAction} demo={demo}/>:!ready?<WorkspaceSetup existing={workspace} commit={commit} onDone={()=>{setView('projects');setMessage('Workspace created. Open your project to add the first task.');}}/>:<>
         {view==='projects'?<Projects workspace={workspace} onOpen={openBoard} onNew={()=>setProjectEditor({})} onEdit={b=>setProjectEditor({board:b})}/>:view==='members'?<Members workspace={workspace} onAdd={()=>setMemberEditor({})} onEdit={m=>setMemberEditor({member:m})}/>:view==='settings'?<WorkspaceSettings onDirtyChange={setSettingsDirty} workspace={workspace} commit={commit} onSaved={setMessage} accessibility={accessibility}/>:<>
           <button className="text-action back-projects" onClick={()=>navigate('projects')}><Icon name="back" size={18}/>All projects</button>
           <div className="page-heading"><div><h1 tabIndex={-1}>{board.name}</h1>{board.description&&<p className="whitespace-pre-wrap">{board.description}</p>}<span className="section-caption">{tasks.length} tasks · {tasks.filter(t=>t.status==='done').length} complete</span></div><div className="flex flex-wrap gap-3"><button className={button} onClick={()=>setProjectEditor({board})}>Edit project</button>{view==='board'&&<button className={primaryButton} onClick={()=>add()}><Icon name="plus"/>Add task</button>}</div></div>

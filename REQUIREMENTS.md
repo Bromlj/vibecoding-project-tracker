@@ -14,7 +14,7 @@ MVP flags retain the earlier baseline's priorities. “No — required milestone
 
 ## Functional requirements
 
-See [FUNCTIONAL_REQUIREMENTS.md](FUNCTIONAL_REQUIREMENTS.md) for 20 requirements (FR-01–20).
+See [FUNCTIONAL_REQUIREMENTS.md](FUNCTIONAL_REQUIREMENTS.md) for 23 requirements (FR-01–23), including the later accessibility and guided-learning extensions.
 
 ## Non-functional requirements
 
@@ -22,18 +22,18 @@ See [NON_FUNCTIONAL_REQUIREMENTS.md](NON_FUNCTIONAL_REQUIREMENTS.md) for 13 requ
 
 ## Data requirements
 
-See [DATA_REQUIREMENTS.md](DATA_REQUIREMENTS.md) for 10 requirements (DR-01–10) and the implemented data dictionary, sources and persistence rules.
+See [DATA_REQUIREMENTS.md](DATA_REQUIREMENTS.md) for 12 requirements (DR-01–12) and the implemented data dictionary, sources and persistence rules.
 
 ## Expanded acceptance audit
 
-[CHECKLIST.md](CHECKLIST.md) retains the 199 supplied acceptance points, all unchecked. [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) separately records code inspection, actual checks, gaps and provisional scope. Those historical quota/long-input failures were repaired in the workspace expansion and rechecked after redesign: drafts and prior data survive failed saves, failed deletion leaves the task, and over-limit text is retained with an error. See DESIGN_REVIEW.md for the final scope and evidence; the entire checklist has not been certified.
+[CHECKLIST.md](CHECKLIST.md) retains the 199 supplied acceptance points, all unchecked. [RELEASE_READINESS.md](RELEASE_READINESS.md) reconciles all 17 groups with current code and checks; IMPLEMENTATION_STATUS.md is historical. Earlier quota/long-input failures were repaired and rechecked: drafts and prior data survive failed saves, failed deletion leaves the task, and over-limit text is retained with an error. The entire checklist has not been certified.
 
 ## Verification routes and limits
-- `npm test`: date boundaries/validation, schema fixtures, timestamps, context formatting/review hints, URL rules and demo validity (18 tests at the latest checkpoint).
+- `npm test`: date boundaries/validation, schema fixtures, timestamps, context formatting/review hints, URLs, demo validity, cloud contracts, shortcuts and same-name members (23 tests at the latest checkpoint).
 - `npm run build`: actual production compilation, not proof of deployment or usability.
 - Browser checks conducted locally: CRUD/movement/reload/cancellation/delete; handoff/context persistence; clipboard success/denial; URLs; review; invalid-storage preservation; demo isolation; keyboard focus; cross-tab protection; selected contrast/reflow checks.
 - Private screenshots, browser scripts/results and per-stage rationale are retained in the subject workspace, outside this public code repository. They contain no invented participant evidence. A separate coursework evaluation must distinguish intention, code and observed results.
-- Final redesign checks include Chrome, Edge and Firefox, 24 automated accessibility scans and synthetic keyboard/reflow/failure scenarios. Public deployment, named screen-reader evaluation, representative-user study and performance remeasurement of the new navigation remain unverified. These are different kinds of outstanding evidence; they are not all prerequisites for an initial hosted demo. There is no formal presentation or mandatory rehearsal, following the student's latest clarification.
+- Current checks include Chrome, Edge and Firefox, the 24-state design audit plus guide/navigation scans, keyboard/reflow/failure scenarios and fresh performance measurements. Public deployment, named human screen-reader evaluation and representative-user study remain unverified. These are different kinds of outstanding evidence; they are not all prerequisites for an initial hosted demo. There is no formal presentation or mandatory rehearsal, following the student's latest clarification.
 
 ## Current scope decision
 The student explicitly requested the fuller local workspace after reviewing the starter-only gap. Version 2 implements editable members, multiple projects, project milestones, safe saving, palettes and visible accessibility preferences. This supersedes starter fixed-roster/single-board restrictions while preserving the four task stages and prompt/context workflow. The chosen schemas remain implementation decisions, not verbatim client statements.

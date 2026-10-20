@@ -5,11 +5,10 @@ import TypeBadge from './TypeBadge';
 import CopyContext from './CopyContext';
 import Dialog from './Dialog.jsx';
 import { BriefingContent } from './BriefingReview';
-import { AI_TOOLS, CONTEXT_TEMPLATE, withContextTimestamp, updatedLabel } from './context';
-import { taskError, newId } from './workspace';
+import { AI_TOOLS, CONTEXT_TEMPLATE, withContextTimestamp, updatedLabel, serializeContext } from './context';
+import { taskError, newId, memberLabel } from './workspace';
 import Icon from './Icon';
 import ReadAloud from './ReadAloud';
-import { serializeContext } from './context';
 
 export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
   const [draft,setDraft]=useState(task),[error,setError]=useState(''),[busy,setBusy]=useState(false),[deleting,setDeleting]=useState(false),[review,setReview]=useState(false);
@@ -20,9 +19,10 @@ export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
   function field(name,value){setDraft(old=>({...old,[name]:value}));setError('');setInvalidField('');}
   function tabKeys(e){const names=['details','context'];let target;if(e.key==='ArrowRight'||e.key==='ArrowLeft')target=names[1-names.indexOf(tab)];if(e.key==='Home')target='details';if(e.key==='End')target='context';if(target){e.preventDefault();setTab(target);document.getElementById(tabsId+'-'+target)?.focus();}}
   const owner=members.find(m=>m.id===draft.assigneeId);
-  const copyDraft={...draft,assignee:owner?.name||'Unassigned'};
+  const copyDraft={...draft,assignee:owner?memberLabel(owner,members):'Unassigned'};
   async function save(e){
-    e.preventDefault();const invalid=taskError(draft);if(invalid){setError(invalid);const name=invalid.startsWith('Context')?'context':invalid.startsWith('Description')?'description':invalid.includes('due date')?'dueDate':'title';setInvalidField(name);setTab(name==='context'?'context':'details');requestAnimationFrame(()=>document.getElementById(tabsId+'-field-'+name)?.focus());return;}
+    e.preventDefault();const dateInput=document.getElementById(tabsId+'-field-dueDate');
+    const invalid=taskError(draft)||(!dateInput.validity.valid?'Choose a valid due date, or clear it completely.':'');if(invalid){setError(invalid);const name=invalid.startsWith('Context')?'context':invalid.startsWith('Description')?'description':invalid.includes('due date')?'dueDate':'title';setInvalidField(name);setTab(name==='context'?'context':'details');requestAnimationFrame(()=>document.getElementById(tabsId+'-field-'+name)?.focus());return;}
     setBusy(true);
     const result=await onSave({...withContextTimestamp(draft,task),title:draft.title.trim(),id:draft.id||newId(),createdDate:draft.createdDate||localDate()});
     setBusy(false);if(!result.ok)setError(result.error);
@@ -41,7 +41,7 @@ export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <label className="block font-medium">Task type<select aria-label="Task type" className={input} value={draft.type} onChange={e=>field('type',e.target.value)}><option value="feature">Feature</option><option value="bug">Bug</option></select></label>
           <label className="block font-medium">Status<select aria-label="Status" className={input} value={draft.status} onChange={e=>field('status',e.target.value)}>{STAGES.map(s=><option key={s.id} value={s.id}>{s.label}</option>)}</select></label>
-          <label className="block font-medium">{task.id?'Hand off to':'Assignee'}<select aria-label={task.id?"Hand off to":"Assignee"} className={input} value={draft.assigneeId||''} onChange={e=>field('assigneeId',e.target.value||null)}><option value="">Unassigned</option>{members.map(m=><option key={m.id} value={m.id}>{m.name}{m.email?' · '+m.email:' · '+m.id.slice(0,8)}</option>)}</select></label>
+          <label className="block font-medium">{task.id?'Hand off to':'Assignee'}<select aria-label={task.id?"Hand off to":"Assignee"} className={input} value={draft.assigneeId||''} onChange={e=>field('assigneeId',e.target.value||null)}><option value="">Unassigned</option>{members.map(m=><option key={m.id} value={m.id}>{memberLabel(m,members,true)}</option>)}</select></label>
           <label className="block font-medium">Due date <span className="text-sm text-ink-muted">(optional)</span><input id={tabsId+'-field-dueDate'} type="date" min="1000-01-01" max="9999-12-31" className={input} value={draft.dueDate||''} aria-invalid={invalidField==='dueDate'} aria-describedby={invalidField==='dueDate'?'task-error':undefined} onChange={e=>field('dueDate',e.target.value||null)}/></label>
         </div>
         <div className="mt-3"><TypeBadge type={draft.type}/></div>

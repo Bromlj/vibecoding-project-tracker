@@ -1,10 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { blankWorkspace, createWorkspace, makeBoard, validWorkspace, initialWorkspace, changeBoard, removeMember, boardNameError, PALETTES } from './workspace.js';
+import { blankWorkspace, createWorkspace, makeBoard, validWorkspace, initialWorkspace, changeBoard, removeMember, boardNameError, PALETTES, CARD_PALETTES, memberLabel } from './workspace.js';
 import { seedTasks } from './data.js';
 import { writeSnapshot } from './storage.js';
 
 const member={name:'Alex',email:'alex@example.com',github:'alex-dev',gitlab:'alex.dev'};
+test('same-name members remain distinguishable even with duplicate contact data and ID suffixes',()=>{
+  const members=[{...member,id:'first-12345678'},{...member,id:'second-12345678'},{...member,id:'third',email:'other@example.com'}];
+  assert.notEqual(memberLabel(members[0],members),memberLabel(members[1],members));
+  assert.ok(memberLabel(members[2],members).includes('other@example.com'));
+  assert.equal(memberLabel(members[0],[members[0]]),'Alex');
+});
 function memory() {const data=new Map();return {getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v),data};}
 test('setup, separate boards and stable member references survive rename',()=>{
   let ws=createWorkspace('Team',member,'Website');
@@ -56,4 +62,10 @@ test('all offered type palettes meet normal-text contrast and keep independent t
   for(const palette of Object.values(PALETTES))for(const type of ['feature','bug']){
     const [text,bg]=palette[type],a=luminance(text),b=luminance(bg);assert.ok((Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5,palette.name+' '+type);
   }
+  for(const palette of Object.values(CARD_PALETTES))for(const state of ['urgent','soon','complete']){
+    const [bg,border,label]=palette[state],b=luminance(bg);
+    for(const text of [label,'#172333','#263445','#062B27']){const a=luminance(text);assert.ok((Math.max(a,b)+.05)/(Math.min(a,b)+.05)>=4.5,palette.name+' '+state+' '+text);}
+    const edge=luminance(border);assert.ok((Math.max(edge,b)+.05)/(Math.min(edge,b)+.05)>=3,palette.name+' border');
+  }
+  const legacy=blankWorkspace();delete legacy.cardPalette;assert.equal(validWorkspace(legacy),true);assert.equal(validWorkspace({...legacy,cardPalette:'unknown'}),false);
 });

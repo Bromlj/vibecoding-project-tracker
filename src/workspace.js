@@ -6,10 +6,20 @@ import { demoTasks } from './demo.js';
 export const WORKSPACE_KEY = 'vibetracker.workspace.v2';
 export const DEMO_KEY = 'vibetracker.demo.workspace.v2';
 export const PALETTES = {
-  default: { name: 'Blue and rose', feature: ['#1D4ED8','#EFF6FF','#BFDBFE'], bug: ['#9F1239','#FFF1F2','#FECDD3'] },
-  violet: { name: 'Violet and amber', feature: ['#6D28D9','#F5F3FF','#DDD6FE'], bug: ['#9A3412','#FFF7ED','#FED7AA'] },
-  forest: { name: 'Forest and berry', feature: ['#166534','#F0FDF4','#BBF7D0'], bug: ['#9D174D','#FDF2F8','#FBCFE8'] },
+  default: { name: 'Blue and rose', feature: ['#1E3A8A','#BFDBFE','#1E40AF'], bug: ['#700B2B','#FDA4AF','#9F1239'] },
+  violet: { name: 'Violet and amber', feature: ['#4C1D95','#DDD6FE','#6D28D9'], bug: ['#7C2D12','#FDBA74','#9A3412'] },
+  forest: { name: 'Forest and berry', feature: ['#14532D','#86EFAC','#166534'], bug: ['#701A46','#F9A8D4','#9D174D'] },
 };
+// Card urgency is independent of feature/bug colours. Every state also has words.
+export const CARD_PALETTES = {
+  traffic: {name:'Red, amber and green',urgent:['#F87171','#7F1D1D','#450A0A'],soon:['#FBBF24','#78350F','#422006'],complete:['#4ADE80','#14532D','#052E16']},
+  blue: {name:'Blue, amber and purple',urgent:['#60A5FA','#1E3A8A','#172554'],soon:['#FBBF24','#78350F','#422006'],complete:['#C084FC','#581C87','#3B0764']},
+  mono: {name:'Greys with labels and borders',urgent:['#94A3B8','#1E293B','#0F172A'],soon:['#CBD5E1','#334155','#1E293B'],complete:['#E2E8F0','#334155','#1E293B']},
+};
+export function cardPaletteStyle(id='traffic') {
+  const palette=CARD_PALETTES[id]||CARD_PALETTES.traffic;
+  return Object.fromEntries(['urgent','soon','complete'].flatMap(state=>['bg','border','text'].map((part,index)=>['--card-'+state+'-'+part,palette[state][index]])));
+}
 export const newId = () => crypto.randomUUID();
 const text = (value, max, required = false) => typeof value === 'string' && value.length <= max && (!required || Boolean(value.trim()));
 const optionalDate = value => value === null || validDate(value);
@@ -19,7 +29,7 @@ export const validEmail = value => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v
 export const validHandle = value => !value || /^[A-Za-z0-9_][A-Za-z0-9_.-]{0,99}$/.test(value);
 
 export function blankWorkspace() {
-  return { schemaVersion: 2, name: '', members: [], boards: [], selectedBoardId: null, palette: 'default' };
+  return { schemaVersion: 2, name: '', members: [], boards: [], selectedBoardId: null, palette: 'default', cardPalette:'traffic' };
 }
 export function makeBoard(name, description = '') {
   return { id: newId(), name: name.trim(), description: description.trim(), tasks: [], anchors: initialAnchors(), milestones: [] };
@@ -44,7 +54,7 @@ export function milestoneError(milestone) {
   return '';
 }
 export function validWorkspace(value) {
-  if (!value || value.schemaVersion !== 2 || !text(value.name,100) || !Object.hasOwn(PALETTES,value.palette) || !Array.isArray(value.members) || !Array.isArray(value.boards)) return false;
+  if (!value || value.schemaVersion !== 2 || !text(value.name,100) || !Object.hasOwn(PALETTES,value.palette) || (value.cardPalette!==undefined&&!Object.hasOwn(CARD_PALETTES,value.cardPalette)) || !Array.isArray(value.members) || !Array.isArray(value.boards)) return false;
   if (!unique(value.members.map(m=>m?.id)) || !unique(value.boards.map(b=>b?.id))) return false;
   if (!value.members.every(m=>m && text(m.id,100,true) && !memberError(m))) return false;
   if (!value.name.trim()) return value.members.length===0 && value.boards.length===0 && value.selectedBoardId===null;
@@ -74,9 +84,18 @@ export function changeBoard(workspace, id, update) {
 export function removeMember(workspace, id) {
   return {...workspace,members:workspace.members.filter(m=>m.id!==id),boards:workspace.boards.map(b=>({...b,tasks:b.tasks.map(t=>t.assigneeId===id?{...t,assigneeId:null}:t)}))};
 }
+export function memberLabel(member, members, detail=false) {
+  const sameName=members.filter(m=>m.name.trim().toLowerCase()===member.name.trim().toLowerCase());
+  if(!detail&&sameName.length===1)return member.name;
+  const contact=member.email||member.github&&'GitHub: '+member.github||member.gitlab&&'GitLab: '+member.gitlab;
+  if(contact&&sameName.filter(m=>(m.email||m.github&&'GitHub: '+m.github||m.gitlab&&'GitLab: '+m.gitlab)===contact).length===1)return member.name+' · '+contact;
+  const short=member.id.slice(-8);
+  const reference=members.filter(m=>m.id.slice(-8)===short).length===1?short:member.id;
+  return member.name+' · '+reference;
+}
 export function taskForDisplay(task, workspace, board) {
   const member=workspace.members.find(m=>m.id===task.assigneeId);
-  return {...task,assignee:member?.name || 'Unassigned',projectName:board.name};
+  return {...task,assignee:member?memberLabel(member,workspace.members):'Unassigned',projectName:board.name};
 }
 export function initialWorkspace(storage, demo = false) {
   const prefix=demo?'vibetracker.demo':'vibetracker';

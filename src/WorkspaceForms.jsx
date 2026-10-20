@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Dialog from './Dialog.jsx';
 import { button, primaryButton, input } from './ui';
-import { createWorkspace, memberError, boardNameError, makeBoard, newId, removeMember } from './workspace';
+import { createWorkspace, memberError, boardNameError, makeBoard, newId, removeMember, memberLabel } from './workspace';
 import Icon from './Icon';
 
 export const emptyMember = {name:'',email:'',github:'',gitlab:''};
@@ -69,10 +69,10 @@ export function Members({workspace,onEdit,onAdd}) {
   return <section aria-labelledby="members-title"><div className="page-heading"><div><h1 id="members-title">Team members</h1><p>One roster across all your projects. Keep ownership and handovers clear.</p></div><button className={primaryButton} onClick={onAdd}><Icon name="plus"/>Add member</button></div>
     <p className="section-caption">Contact details are optional. Shared sign-in access is managed separately through Shared access.</p>
     {workspace.members.length?<ul className="mt-6 divide-y divide-slate-200 rounded-xl border border-slate-300 bg-white">{workspace.members.map(member=><li key={member.id} className="team-row p-5">
-      <div><h2 className="break-words font-semibold">{member.name}</h2>{member.example&&<p className="text-sm text-ink-muted">Example member</p>}<p className="mt-1 text-sm text-ink-muted">{workspace.boards.reduce((n,b)=>n+b.tasks.filter(t=>t.assigneeId===member.id).length,0)} assigned tasks</p></div>
+      <div><h2 className="break-words font-semibold">{memberLabel(member,workspace.members)}</h2>{member.example&&<p className="text-sm text-ink-muted">Example member</p>}<p className="mt-1 text-sm text-ink-muted">{workspace.boards.reduce((n,b)=>n+b.tasks.filter(t=>t.assigneeId===member.id).length,0)} assigned tasks</p></div>
       <div><p className="section-caption">Email</p><p className="text-sm">{member.email||'Not added'}</p></div>
       <div className="flex flex-col items-start"><p className="section-caption">Developer profiles</p>{member.github&&<a className="text-action" href={'https://github.com/'+encodeURIComponent(member.github)} target="_blank" rel="noopener noreferrer">GitHub: {member.github}<span className="sr-only"> (new tab)</span></a>}{member.gitlab&&<a className="text-action" href={'https://gitlab.com/'+encodeURIComponent(member.gitlab)} target="_blank" rel="noopener noreferrer">GitLab: {member.gitlab}<span className="sr-only"> (new tab)</span></a>}{!member.github&&!member.gitlab&&<p className="text-sm">Not added</p>}</div>
-      <button className={button} onClick={()=>onEdit(member)} aria-label={'Edit member: '+member.name}>Edit member</button>
+      <button className={button} onClick={()=>onEdit(member)} aria-label={'Edit member: '+memberLabel(member,workspace.members)}>Edit member</button>
     </li>)}</ul>:<div className="empty-state mt-6"><h2>No members yet</h2><p>Tasks can stay unassigned until you add your team.</p><button className={button} onClick={onAdd}>Add your first member</button></div>}
     <div className="mt-8 max-w-prose"><h2 className="text-lg font-semibold">Hand over with context</h2><p className="mt-2 text-ink-muted">Open a task on its board, choose a teammate in “Hand off to”, update the AI context with what you tried and what comes next, then save the task. Its identity and the rest of its saved details stay the same.</p></div>
   </section>;

@@ -15,8 +15,9 @@ Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen
 | DR-07 | App clock supplies creation/freshness metadata. | Yes | Task.createdDate local calendar date; contextUpdatedAt ISO instant/null committed after successful storage. Implemented. |
 | DR-08 | Four user-entered deliverable URLs and fixed slot labels locate deliverables; presence is derived. | No — required milestone | Every Board owns four fixed Anchor slots. URL/presence rules and per-project persistence checked. |
 | DR-09 | User-entered project milestone title/criteria/date/status plus generated ID/reached timestamp. | Yes | Each Board owns milestones with stable ID/title/criterion/targetDate/status/reachedAt. Implemented and validated. |
-| DR-10 | User-selected palette identifier and configured safe defaults. | No — earlier selected scope | Workspace.palette identifier default/violet/forest. Browser accessibility preferences stored separately. Implemented. |
-| DR-11 | User-selected shortcut preference; device-provided voice choices and user-selected speech rate. | No — selected accessibility extension | Accessibility.shortcuts boolean defaults false; old records without it remain valid. Voice/rate are transient component choices, not added to the workspace, backup or cloud data. |
+| DR-10 | User-selected palette identifier and configured safe defaults. | No — earlier selected scope | Workspace.palette identifier default/violet/forest and optional cardPalette traffic/blue/mono (legacy defaults traffic). Browser appearance/accessibility preferences stored separately. Implemented. |
+| DR-11 | User-selected appearance/shortcut preferences; device-provided voice choices and user-selected speech rate. | No — selected accessibility extension | Accessibility.theme light/dark/system defaults system; shortcuts boolean defaults false. Old records without either remain valid. Voice/rate are transient component choices, not added to the workspace, backup or cloud data. |
+| DR-12 | Authored how-to steps and labelled synthetic demonstration records; transient selected step/show-hide state. | No — selected usability extension | Guide content is bundled static text. Demo uses its own existing localStorage key; reset replaces only that demo snapshot. No analytics, research answers, automatic completion record or tutorial-progress persistence is collected. |
 
 ### Implemented dictionary
 
@@ -28,11 +29,11 @@ Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen
 | Task.type | feature / bug | User selection; default feature |
 | Task.status | todo / in-progress / review / done | User selection; default To Do, or the originating empty column |
 | Task.assigneeId | existing Member.id or null | User selection; null means Unassigned. Names resolved for display/copy |
-| Workspace | schemaVersion: 2, name, members, boards, selectedBoardId, palette | User setup/settings plus app-generated relationships |
+| Workspace | schemaVersion: 2, name, members, boards, selectedBoardId, palette, cardPalette | User setup/settings plus app-generated relationships |
 | Board | id, name (1–100), description (0–2,000), tasks, anchors, milestones | UUID from app; unique trimmed case-insensitive name; user content |
 | Member | id, name (1–100), email (0–254), github/gitlab (0–100) | App ID; optional user contact/profile metadata; format checks, no verification claim |
 | Milestone | id, title (1–160), criterion (1–2,000), targetDate/null, status, reachedAt | App ID, user achievement definition/date; explicit Pending/Reached, app clock on reached |
-| Accessibility preferences | textSize, contrast, reducedMotion, reduceEffects, shortcuts | Browser-specific choices; shortcuts default false. Baseline keyboard/semantic access stays enabled |
+| Accessibility preferences | theme, textSize, contrast, reducedMotion, reduceEffects, shortcuts | Browser-specific choices; shortcuts default false. Baseline keyboard/semantic access stays enabled |
 | Backup | JSON workspace snapshot | User-triggered export/validated confirmed restore; not authentication permissions |
 | Task.dueDate | valid YYYY-MM-DD or null | Optional user calendar date; end of local day for urgency |
 | Task.createdDate | valid YYYY-MM-DD | App local calendar date at creation; not editable |
@@ -42,7 +43,7 @@ Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen
 | Anchor.id | presentation / demo / report / documentation | Fixed supplied slot IDs |
 | Anchor.label | matching fixed human label | App configuration |
 | Anchor.url | HTTP(S) URL without embedded username/password, or null | User input trimmed on Save; max 2,048 input characters; no remote validation |
-| Deadline state | derived, not saved | Done/undated neutral; >48h calm; 24–48h due soon; <=24h warning; overdue after local day end |
+| Deadline state | derived, not saved | Done green Complete (or selected alternative); undated/>48h neutral; 24–48h amber Next; <=24h/overdue red Now. Derived from dates/status; no manual-priority claim |
 | Owner initials | derived, not saved | Name display aid; full name remains available |
 | Link presence | derived, not saved | url non-empty; does not assert completion |
 

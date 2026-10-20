@@ -6,7 +6,7 @@ import { button, primaryButton, input } from './ui';
 export default function AnchorBoard({board,onSave}) {
   const [editing,setEditing]=useState(false);
   return <section aria-labelledby="anchors-title" className="deliverable-banner">
-    <div className="deliverable-heading"><h2 id="anchors-title" className="font-semibold">Project deliverables</h2><button className="text-action" onClick={()=>setEditing(true)}>Edit deliverable links</button></div>
+    <div className="deliverable-heading"><h2 id="anchors-title" tabIndex={-1} className="font-semibold">Project deliverables</h2><button className="text-action" onClick={()=>setEditing(true)}>Edit deliverable links</button></div>
     <ul className="deliverable-grid">{board.anchors.map(slot=><li key={slot.id} className="deliverable-slot"><p className="break-words font-medium">{slot.label}</p><div className="mt-1 flex flex-wrap items-center justify-between gap-2 text-sm"><span className="inline-flex items-center gap-2 text-ink-muted"><span aria-hidden="true" className={'h-2 w-2 rounded-full border border-brand-primary '+(slot.url?'bg-brand-primary':'bg-white')}/>{slot.url?'Link added':'No link yet'}</span>{slot.url&&<a className="text-action" href={slot.url} target="_blank" rel="noopener noreferrer" aria-label={'Open '+slot.label+' (new tab)'}>Open {slot.label}</a>}</div></li>)}</ul>
     {editing&&<AnchorEditor key={board.id} anchors={board.anchors} onSave={onSave} onClose={()=>setEditing(false)}/>}
   </section>;

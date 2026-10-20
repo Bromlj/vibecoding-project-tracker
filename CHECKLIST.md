@@ -2,9 +2,9 @@
 
 Added 20 October 2026 from the student's supplied checklist. This supplements [REQUIREMENTS.md](REQUIREMENTS.md), retaining the earlier FR/NFR/DR identifiers and adding detailed acceptance points.
 
-**All boxes are intentionally unchecked.** This is a requirements checklist, not the implementation audit. Current coverage, actual tests and known failures are recorded separately in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md). Cxx-yy IDs identify checklist points without replacing FR/NFR/DR IDs.
+**All boxes are intentionally unchecked.** This is a requirements checklist, not a claim of 199 completed tests. Current coverage and actual checks are recorded in [RELEASE_READINESS.md](RELEASE_READINESS.md); [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md) preserves the historical audit. Cxx-yy IDs identify checklist points without replacing FR/NFR/DR IDs.
 
-No separate earlier checklist file was found in this workspace. The existing requirements document remains intact; this file records the supplied additions. Multiple boards, editable teammates, project milestones and palette settings remain **provisional extensions**; search/filtering remains **optional**. Their inclusion is not client confirmation or permission to implement them.
+The original checklist treated multiple boards, editable teammates, project milestones and palettes as provisional. The student's subsequent full-product instruction adopted these, and they are implemented along with search/filtering. Their original source labels are retained below for history; they are no longer deferred implementation work. This change in scope is user authorization, not retrospective confirmation of every detail by the client.
 
 Source provenance follows the supplied checklist and working notes; this update does not claim a fresh slide-by-slide or assessment-document re-review. No new slide numbers, quotations or participant findings are introduced.
 
@@ -105,7 +105,7 @@ Sources: M8 and DEC-08. Date-only values use the selected local day's end; the 2
 - [ ] **C06-09** Recalculate when returning to the app.
 - [ ] **C06-10** Handle month boundaries, leap years, and daylight-saving changes correctly.
 - [ ] **C06-11** Keep feature/bug identity visible independently of deadline urgency.
-- [ ] **C06-12** Keep the task-type badge when completed-task urgency becomes neutral.
+- [ ] **C06-12** Keep the task-type badge when completed tasks lose the overdue alarm. Latest student request uses a green Done card (or selected alternative), superseding neutral Done.
 
 ## 7. Deliverable-link behaviour
 
@@ -233,7 +233,7 @@ Achievements within a tracked project, separate from hackathon M1–M13. Detaile
 
 ## 14. Provisional extension: color preferences
 
-Earlier palette proposal remains provisional after starter reconciliation. Keep urgency independent of type palettes.
+Later student instruction adopts palette customization. Three type palettes and three stronger whole-card palettes are implemented; Light/Dark/System is a browser preference. Keep urgency independent of type palettes.
 
 - [ ] **C14-01** Offer a small selection of predefined feature/bug accent palettes.
 - [ ] **C14-02** Provide a documented default palette.

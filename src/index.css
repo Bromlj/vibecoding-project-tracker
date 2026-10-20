@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
 
 html, body, #root {
   height: 100%;
@@ -111,6 +110,15 @@ textarea.ui-input { line-height: 1.6; resize: vertical; }
 .task-count { border-radius: 999px; padding: .1rem .45rem; font-size: .75rem; font-weight: 600; background: #dce4e9; color: #34485b; font-variant-numeric: tabular-nums; }
 .task-list { display: grid; gap: .75rem; }
 .task-card { min-width: 0; background: white; border: 1px solid #d2dce1; border-radius: .45rem; padding: .85rem; box-shadow: 0 2px 4px #17233305; }
+.task-card-urgent { background: var(--card-urgent-bg); border-color: var(--card-urgent-border); border-left-width: 5px; }
+.task-card-soon { background: var(--card-soon-bg); border-color: var(--card-soon-border); border-left: 5px dashed var(--card-soon-border); }
+.task-card-complete { background: var(--card-complete-bg); border-color: var(--card-complete-border); border-left: 5px double var(--card-complete-border); }
+.card-legend { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin: .25rem 0 1rem; font-size: .8125rem; color: #455c6a; }
+.card-legend > span { display: inline-flex; align-items: center; gap: .4rem; }
+.card-legend i { width: 1.1rem; height: 1.1rem; flex: 0 0 1.1rem; border: 2px solid; border-radius: .15rem; }
+.legend-urgent { background: var(--card-urgent-bg); border-color: var(--card-urgent-border) !important; }
+.legend-soon { background: var(--card-soon-bg); border-color: var(--card-soon-border) !important; border-style: dashed !important; }
+.legend-complete { background: var(--card-complete-bg); border-color: var(--card-complete-border) !important; border-style: double !important; }
 .task-title { width: 100%; text-align: left; min-height: 2.75rem; font-size: .9375rem; font-weight: 650; line-height: 1.45; overflow-wrap: anywhere; border-radius: .15rem; }
 .task-title:hover { color: #115e59; text-decoration: underline; text-underline-offset: .2em; }
 .task-type { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .35rem; margin-top: .3rem; }
@@ -122,6 +130,9 @@ textarea.ui-input { line-height: 1.6; resize: vertical; }
 .deadline-overdue { color: #9f1239; background: #fff0f2; }
 .deadline-safe { color: #285b48; background: #edf6f0; }
 .deadline-neutral { color: #526579; background: #f2f5f7; }
+.deadline-card-urgent { background: transparent; color: var(--card-urgent-text); padding-inline: 0; }
+.deadline-card-soon { background: transparent; color: var(--card-soon-text); padding-inline: 0; }
+.deadline-card-complete { background: transparent; color: var(--card-complete-text); padding-inline: 0; }
 .task-context-state { color: #526579; font-size: .75rem; margin-top: .5rem; }
 .task-copy { margin-top: .5rem; }
 .task-copy .ui-button { font-weight: 500; padding-inline: .5rem; }
@@ -136,6 +147,7 @@ textarea.ui-input { line-height: 1.6; resize: vertical; }
 .context-hint .text-action { min-height: 2rem; }
 .context-layout { display: grid; grid-template-columns: minmax(0,1fr) 14rem; gap: 1.5rem; }
 .context-textarea { min-height: 22rem; font-size: .875rem; }
+.font-mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
 .draft-status { font-size: .8125rem; color: #854500; margin-top: 1rem; }
 .settings-layout { display: grid; grid-template-columns: minmax(0,1fr) 19rem; gap: 1.5rem; align-items: start; margin-top: 1.75rem; }
 .settings-layout form:first-child { margin-top: 0; }
@@ -211,3 +223,77 @@ textarea.ui-input { line-height: 1.6; resize: vertical; }
 .shortcut-list kbd { font-family: ui-monospace, monospace; font-weight: 600; }
 .shortcut-list dd { overflow-wrap: anywhere; }
 .column-heading h2 { scroll-margin-block: 2rem; }
+.demo-guide { margin: 0 0 1.5rem; border: 1px solid #739a99; border-radius: .75rem; padding: 1.1rem; background: #f0f8f6; max-width: 64rem; overflow-wrap: anywhere; }
+.demo-guide select { max-width: 100%; }
+.how-to { max-width: 70rem; overflow-wrap: anywhere; }
+.how-to-steps { list-style: none; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.25rem; margin-top: 1.75rem; padding: 0; }
+.how-to-steps > li { min-width: 0; padding: 1.25rem; border: 1px solid #c4d1d7; border-radius: .75rem; background: white; }
+.how-to-steps h2 { display: flex; align-items: flex-start; gap: .7rem; font-size: 1.15rem; font-weight: 650; }
+.guide-number { display: inline-flex; min-width: 1.75rem; min-height: 1.75rem; align-items: center; justify-content: center; border-radius: 50%; background: #dcefeb; color: #164e4a; font-size: .875rem; }
+.how-to-steps p { margin-top: .85rem; }
+.guide-check { color: #455c6a; font-size: .9rem; }
+@media(max-width:800px) { .how-to-steps { grid-template-columns: minmax(0,1fr); } }
+
+/* Browser appearance: semantic surfaces, not a colour-inverting filter.
+   Task type and urgency retain the same meaning in both themes. */
+:root[data-theme="dark"] { color-scheme: dark; }
+html[data-theme="dark"] body, html[data-theme="dark"] .app-shell {
+  background: #101923; color: #edf3f8;
+}
+html[data-theme="dark"] :is(.workspace-sidebar,.mobile-header,.project-card,.deliverable-banner,.settings-preview,.empty-state,.how-to-steps > li,.bg-white,.dialog-actions,.skip-link) {
+  background: #192633; color: #edf3f8; border-color: #64788a;
+}
+html[data-theme="dark"] :is(.wordmark,.text-ink-primary) { color: #edf3f8; }
+html[data-theme="dark"] :is(.text-ink-muted,.workspace-name,.sidebar-storage,.workspace-footer,.page-heading p,.settings-heading > p,.section-caption,.project-description,.project-counts dt,.deliverable-heading h2,.task-short-id,.task-context-state,.column-empty,.empty-state p,.settings-preview > p,.guide-check,.card-legend) {
+  color: #bdcddb;
+}
+html[data-theme="dark"] :is(.kanban-column,.reading-tools,.bg-slate-50,.bg-slate-100,.editor-tabs) {
+  background: #223343; color: #edf3f8; border-color: #64788a;
+}
+html[data-theme="dark"] :is(.project-tabs,.editor-tabs,.project-next,.deliverable-heading,.deliverable-slot,.shortcut-list > div,.border-slate-200,.border-slate-300,.border-slate-400,.divide-slate-200 > :not(:last-child)) { border-color: #64788a; }
+html[data-theme="dark"] .task-count { background: #43596c; color: #fff; }
+html[data-theme="dark"] .task-card { background: #192633; color: #edf3f8; border-color: #8093a4; }
+html[data-theme="dark"] :is(.ui-input,.ui-button) { background: #192633; color: #edf3f8; border-color: #8ca0b1; }
+html[data-theme="dark"] :is(input,textarea) { caret-color: #99f6e4; }
+html[data-theme="dark"] :is(input,textarea)::placeholder { color: #b9c9d7; }
+html[data-theme="dark"] .ui-input[aria-invalid="true"] { border-color: #fda4af; }
+html[data-theme="dark"] .ui-button:hover { background: #31495b; border-color: #c1d4e3; }
+html[data-theme="dark"] .ui-primary { background: #72e0cb; color: #102a2a; border-color: #72e0cb; }
+html[data-theme="dark"] .ui-primary:hover { background: #a3f5e5; color: #102a2a; border-color: #a3f5e5; }
+html[data-theme="dark"] :is(.text-action,.task-title:hover) { color: #99f6e4; }
+html[data-theme="dark"] .sidebar-nav button:hover { background: #2e4353; }
+html[data-theme="dark"] :is(.sidebar-nav button[aria-current="page"],.workspace-feedback,.project-symbol,.guide-number) { background: #214b49; color: #b5fff0; }
+html[data-theme="dark"] :is(.project-tabs button,.editor-tabs button) { color: #bdcddb; }
+html[data-theme="dark"] :is(.project-tabs button[aria-current],.editor-tabs button[aria-selected="true"]) { color: #99f6e4; border-color: #99f6e4; }
+html[data-theme="dark"] :is(.demo-guide,.demo-notice,.context-hint) { background: #183b3c; color: #e2f8f4; border-color: #5da79a; }
+html[data-theme="dark"] :is(.error-notice,.bg-red-50) { background: #471d2c; color: #ffe4e6; border-color: #fb7185; }
+html[data-theme="dark"] :is(.text-red-800,.text-red-900) { color: #fda4af; }
+html[data-theme="dark"] :is(.bg-amber-50,.deadline-warning) { background: #493819; color: #ffdea0; border-color: #fbbf24; }
+html[data-theme="dark"] :is(.text-amber-950,.draft-status) { color: #ffdea0; }
+html[data-theme="dark"] .deadline-overdue { background: #471d2c; color: #fda4af; }
+html[data-theme="dark"] .deadline-neutral { background: #2b4051; color: #d7e4ee; }
+html[data-theme="dark"] .deadline-safe { background: #214539; color: #b5f6d0; }
+html[data-theme="dark"] :focus-visible { outline-color: #99f6e4; }
+html[data-theme="dark"] .app-dialog::backdrop { background: #020811bb; }
+html[data-theme="dark"] [data-reduce-effects="true"] .app-dialog::backdrop { background: #101923; }
+html[data-theme="dark"] [data-contrast="high"] { color: #fff; }
+html[data-theme="dark"] [data-contrast="high"] :is(.text-ink-muted,.section-caption,.sidebar-storage,.project-description,.task-context-state,.page-heading p) { color: #edf3f8; }
+html[data-theme="dark"] [data-contrast="high"] :is(input,textarea,select,button,.task-card,.project-card,.deliverable-banner,.kanban-column) { border-color: #c1d4e3; }
+html[data-theme="dark"] input[type="checkbox"] { accent-color: #72e0cb; }
+
+/* Strong card fills use dark text in both themes, including higher contrast.
+   Type badges and action buttons retain their own tested foreground/background. */
+html .task-card:is(.task-card-urgent,.task-card-soon,.task-card-complete) { color: #172333; }
+html .task-card-urgent { background: var(--card-urgent-bg); border-color: var(--card-urgent-border); }
+html .task-card-soon { background: var(--card-soon-bg); border-color: var(--card-soon-border); }
+html .task-card-complete { background: var(--card-complete-bg); border-color: var(--card-complete-border); }
+html[data-theme] .task-card:is(.task-card-urgent,.task-card-soon,.task-card-complete) { color: #172333; }
+html[data-theme] .task-card-urgent { background: var(--card-urgent-bg); border-color: var(--card-urgent-border); }
+html[data-theme] .task-card-soon { background: var(--card-soon-bg); border-color: var(--card-soon-border); }
+html[data-theme] .task-card-complete { background: var(--card-complete-bg); border-color: var(--card-complete-border); }
+html[data-theme] [data-contrast] .task-card:is(.task-card-urgent,.task-card-soon,.task-card-complete) :is(.text-ink-muted,.task-short-id,.task-context-state) { color: #263445; }
+html[data-theme] .task-card:is(.task-card-urgent,.task-card-soon,.task-card-complete) :is(.text-action,.task-title:hover) { color: #062b27; }
+html[data-theme] .task-card .deadline-card-urgent { background: transparent; color: var(--card-urgent-text); }
+html[data-theme] .task-card .deadline-card-soon { background: transparent; color: var(--card-soon-text); }
+html[data-theme] .task-card .deadline-card-complete { background: transparent; color: var(--card-complete-text); }
+html[data-theme] .task-card:is(.task-card-urgent,.task-card-soon,.task-card-complete) :focus-visible { outline: 3px solid #172333; outline-offset: 3px; box-shadow: 0 0 0 2px white; }

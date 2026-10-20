@@ -12,7 +12,7 @@ export function demoTasks(now = new Date()) {
   type:index===1?'bug':'feature',status:stage.id,assignee:TEAM[index],
   dueDate:index===2?null:dateOffset(column===2?-1:index===0?3:0,now),
   createdDate:localDate(now),
-  context:'## Background\nDemonstration task: '+title+'.\n\n## Constraints\nUse the existing React scaffold and local browser storage.\n\n## Prompts and outcomes\nSynthetic prompt example: explain the next smallest change for this task. No real AI response or successful outcome is claimed by this fixture.\n\n## Tried so far\nThis is demonstration content, not observed development history.\n\n## Pick up\nReview the task, check the requirements, then record the next actual result.',
+  context:'## Background\nWorked example: '+title+'. This is practice content, not your project history.\n\n## Constraints\nUse the existing React scaffold. Keep keyboard access and save work across reloads.\n\n## Prompts and outcomes\nExample prompt: "Add a labelled contact form with required email validation. Keep typed values when validation fails."\nExample outcome: "The form is present and keeps its draft, but the error message needs a clearer label. The task stays in Review until keyboard and error checks pass."\nThese illustrate what to record; they do not claim that an AI call or user test took place.\n\n## Tried so far\nExample: checked an empty email and a correctly formatted address. Keep notes of errors as well as successful attempts.\n\n## Pick up\nReplace the example with your actual prompt and result. Note the next check and save before handing the task over.',
   contextTool:'Other',contextUpdatedAt:now.toISOString(),
  })));
 }

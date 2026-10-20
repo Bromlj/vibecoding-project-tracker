@@ -10,6 +10,7 @@ begin
     or length(btrim(coalesce(data->>'name',''))) not between 1 and 100
     or jsonb_typeof(data->'selectedBoardId') is distinct from 'string'
     or coalesce(data->>'palette','') not in ('default','violet','forest')
+    or (data ? 'cardPalette' and coalesce(data->>'cardPalette','') not in ('traffic','blue','mono'))
     or jsonb_typeof(data->'members') is distinct from 'array'
     or jsonb_typeof(data->'boards') is distinct from 'array'
     or octet_length(data::text)>4194304 then return false; end if;

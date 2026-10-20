@@ -2,10 +2,10 @@
 
 A local-first Kanban workspace for AI-assisted development. Track tasks, keep curated prompts/outcomes, copy a briefing to another tool, and pin deliverable links.
 
-**20 October design checkpoint:** Projects home, sidebar/mobile navigation, compact board/anchors, protected Details/AI context editor, exact briefing review, team management and visible appearance/accessibility settings now follow the supplied design reference. See [design decisions and verified checks](DESIGN_REVIEW.md), [design system](DESIGN.md) and [workflow](WORKSPACE_WORKFLOW.md).
+**20 October local product checkpoint:** the complete local workspace and guided demo are ready for a walkthrough. See [current coverage, checks and remaining hosting work](RELEASE_READINESS.md), [teaching considerations](TEACHING_APPLICATION.md), [design system](DESIGN.md) and [workflow](WORKSPACE_WORKFLOW.md).
 
 ## Run
-Requires Node.js 20.19+ (this build checked with Node 24) and npm.
+Requires Node.js 22.12+ (this build checked with Node 24) and npm.
 
 ```sh
 npm ci
@@ -15,7 +15,7 @@ npm run build
 npm run preview
 ```
 
-Open the URL printed by Vite. Local/demo mode requires no accounts, environment variables or database setup. Optional shared access is prepared separately in [CLOUD_SETUP.md](CLOUD_SETUP.md). React 18, Vite 5 and Tailwind 3 are retained from the supplied starter. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md). Detailed acceptance points are in [CHECKLIST.md](CHECKLIST.md); current coverage and known gaps are in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md).
+Open the URL printed by Vite. Local/demo mode requires no accounts, environment variables or database setup. Optional shared access is prepared separately in [CLOUD_SETUP.md](CLOUD_SETUP.md). React 18 is retained; Vite 8.3.4 and Tailwind 4.3.3 replace the starter build tools following dependency review. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md). Detailed acceptance points are in [CHECKLIST.md](CHECKLIST.md); [RELEASE_READINESS.md](RELEASE_READINESS.md) supersedes the historical gap audit.
 
 Requirements are separated for navigation: [functional](FUNCTIONAL_REQUIREMENTS.md), [non-functional](NON_FUNCTIONAL_REQUIREMENTS.md), and [data with dictionary](DATA_REQUIREMENTS.md). The shared source/scope record stays in REQUIREMENTS.md.
 
@@ -26,17 +26,17 @@ Requirements are separated for navigation: [functional](FUNCTIONAL_REQUIREMENTS.
 - Copy context uses the saved card or the current editor draft. Review briefing shows the exact output; neither action saves or calls AI. Blocked clipboard access offers selectable text.
 - Team manages names and optional email/GitHub/GitLab metadata. Contact details alone do not connect accounts or invite people.
 - Project Milestones records achievement criteria; four deliverable links remain above each board. Neither a saved link nor a task count automatically marks a milestone reached.
-- Appearance & settings includes palette preview, accessibility preferences and backup download/restore. Accessibility is also reachable before setup.
+- Appearance & settings includes stronger task-type and whole-card palettes, Light/Dark/System appearance, accessibility preferences and backup download/restore. Accessibility is also reachable before setup.
 - Navigation & reading provides direct section buttons, a shortcut guide and optional device-voice reading. Enable single-key shortcuts to use P for Projects, B for Board, T for Team, N for a new task and F for search. They stay inactive while typing or in dialogs. [Full access guide and verification](ACCESSIBILITY_NAVIGATION.md).
 - Read briefing aloud is available in AI context and Review briefing, with pause/resume/stop. It uses available local device voices and does not save the task.
-- Explore demo opens separate synthetic examples without replacing your local work. On mobile choose a stage or View all stages.
+- How to use explains the full workflow. Explore demo opens an eight-step practice guide and separate synthetic examples. Hide/show the guide or confirm Reset demo practice to restore only example data. Back to my workspace returns to your own work. On mobile choose a stage or View all stages.
 
 ## Data and limits
 Local data lives in this browser/origin's localStorage. Download a workspace backup before changing origin or clearing browser data; validated restore is explicit. Saving errors retain drafts and previous saved data. Invalid records are preserved with recovery download. Stale writes from another tab are blocked.
 
-Date-only deadlines end at 23:59:59.999 in the local timezone. More than 48h is calm; 24–48h is Due soon; under 24h is warning; overdue begins after the selected day; Done is neutral. Text labels accompany colours.
+Date-only deadlines end at 23:59:59.999 in the local timezone. Default whole-card colours are red for overdue/due within 24h, amber for the following 24h, and green for Done. Other tasks keep a neutral surface. Labels and distinct border styles accompany colours; blue/amber/purple and greys are alternatives. Feature/Bug badges have a separate palette. Appearance follows the device by default, or a saved Light/Dark choice.
 
-Optional authentication/database code needs live Supabase configuration before shared use. There is no automatic AI execution, repository integration, real-time push collaboration, simultaneous multi-team administration or automatic milestone completion. Prototype checks are not a full WCAG conformance or user-study claim. Current dependency audit findings still require separate review; do not run forced major upgrades blindly.
+Optional authentication/database code needs live Supabase configuration before shared use. There is no automatic AI execution, repository integration, real-time push collaboration, simultaneous multi-team administration or automatic milestone completion. Prototype checks are not a full WCAG conformance or user-study claim. The reviewed lockfile reports zero npm audit advisories as of 20 October 2026; continue checking dependencies when maintaining the tool.
 
 ## Milestone checkpoints
 Each completed code stage has its exact live portal marker in its commit message and as a Git tag. Markers may differ from the original starter README.
@@ -55,9 +55,9 @@ Each completed code stage has its exact live portal marker in its commit message
 | M10 | copy-context |
 | M11 | project-deliverables |
 | M12 | secret-sauce |
-| M13 | pitch-done (reserved; local demo prepared, public deployment check pending) |
+| M13 | pitch-done (local demo and brief walkthrough prepared; hosting separate) |
 
-M1's correct pushed commit was not recognised at the last supplied portal observation. No webhook is configured, following the student's choice. Current portal recognition has not been rechecked. Do not rewrite historical tags to hide fixes; later commits document corrections.
+The student reports that the webhook is now configured. Fresh marker commits replay the completed M1–M13 progress after that repair, with each marker pushed individually. Existing M1–M12 tags remain on their original checkpoints; pitch-done identifies the prepared local demo. Portal recognition has not been independently verified. See [current milestone record](MILESTONE_PROGRESS.md).
 
 ## Deployment and demo
 The student has created a Vercel account; importing/deploying the app is still pending. Choose GitHub under Import Git Repository, then import Bromlj/vibecoding-project-tracker. Use the Vite preset, repository root `./`, build `npm run build`, and output `dist`. Local/demo-only hosting needs no environment variables. Shared sign-in uses the public variables and live configuration described in CLOUD_SETUP.md; server secrets must never enter the frontend. Use the free Hobby option for this personal coursework prototype; no paid trial or add-on is required. See [Vercel Git deployment guidance](https://vercel.com/docs/git) and [Hobby plan](https://vercel.com/docs/plans/hobby).

@@ -15,30 +15,41 @@ colors:
   border-control: "#7C8B98"
   border-surface: "#D6E0E4"
   secondary-hover: "#EDF3F3"
-  feature-blue: "#1D4ED8"
-  feature-blue-bg: "#EFF6FF"
-  feature-blue-border: "#BFDBFE"
-  bug-rose: "#9F1239"
-  bug-rose-bg: "#FFF1F2"
-  bug-rose-border: "#FECDD3"
-  feature-violet: "#6D28D9"
-  feature-violet-bg: "#F5F3FF"
-  feature-violet-border: "#DDD6FE"
-  bug-amber: "#9A3412"
-  bug-amber-bg: "#FFF7ED"
-  bug-amber-border: "#FED7AA"
-  feature-forest: "#166534"
-  feature-forest-bg: "#F0FDF4"
-  feature-forest-border: "#BBF7D0"
-  bug-berry: "#9D174D"
-  bug-berry-bg: "#FDF2F8"
-  bug-berry-border: "#FBCFE8"
+  feature-blue: "#1E3A8A"
+  feature-blue-bg: "#BFDBFE"
+  feature-blue-border: "#1E40AF"
+  bug-rose: "#700B2B"
+  bug-rose-bg: "#FDA4AF"
+  bug-rose-border: "#9F1239"
+  feature-violet: "#4C1D95"
+  feature-violet-bg: "#DDD6FE"
+  feature-violet-border: "#6D28D9"
+  bug-amber: "#7C2D12"
+  bug-amber-bg: "#FDBA74"
+  bug-amber-border: "#9A3412"
+  feature-forest: "#14532D"
+  feature-forest-bg: "#86EFAC"
+  feature-forest-border: "#166534"
+  bug-berry: "#701A46"
+  bug-berry-bg: "#F9A8D4"
+  bug-berry-border: "#9D174D"
   deadline-warning: "#854500"
   deadline-warning-bg: "#FFF3D6"
   deadline-overdue-bg: "#FFF0F2"
   deadline-safe: "#285B48"
   deadline-safe-bg: "#EDF6F0"
   deadline-neutral-bg: "#F2F5F7"
+  card-now-bg: "#F87171"
+  card-next-bg: "#FBBF24"
+  card-done-bg: "#4ADE80"
+  card-ink: "#172333"
+  card-secondary-ink: "#263445"
+  dark-page: "#101923"
+  dark-surface: "#192633"
+  dark-column: "#223343"
+  dark-ink: "#EDF3F8"
+  dark-muted: "#BDCDDB"
+  dark-action: "#99F6E4"
 typography:
   headline:
     fontFamily: "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
@@ -150,7 +161,7 @@ Use `primary` for the main save/create action, selected navigation, links and fo
 
 Task-category palettes are existing product choices: Blue and rose, Violet and amber, and Forest and berry. Each has a feature and bug foreground, background and border. The palette changes these category badges only; written labels and authored icons remain present.
 
-Deadline warning, overdue, safe and neutral labels retain their own meaning across all palettes. Done tasks use a neutral Complete label. A date means the end of that local calendar day; the written due state distinguishes the 24-hour and 48-hour intervals.
+Deadline warning, overdue, safe and neutral labels retain their own meaning across all palettes. Latest student feedback supersedes neutral Done: completed cards use green (or the selected alternative), with a Complete label and no overdue alarm. A date means the end of that local calendar day; the written due state distinguishes the 24-hour and 48-hour intervals.
 
 **The Independent Meaning Rule.** Keep task type and deadline urgency in separate labelled elements; changing a category palette must not change urgency.
 
@@ -218,7 +229,7 @@ Details and AI context use a tab list, linked panels, selected state and roving 
 
 The title is a named edit button. Type, owner, deadline and context-save state are distinct groups. Copy context and Review briefing are separate actions; there are no nested buttons. Status changes use a native select, so moving work does not depend on dragging.
 
-Type badges combine text, a small authored SVG and a pale palette surface. Deadline labels include written state and a date when relevant. Do not color the whole task by type or use a deadline tint as the only urgency cue.
+Type badges combine text, a small authored SVG and a stronger palette surface. Deadline labels include written state and a date when relevant. Do not color the whole task by type or use a deadline tint as the only urgency cue.
 
 ### Editing and briefing review
 
@@ -228,7 +239,7 @@ Details contains task metadata; AI context provides room for prompts, actual out
 
 ### Appearance, feedback and imagery
 
-The settings preview demonstrates the selected task palette before saving. Browser accessibility choices remain distinct from workspace settings. Empty states offer a relevant action; filtering has its own no-results state. Save confirmation uses a polite live status; persistent failures use an alert and a recovery action.
+The settings preview demonstrates the selected type and whole-card palettes before saving. Browser accessibility choices remain distinct from workspace settings. Empty states offer a relevant action; filtering has its own no-results state. Save confirmation uses a polite live status; persistent failures use an alert and a recovery action.
 
 No meaningful raster imagery is needed for this workflow. Small authored SVGs repeat adjacent labels and are excluded from assistive speech with `aria-hidden`; action meaning is carried by the text. This applies the principle behind [WAI decorative-image guidance](https://www.w3.org/WAI/tutorials/images/decorative/), without inventing descriptions for redundant decoration. Any future image that conveys unique information needs an appropriate text alternative.
 
@@ -255,3 +266,14 @@ Read-aloud controls sit before the long shortcut list. Task context and exact br
 - **Don't** hide essential actions behind hover, icons alone or dragging.
 - **Don't** add decorative imagery or downloaded fonts to this agreed system.
 - **Don't** present prototype checks as full WCAG conformance or invented user research.
+
+
+## Stronger colour and appearance revision — 20 October 2026
+
+Direct feedback was that pale colours were difficult to distinguish. Whole task cards now use saturated red Now (overdue or due within 24 hours), amber Next (24–48 hours), and green Done. The legend describes the date rule; this is not an unimplemented manual-priority setting. Future/undated tasks retain the ordinary surface. Completed work overrides past deadlines. The latest request supersedes the earlier M8 neutral-Done decision without changing task data.
+
+Three predefined whole-card palettes include blue/amber/purple and greys. A solid, dashed or double leading border plus written state conveys urgency/completion. Feature/Bug badges retain separate meanings, icons and three stronger palette choices. Card text stays dark in both themes; surrounding controls keep their theme-specific contrast. Text/background pairs meet the calculated 4.5:1 target and card edges meet 3:1. The initial dark-teal card link failed the red-fill text check and was darkened to #062B27 before the passing recheck.
+
+Light/Dark/System is explicitly saved under browser preferences. System is the compatible default for old records and follows device changes while open. Dark mode covers page, sidebar, native inputs, editors, alerts, settings and help; it does not invert semantic colours. Higher contrast, focus visibility, reduced effects, labels, screen-reader semantics and native forced-colour support remain. Theme is not stored in the team snapshot or exported backup.
+
+Focused Chrome verification covers palette persistence/reset, both themes, system changes, old preferences, dark editors/context and higher-contrast settings/board, plus 320px reflow. Eleven automated scans returned no violations. Light and dark board screenshots were visually inspected. This supplements earlier broader checks; it is not a new human screen-reader study or a conformance certificate. See RELEASE_READINESS.md for boundaries.
