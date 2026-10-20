@@ -107,7 +107,7 @@ Sources: M8 and DEC-08. Date-only values use the selected local day's end; the 2
 - [ ] **C06-09** Recalculate when returning to the app.
 - [ ] **C06-10** Handle month boundaries, leap years, and daylight-saving changes correctly.
 - [ ] **C06-11** Keep feature/bug identity visible independently of deadline urgency.
-- [ ] **C06-12** Keep the task-type badge when completed tasks lose the overdue alarm. Latest student request uses a green Done card (or selected alternative), superseding neutral Done.
+- [ ] **C06-12** Completed cards remain neutral in every palette, retain their task-type badge and override overdue presentation.
 
 ## 7. Deliverable-link behaviour
 
