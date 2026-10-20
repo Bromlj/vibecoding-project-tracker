@@ -25,27 +25,28 @@ Version 2 extends the starter with Workspace, Board, Member and Milestone entiti
 Exact stages remain To Do (todo), In Progress (in-progress), Review (review), Done (done). The student explicitly requested the wider client-discussion functionality; starter exclusions do not silently override that later authorization.
 
 ## Stack and storage
-React 18, Vite 5, Tailwind 3 and browser localStorage remain the local foundation. Optional Supabase client/Auth/PostgreSQL code is prepared for genuine shared access; its live schema/providers are not ready. See [CLOUD_SETUP.md](CLOUD_SETUP.md). No automatic AI execution or repository access is added. Vercel is the selected future host; this tracker is separate from the lecturer's portal.
+React 18.3.1, Vite 8.3.4, Tailwind CSS 4.3.3 and browser localStorage form the current local foundation. Node.js 22.12+ is required; Node 24 was used for checks. package.json and package-lock.json are the version authority. Optional Supabase client/Auth/PostgreSQL code is prepared for genuine shared access; its live schema/providers are not ready. See [CLOUD_SETUP.md](CLOUD_SETUP.md). No automatic AI execution or repository access is added. Vercel hosts the public prototype; this tracker is separate from the lecturer's portal.
 
 ## Team and identity
 Repository owner: Bromlj. Real team name, roster and role allocation have not been supplied. Teammate A/B/C are explicitly synthetic demo/import examples; fresh setup accepts the user's own members. No classmates, handles or email addresses are invented.
 
 Product name: Vibecoding Project Tracker.
 Chosen interface line: From intent to ship. Keep the task and its context together.
-Public tracker URL: pending deployment.
+Public tracker URL: https://vibecoding-project-tracker-umber.vercel.app/
+Public demo: https://vibecoding-project-tracker-umber.vercel.app/?demo=1
 This repository: https://github.com/Bromlj/vibecoding-project-tracker
 
 ## Checkpoints
 | Stage | Marker from supplied portal text | Current state |
 |---|---|---|
-| M1 | git-linked | Correct commit/tag pushed; portal recognition pending |
+| M1 | git-linked | Correct commit/tag pushed; portal recognition not independently verified |
 | M2 | prd-done | Requirements documentation checkpoint; broader gaps remain explicit |
 | M3 | design-done | Design documented/tokens pushed |
 | M4 | data-model | Board/model pushed |
 | M5 | crud-modal | Modal CRUD/storage pushed |
 | M6 | tag-style | Type markers pushed; primary-button correction recorded |
 | M7 | task-owner | Owner/handoff pushed |
-| M8 | due-tint | Adapted deadline states implemented; literal slide mismatch and unrecorded client approval remain explicit |
+| M8 | due-tint | Slide semantics restored: warning for upcoming work, alarm for overdue and neutral Done; local/public checks recorded |
 | M9 | task-context | Context/tool/freshness pushed |
 | M10 | copy-context | Copy/manual fallback pushed |
 | M11 | project-deliverables | Anchor board pushed |
@@ -59,6 +60,6 @@ The current scope includes one team with multiple project boards and optional se
 
 Current M12 extension: Attempts & lessons retains successive prompts, outcomes and reasons, with selected records carried into the next briefing. Review and optional template hints remain supporting interactions. This supersedes the earlier Review-only choice; see PROTOTYPE_DEMO.md.
 
-Local build, regression and named browser checks are recorded; screen-reader/user-study/performance/public deployment evidence is not invented. A classroom demo is not automatically a user test. The student clarified that there is no formal presentation; at most an informal 30-second app demonstration if requested. No rehearsal is a completion condition. [DEMO.md](DEMO.md) is an optional operational walkthrough, not a presentation assignment. The M11 Presentation anchor remains a specified app feature and does not establish a CM6312 presentation submission.
+Local build, regression, named browser checks, synthetic performance measurements and public deployment checks are recorded in [EVIDENCE.md](EVIDENCE.md). Representative-user and named human screen-reader evaluations remain unperformed; developer results do not replace them. A classroom demo is not automatically a user test. The student clarified that there is no formal presentation; at most an informal 30-second app demonstration if requested. No rehearsal is a completion condition. [DEMO.md](DEMO.md) is an optional operational walkthrough, not a presentation assignment. The M11 Presentation anchor remains a specified app feature and does not establish a CM6312 presentation submission.
 
 Completion means the actual required behaviour and delivery checks are satisfied, not simply that tags exist. Wider coursework requirements and prototype/evaluation marks require further evidence beyond the hackathon checkpoint list.

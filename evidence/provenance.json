@@ -1,0 +1,26 @@
+[
+  {
+    "published_file": "design-audit.json",
+    "original_file_name": "Release-design-accessibility-results.json",
+    "original_sha256": "1082bceca0de0df0294ca8265d52a02dcb19cdddf6e42ebd7bed307191e67f72",
+    "scope": "Stored developer result, published without rerunning; capture commit is unknown unless recorded in the result or evidence index."
+  },
+  {
+    "published_file": "workspace-workflows.json",
+    "original_file_name": "Mobility-regression-flow-results.json",
+    "original_sha256": "960cb721b629b4904901f5344266728b2a17af7963d961a3b9862452d096de27",
+    "scope": "Stored developer result, published without rerunning; capture commit is unknown unless recorded in the result or evidence index."
+  },
+  {
+    "published_file": "m8-hosted.json",
+    "original_file_name": "M8-restored-hosted-results.json",
+    "original_sha256": "cb4b0221759b549ff01fe6713b692ad190a2f1bb139118cbfb551ea4df6f7813",
+    "scope": "Stored developer result, published without rerunning; capture commit is unknown unless recorded in the result or evidence index."
+  },
+  {
+    "published_file": "performance.json",
+    "original_file_name": "Release-performance-results.json",
+    "original_sha256": "482661532f39c9dec6fd3c04d6e0aafb65ccffe54e64c016a68de65dc2ab28ce",
+    "scope": "Stored local synthetic measurement; hardware section omitted from public copy. Raw timings, workload and method retained. Not rerun for this review."
+  }
+]

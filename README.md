@@ -2,7 +2,7 @@
 
 A local-first Kanban workspace for AI-assisted development. Track tasks, keep curated prompts/outcomes, copy a briefing to another tool, and pin deliverable links.
 
-**20 October local product checkpoint:** the complete local workspace and guided demo are ready for a walkthrough. See [current coverage, checks and remaining hosting work](RELEASE_READINESS.md), [teaching considerations](TEACHING_APPLICATION.md), [design system](DESIGN.md) and [workflow](WORKSPACE_WORKFLOW.md).
+**20 October deployed prototype checkpoint:** the browser-local workspace and guided demo are publicly accessible. See [current coverage and verification limits](CURRENT_ACCEPTANCE.md), [supporting developer evidence](EVIDENCE.md), [teaching considerations](TEACHING_APPLICATION.md), [design system](DESIGN.md) and [workflow](WORKSPACE_WORKFLOW.md).
 
 ## Run
 Requires Node.js 22.12+ (this build checked with Node 24) and npm.
@@ -26,7 +26,7 @@ Requirements are separated for navigation: [functional](FUNCTIONAL_REQUIREMENTS.
 - Copy context uses the saved card or the current editor draft. Review briefing shows the exact output; neither action saves or calls AI. Blocked clipboard access offers selectable text.
 - Team manages names and optional email/GitHub/GitLab metadata. Contact details alone do not connect accounts or invite people.
 - Project Milestones records achievement criteria; four deliverable links remain above each board. Neither a saved link nor a task count automatically marks a milestone reached.
-- Appearance & settings previews changes immediately: Light/Dark/System, text size, contrast, effects and palettes. Save keeps changes; Cancel restores saved values. Colour vision support in Accessibility overrides both task badges and whole-card colours for your browser, with blue/amber/purple or greys plus labels/borders. Cards and controls have stronger boundaries. Accessibility is also reachable before setup; backup/restore remains in settings.
+- Appearance & settings previews changes immediately: Light/Dark/System, text size, contrast, effects and palettes. Save keeps changes; Cancel restores saved values. Colour vision support in Accessibility overrides both task badges and whole-card colours for your browser, with blue/amber/neutral grey or monochrome plus labels/borders. Cards and controls have stronger boundaries. Accessibility is also reachable before setup; backup/restore remains in settings.
 - Navigation & reading provides direct section buttons, a shortcut guide and optional device-voice reading. Enable single-key shortcuts to use P for Projects, B for Board, T for Team, N for a new task and F for search. They stay inactive while typing or in dialogs. [Full access guide and verification](ACCESSIBILITY_NAVIGATION.md).
 - Read briefing aloud is available in AI context and Review briefing, with pause/resume/stop. It uses available local device voices and does not save the task.
 - How to use explains the full workflow. Explore demo opens an eight-step practice guide and separate synthetic examples. Hide/show the guide or confirm Reset demo practice to restore only example data. Back to my workspace returns to your own work. On mobile choose a stage or View all stages.
@@ -55,14 +55,14 @@ Each completed code stage has its exact live portal marker in its commit message
 | M10 | copy-context |
 | M11 | project-deliverables |
 | M12 | secret-sauce |
-| M13 | pitch-done (local demo and brief walkthrough prepared; hosting separate) |
+| M13 | pitch-done (public populated demo and access verified) |
 
 The student reports that the webhook is now configured. Fresh marker commits replay the completed M1–M13 progress after that repair, with each marker pushed individually. Existing M1–M12 tags remain on their original checkpoints; pitch-done identifies the prepared local demo. Portal recognition has not been independently verified. See [current milestone record](MILESTONE_PROGRESS.md).
 
 ## Deployment and demo
-The student has created a Vercel account; importing/deploying the app is still pending. Choose GitHub under Import Git Repository, then import Bromlj/vibecoding-project-tracker. Use the Vite preset, repository root `./`, build `npm run build`, and output `dist`. Local/demo-only hosting needs no environment variables. Shared sign-in uses the public variables and live configuration described in CLOUD_SETUP.md; server secrets must never enter the frontend. Use the free Hobby option for this personal coursework prototype; no paid trial or add-on is required. See [Vercel Git deployment guidance](https://vercel.com/docs/git) and [Hobby plan](https://vercel.com/docs/plans/hobby).
+The prototype is deployed at https://vibecoding-project-tracker-umber.vercel.app/. The deployment uses the GitHub fork Bromlj/vibecoding-project-tracker, Vite preset, repository root `./`, build `npm run build`, and output `dist`. Local/demo-only hosting needs no environment variables. Shared sign-in uses the public variables and live configuration described in CLOUD_SETUP.md; server secrets must never enter the frontend. Use the free Hobby option for this personal coursework prototype; no paid trial or add-on is required. See [Vercel Git deployment guidance](https://vercel.com/docs/git) and [Hobby plan](https://vercel.com/docs/plans/hobby).
 
-Test the resulting production URL in a private browser window without Vercel login or app registration. The lecturer's hackathon portal is separate. Browser storage on the new hosted origin starts separately from localhost; hosting does not add shared storage.
+Public access was verified in a fresh browser without Vercel login or app registration on 20 October 2026; recheck before submission. The lecturer's hackathon portal is separate. Browser storage on the new hosted origin starts separately from localhost; hosting does not add shared storage.
 
 The student's latest class clarification is that there is no formal presentation; at most an informal 30-second app demonstration if requested. Rehearsal is not a delivery prerequisite. See [DEMO.md](DEMO.md) for the optional walkthrough.
 

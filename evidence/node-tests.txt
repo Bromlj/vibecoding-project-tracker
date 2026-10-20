@@ -1,0 +1,36 @@
+✔ deliverables accept HTTP(S), reject executable and credential-bearing URLs (0.7231ms)
+✔ all four anchor slots must be present without duplicates (0.2217ms)
+✔ old browser preferences remain valid; personal colour selection is constrained (1.0151ms)
+✔ personal colour access overrides both badges and all urgency fills without mutating workspace palettes (0.4631ms)
+✔ attempts preserve full text, validate required records and retain legacy compatibility (8.452ms)
+✔ copy includes only chosen attempts and timestamps distinguish history from current briefing (1.4142ms)
+✔ example project covers the local model without overwriting existing demo edits (3.6802ms)
+✔ shared writes use revision comparison and report conflicts without claiming success (3.6078ms)
+✔ provider profile imports contain display metadata, never access tokens (0.1395ms)
+✔ browser configuration rejects secret and service-role keys (0.3403ms)
+✔ context timestamp changes only when saved context or tool changes (2.6975ms)
+✔ copied briefing includes complete context without altering whitespace (0.2154ms)
+✔ review identifies empty template sections without treating headings as evidence (0.8152ms)
+✔ date-only deadline changes only after end of selected local day (2.5492ms)
+✔ 24/48 hour boundaries have no undefined interval (0.1591ms)
+✔ completed cards override overdue with Complete; undated cards stay neutral (0.0989ms)
+✔ calendar validation rejects impossible dates; fixtures satisfy model (0.5843ms)
+✔ demo has three valid synthetic tasks per stage and complete context (0.6802ms)
+✔ month, leap-year and local daylight-saving date boundaries keep the selected calendar day (0.1206ms)
+✔ navigation shortcuts require opt-in and never intercept native editing or assistive modifiers (0.7731ms)
+✔ non-destructive shortcuts retain pre-setup help and ordered board navigation (0.1726ms)
+✔ speech preserves full wording across bounded utterances including long Unicode content (1.5592ms)
+✔ same-name members remain distinguishable even with duplicate contact data and ID suffixes (0.6557ms)
+✔ setup, separate boards and stable member references survive rename (4.6547ms)
+✔ legacy migration retains tasks/ids/anchors and never deletes legacy keys (0.6226ms)
+✔ durable commit rejects failed writes and stale snapshots without advancing saved data (0.3731ms)
+✔ milestones require a criterion and reached timestamp, with per-project isolation (0.2273ms)
+✔ all offered type palettes meet normal-text contrast and keep independent text colours (0.3842ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 296.4304

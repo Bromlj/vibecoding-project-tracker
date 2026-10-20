@@ -1,0 +1,25 @@
+{
+  "result": "PASS",
+  "url": "https://vibecoding-project-tracker-umber.vercel.app/?demo=1",
+  "checkedAt": "2026-10-20T16:22:35.808Z",
+  "browser": "155.0.8059.82",
+  "checks": [
+    "today warning distinct from overdue alarm",
+    "completed neutral with type badge retained",
+    "all three palettes in light/dark preview",
+    "cancel restores defaults",
+    "strong boundaries retained"
+  ],
+  "scans": [
+    {
+      "name": "restored default board",
+      "violations": []
+    },
+    {
+      "name": "dark monochrome accessibility preview",
+      "violations": []
+    }
+  ],
+  "errors": [],
+  "limits": "Focused developer browser check; no representative-user or manual screen-reader evaluation."
+}

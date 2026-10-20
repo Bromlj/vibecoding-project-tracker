@@ -1,0 +1,122 @@
+{
+  "browser": "155.0.8059.82",
+  "axeVersion": "4.14.0",
+  "scans": [
+    {
+      "name": "setup",
+      "violations": []
+    },
+    {
+      "name": "accessibility before setup",
+      "violations": []
+    },
+    {
+      "name": "shared setup pending",
+      "violations": []
+    },
+    {
+      "name": "projects",
+      "violations": []
+    },
+    {
+      "name": "project form",
+      "violations": []
+    },
+    {
+      "name": "board",
+      "violations": []
+    },
+    {
+      "name": "task details",
+      "violations": []
+    },
+    {
+      "name": "task context",
+      "violations": []
+    },
+    {
+      "name": "briefing review",
+      "violations": []
+    },
+    {
+      "name": "discard confirmation",
+      "violations": []
+    },
+    {
+      "name": "invalid title",
+      "violations": []
+    },
+    {
+      "name": "deliverable editor",
+      "violations": []
+    },
+    {
+      "name": "milestones",
+      "violations": []
+    },
+    {
+      "name": "team",
+      "violations": []
+    },
+    {
+      "name": "settings",
+      "violations": []
+    },
+    {
+      "name": "palette preview violet",
+      "violations": []
+    },
+    {
+      "name": "palette preview forest",
+      "violations": []
+    },
+    {
+      "name": "palette preview default",
+      "violations": []
+    },
+    {
+      "name": "higher contrast and enlarged text",
+      "violations": []
+    },
+    {
+      "name": "mobile board",
+      "violations": []
+    },
+    {
+      "name": "mobile context",
+      "violations": []
+    },
+    {
+      "name": "landscape context",
+      "violations": []
+    },
+    {
+      "name": "mobile navigation",
+      "violations": []
+    },
+    {
+      "name": "clipboard fallback",
+      "violations": []
+    }
+  ],
+  "checks": [
+    "draft review equals actual clipboard; neither saves",
+    "tab keyboard arrows / draft preserved / validation reveals and focuses invalid field / discard focus",
+    "backup download / malformed file rejected / explicit restore",
+    "mobile stage selection / view all stages",
+    "landscape editor / keyboard containment and clean Escape",
+    "mobile navigation Escape and focus restoration",
+    "denied clipboard retains selectable full text",
+    "decorative icons excluded from accessibility tree; no unlabeled images",
+    "cross-tab stale write rejected and draft retained"
+  ],
+  "overflows": [],
+  "errors": [],
+  "limitations": [
+    "Automatic rules and synthetic developer checks, not a conformance certificate",
+    "CSS text enlargement is not actual browser zoom",
+    "No human screen-reader, participant or physical-device study",
+    "Cloud authentication and hosting unverified"
+  ],
+  "result": "PASS"
+}

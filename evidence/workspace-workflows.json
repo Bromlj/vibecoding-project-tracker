@@ -1,0 +1,26 @@
+{
+  "browser": "155.0.8059.82",
+  "checks": [
+    "fresh workspace/member/project setup",
+    "task create / draft review / assignment / reload",
+    "editable members / metadata / stable assignments",
+    "duplicate name rejection / separate project boards / switching",
+    "per-project deliverable isolation",
+    "project milestone criteria / reached / reopen",
+    "palette / accessibility settings persist and apply",
+    "failed save retains draft / timestamp / prior data; retry succeeds",
+    "over-limit context retained / explained / protected cancellation",
+    "failed deletion keeps task / confirmation identifies task",
+    "search and filter empty state",
+    "320 / 768 / 1280 no page-wide overflow with large text",
+    "modal keyboard containment / Escape",
+    "malformed saved state preserved"
+  ],
+  "errors": [],
+  "result": "PASS",
+  "limitations": [
+    "Synthetic developer scenarios, not participant research",
+    "No live Supabase deployment tested",
+    "No named screen-reader session"
+  ]
+}
