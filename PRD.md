@@ -1,169 +1,65 @@
-# Vibecoding Project Tracker — PRD
+# Vibecoding Project Tracker — working PRD
 
-**Status:** Hackathon starter PRD · review and fill in the **`<TODO>`** sections before you tag `prd-done`.
+## Status and provenance
+M2 engineering requirements are recorded in [REQUIREMENTS.md](REQUIREMENTS.md): functional, non-functional and data requirements, stable IDs, MVP flags, sources, checks and honest implementation gaps. This is a reviewed development specification, not proof that all requirements are satisfied.
 
----
+Based on the supplied hackathon starter PRD and client material. The unmodified starter is retained in Git history. This working version corrects reused semester/module language and outdated marker spellings rather than attributing new text to the lecturer.
 
-## 1. Problem
+## Product and users
+Track AI-assisted development tasks from intent to ship, retaining useful prompts/results and context for resumption. Initial client description requires Kanban, project information and key milestones. General developers are the audience reported in the client's discussion; the three roster slots are a starter implementation constraint, not invented research about users.
 
-Vibecoding teams have two recurring pains with large projects:
+Current prototype: one local workspace, a four-column board, a task editor and four deliverable anchors. Context is a current curated briefing, not automatic AI chat capture, immutable prompt history or verified results. No comparative claim about Jira/Linear/Notion is treated as independently researched.
 
-1. **They lose track of tasks.** Three teammates, a hundred small things, no shared view. Nothing tells them what state each task is actually in.
-2. **They lose track of prompts.** The AI gave them working code two days ago but no one remembers the prompt that produced it. When they need to iterate, they start from scratch.
+## Workflow
+1. Open the workspace; recover saved local tasks/anchors or show an actionable error.
+2. Add a task; enter title, description, type, status, assignee, optional date and context/tool.
+3. Save explicitly, change status as work progresses, or hand off through the assignee dropdown.
+4. Review or copy context for use in another tool. Copying does not save a draft or call AI.
+5. Record deliverable URLs; saved-link presence does not imply completed work.
 
-A spreadsheet doesn't solve this. A real project tool (Linear, Jira, Notion) is overkill, doesn't know about prompts, and takes hours to set up.
+## Locked starter data model
+Implementation remains Task and Anchor as supplied; see [implemented dictionary](REQUIREMENTS.md#implemented-dictionary).
 
-## 2. Target users
+Task fields: id, title, description, type, status, assignee, dueDate, createdDate, context, contextTool, contextUpdatedAt.
+Anchor fields: id, label, url.
 
-- **Primary:** the team members, for the remaining weeks of the summer semester.
-- **Secondary:** future cohorts of vibecoders taking the same class.
+Exact stages: To Do (todo), In Progress (in-progress), Review (review), Done (done). Do not add entities/change identity without a deliberate requirements/schema decision. Earlier proposals for board IDs, member entities and project milestones remain explicit gaps in REQUIREMENTS.md.
 
-We are designing the tool we ourselves will use. The pitch demo is also our first real user test.
+## Stack and storage
+React 18 via Vite 5, Tailwind 3, React state and a localStorage hook. No backend/database, accounts, AI or GitHub API integration. Retain supplied stack. See [tool purposes](TOOLS.md). Vercel is the suggested host; this tracker is not the lecturer's portal.
 
-## 3. Product overview
+## Team and identity
+Repository owner: Bromlj. Real team name, roster and role allocation have not been supplied. UI Teammate A/B/C remain explicitly synthetic/configuration placeholders; no classmates, handles or email addresses are invented.
 
-A single-page web app with two persistent surfaces:
+Product name: Vibecoding Project Tracker.
+Chosen interface line: From intent to ship. Keep the task and its context together.
+Public tracker URL: pending deployment.
+This repository: https://github.com/Bromlj/vibecoding-project-tracker
 
-- A **Kanban board** where vibecoding tasks move through four states.
-- An **Anchor Board** above it that pins the four final-project deliverables (Presentation, Demo, Report, Documentation).
-
-Each task carries the prompt context that produced it, so any teammate can click a button and copy the task + prompt history back into an AI chat to continue work.
-
-## 4. Primary user flow
-
-1. Open the Webapp. The board loads from local storage.
-2. Click "+" to add a task. Fill in title, type, assignee, due date, prompt context.
-3. Move the task across columns as you work.
-4. When stuck, click "Copy as Prompt Context" on a task and paste it into Claude/ChatGPT/Cursor to continue.
-5. Hand off a task to a teammate with one dropdown.
-6. Drop final deliverable links into the Anchor Board as you produce them.
-
-## 5. Data model
-
-Locked. Do not change without team agreement.
-
-```js
-// A single vibecoding task.
-Task = {
-  id: string,                    // uuid or timestamp string
-  title: string,
-  description: string,
-  type: 'feature' | 'bug',       // visual color coding
-  status: 'todo' | 'in-progress' | 'review' | 'done',
-  assignee: string,              // one of the three teammate names from §8
-  dueDate: string | null,        // ISO date 'YYYY-MM-DD'
-  createdDate: string,           // ISO date 'YYYY-MM-DD'
-
-  // Added in later milestones:
-  context: string,               // M9 context — curated briefing for the next AI / teammate
-  contextTool: string | null,    // M9 context — 'Claude' | 'ChatGPT' | 'Cursor' | 'Lovable' | 'Replit' | 'Other'
-  contextUpdatedAt: string|null, // M9 context — ISO timestamp set automatically on save
-}
-
-// One of four pinned deliverable slots.
-Anchor = {
-  id: 'presentation' | 'demo' | 'report' | 'documentation',
-  label: string,                 // human-readable
-  url: string | null,            // the link the team pastes in
-}
-```
-
-## 6. Tech stack
-
-| Layer | Choice | Why |
+## Checkpoints
+| Stage | Exact live portal marker | Current state |
 |---|---|---|
-| Framework | React (via Vite) | What the scaffold ships with. Don't migrate. |
-| Styling | Tailwind | Already configured. Use utility classes; no separate CSS files. |
-| State | React `useState` + a `useLocalStorage` hook | Simple, no library needed. |
-| Persistence | **localStorage** | Zero infra. Pick this. Do not switch to a backend mid-hackathon. |
-| Deploy | Vercel | One-click deploy from GitHub. |
+| M1 | git-linked | Correct commit/tag pushed; portal recognition pending |
+| M2 | prd-done | Requirements documentation checkpoint; broader gaps remain explicit |
+| M3 | design-done | Design documented/tokens pushed |
+| M4 | data-model | Board/model pushed |
+| M5 | crud-modal | Modal CRUD/storage pushed |
+| M6 | tag-style | Type markers pushed; primary-button correction recorded |
+| M7 | task-owner | Owner/handoff pushed |
+| M8 | due-tint | Deadline states pushed |
+| M9 | task-context | Context/tool/freshness pushed |
+| M10 | copy-context | Copy/manual fallback pushed |
+| M11 | project-deliverables | Anchor board pushed |
+| M12 | secret-sauce | Briefing review/hints pushed |
+| M13 | pitch-done | Local demo prepared; final marker held pending public check/rehearsal |
 
-> **Decision:** localStorage, not a shared backend. If you want a shared backend later, that's M14 — out of scope for the hackathon.
+M2 was initially understood as omitted; latest student instruction requires these requirements saved/pushed. Add this checkpoint now without rewriting earlier milestone history or claiming it preceded implementation.
 
-## 7. Stage names
+## Scope and verification
+Starter exclusions remain accounts/authentication, real GitHub integration, shared backend/database, multi-team/real-time collaboration. Responsive layout is a chosen quality improvement although the starter allows desktop-only. Multiple projects for one team are a separate reported need, not the same as multi-team support; its current absence is recorded, not concealed.
 
-Four columns, in this order, with these exact labels in the UI:
+M12 extension: review the exact copied briefing with optional missing-template hints. Hints do not certify truth or completeness.
 
-1. **To Do**
-2. **In Progress**
-3. **Review**
-4. **Done**
+Local build, regression and named browser checks are recorded; screen-reader/user-study/performance/public deployment evidence is not invented. A classroom demo is not automatically a user test. Follow [DEMO.md](DEMO.md) for operational preparation and write/rehearse the short pitch in your own voice, following the latest class instruction rather than the reused starter's five-minute wording.
 
-## 8. Team
-
-Fill these in before tagging `prd-done`:
-
-| Slot | Name | GitHub handle |
-|---|---|---|
-| Teammate A | `<TODO>` | `<TODO>` |
-| Teammate B | `<TODO>` | `<TODO>` |
-| Teammate C | `<TODO>` | `<TODO>` |
-
-These three names become the **only** allowed values for `Task.assignee`. No auth — just a dropdown.
-
-## 9. Milestone ownership
-
-Fill in the owner column. Recommended default in **bold**; change if your team has different strengths.
-
-| # | Tag | Title | Suggested owner | Final owner |
-|---|---|---|---|---|
-| 3 | `design-done` | Design system + voice (DESIGN.md) | **B** | `<TODO>` |
-| 4 | `data-model` | Task model + board view | **A** | `<TODO>` |
-| 5 | `crud-modal` | Add / edit / delete modal | **A** | `<TODO>` |
-| 6 | `tag-style` | Feature / bug colors | **B** | `<TODO>` |
-| 7 | `task-owner` | Owner indicator + handoff | **A** | `<TODO>` |
-| 8 | `due-tint` | Due-date color tinting | **B** | `<TODO>` |
-| 9 | `context` | Context field on the task modal | **C** | `<TODO>` |
-| 10 | `copy-prompt` | "Copy as Prompt Context" button | **C** | `<TODO>` |
-| 11 | `anchors` | Deliverable Anchor Board | **B** | `<TODO>` |
-| 12 | `secret-sauce` | The one thing that makes it yours | **C / All** | `<TODO>` |
-| 13 | `pitch-ready` | Demo + pitch rehearsal | **All** | `<TODO>` |
-
-
-Track A owns the state model and task ownership. Track B owns the visuals (and design — M3 runs parallel to M2 so the team starts Phase 3 with the palette already chosen). Track C owns the differentiator features (M9 + M10 — the context field and the Copy-as-Prompt button) and usually leads on M12 secret-sauce. Put your strongest prompter on Track C.
-
-**Dependency note.** M3 (`design-done`) runs **in parallel with M2** — Person B drafts DESIGN.md and pastes the colors into `tailwind.config.js` while the rest of the team reviews the PRD. M6 / M7 / M8 / M11 all depend on M4 + M5 being done first. While Person A builds M4+M5 (first ~60 min of Phase 3), Person C should draft the Markdown template for the "Copy as Prompt Context" output (M10). M12 `secret-sauce` is open-ended — pick whatever makes the tracker uniquely yours; constraint is "must be visible in the demo and must not break anything else."
-
-## 10. AI / vibe coding angle
-
-Where AI will be heavily used:
-- M4, M5: scaffold the board and the modal from a single prompt each.
-- M9, M10: write the Markdown serialization helper for the Context field.
-- M7: animation polish for the handoff toast.
-
-Where AI will **not** save you time:
-- M2 (this PRD review) — read it yourself.
-- M3 (DESIGN.md) — design taste is yours, not the model's.
-- M12 (secret-sauce) — the whole point is that AI can't predict it.
-- M13 (pitch) — write the script in your own voice.
-
-Keep the Context field of each real task up to date as you work. By the end of the hackathon you should have a handful of curated context blocks — those become part of your Module 5 "Vibe Coding History" deliverable.
-
-## 11. Team identity
-
-Fill in:
-
-- **Team name:** `<TODO>`
-- **Tagline (one sentence):** `<TODO>`
-- **Tracker URL after deploy:** `<TODO>` (Vercel will give it to you)
-
-## 12. Out of scope (do not build)
-
-- Authentication / accounts.
-- Real GitHub integration.
-- A real backend / shared database.
-- Mobile responsive — desktop only is fine.
-- Multi-team support.
-- Real-time collaboration.
-
-## 13. Definition of done
-
-The hackathon is "done" when all 13 milestone tags are pushed to your repo and visible on the dashboard. The pitch is "done" when:
-
-- The board loads on Vercel without errors.
-- The "Copy as Prompt Context" demo works on stage.
-- 5 min pitch is rehearsed.
-
----
-
-*PRD version: hackathon-starter v1 · maintained by Prof. Dr. Ignacio Alvarez*
+Completion means the actual required behaviour and delivery checks are satisfied, not simply that tags exist. Wider coursework requirements and prototype/evaluation marks require further evidence beyond the hackathon checkpoint list.

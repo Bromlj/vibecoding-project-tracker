@@ -13,7 +13,7 @@ npm run build
 npm run preview
 ```
 
-Open the URL printed by Vite. No accounts, environment variables or database setup required. React 18, Vite 5 and Tailwind 3 are retained from the supplied starter. See [TOOLS.md](TOOLS.md) and [DESIGN.md](DESIGN.md).
+Open the URL printed by Vite. No accounts, environment variables or database setup required. React 18, Vite 5 and Tailwind 3 are retained from the supplied starter. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md).
 
 ## Use
 - Add task or select a task title to edit. Save explicitly. Status moves the task between To Do, In Progress, Review and Done.
@@ -37,7 +37,7 @@ Each completed code stage has its exact live portal marker in its commit message
 | Stage | Marker |
 |---|---|
 | M1 | git-linked |
-| M2 | prd-done (exercise skipped by class instruction; PRD still read) |
+| M2 | prd-done (requirements documented after updated class instruction) |
 | M3 | design-done |
 | M4 | data-model |
 | M5 | crud-modal |
