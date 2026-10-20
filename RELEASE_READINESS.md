@@ -94,3 +94,12 @@ StudySprint demonstrates 12 tasks across four stages, three fictional teammates,
 The target is now explicitly a finished clickable prototype for demonstration. The existing local interactions remain real: edits, save/reload, copying, handoff, milestones, settings, accessibility and navigation. Live Supabase/shared accounts and Vercel remain a later phase. SQL JSON validation was updated as prepared source only; no live changes or SQL execution claim for this revision.
 
 Checks: 28 Node tests pass; production build passes (93 modules). Focused Chrome walkthrough passes add/save/reload, selected briefing, handoff, protected cancellation, return focus, sample links and milestones. One timeline axe scan reports zero findings; 320px modal reflow and desktop/mobile screenshots inspected. These are developer checks, not participant research or full accessibility conformance. Evidence: attempts-demo-check.cjs, attempts-demo-results.txt and attempts-demo desktop/mobile screenshots. Public decisions and demo route: PROTOTYPE_DEMO.md.
+
+## Public prototype verified — 20 October 2026
+
+Live application: https://vibecoding-project-tracker-umber.vercel.app/
+Direct demo: https://vibecoding-project-tracker-umber.vercel.app/?demo=1
+
+The student deployed the GitHub project to Vercel. A fresh unauthenticated Chrome context opened the HTTPS homepage and demo without a Vercel login or account registration. The StudySprint example loaded 12 tasks. Hosted checks passed: reviewed briefing equals actual HTTPS clipboard contents; add/save/reload an attempt; handoff persists; cancelling removal preserves the saved timeline; keyboard return focus; project milestones and bundled sample deliverable links. No page errors. One timeline axe scan returned zero violations and a 320px dialog reflow check passed. These are focused developer checks, not participant evaluation or full accessibility certification.
+
+This supersedes earlier statements that public prototype hosting was pending. Actual simultaneous collaboration, authenticated shared accounts and live Supabase activation remain deferred. Each visitor's demo/local records are browser/origin-specific. Tests used isolated browser data and did not change the student's records. Evidence: Milestone evidence/hosted-demo-check.cjs, hosted-demo-results.txt and hosted-demo desktop/mobile screenshots. Application code checked corresponds to b2b9760.

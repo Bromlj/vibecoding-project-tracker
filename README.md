@@ -71,3 +71,7 @@ Working repository: https://github.com/Bromlj/vibecoding-project-tracker
 
 ## Team example and Attempts & lessons
 Open `?demo=1` and choose **Open team example** (or **Add team example project** for an existing demo). Open **Build accessible study timer → Attempts & lessons** to see three approaches attributed to fictional teammates. Record an attempt, choose which lessons to copy, and hand off the task from Details. The example includes working sample links and project milestones. There is no demo member switcher or simulated login. See [PROTOTYPE_DEMO.md](PROTOTYPE_DEMO.md).
+
+## Live prototype
+
+[Open the app](https://vibecoding-project-tracker-umber.vercel.app/) or [open the populated demo](https://vibecoding-project-tracker-umber.vercel.app/?demo=1). Public access and core demo interactions verified on 20 October 2026; see RELEASE_READINESS.md. Local records remain browser-specific; live shared accounts are deferred.

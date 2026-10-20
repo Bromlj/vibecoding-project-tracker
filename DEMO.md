@@ -37,3 +37,5 @@ Explain the product's purpose in your own words. Avoid claiming that the app aut
 7. Use Team, Appearance & settings, Accessibility and How to use as needed. These are working local controls.
 
 The team example has 12 tasks, an unassigned task, dates across urgency states, both task types, three milestones and four sample URLs. Existing practice records stay intact. All examples are fictional; multi-user activity is demonstrated locally with no actual remote participants or member switcher. Timeline is the M12 extension; M13 remains demo preparation, not a formal presentation.
+
+Public prototype verified on 20 October 2026: [launch demo](https://vibecoding-project-tracker-umber.vercel.app/?demo=1). Choose Open team example. This supersedes the earlier pending-hosting checklist above; live shared-account configuration remains deferred. See RELEASE_READINESS.md for checks.
