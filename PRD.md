@@ -18,7 +18,7 @@ Current prototype: one local workspace, a four-column board, a task editor and f
 5. Record deliverable URLs; saved-link presence does not imply completed work.
 
 ## Locked starter data model
-Implementation remains Task and Anchor as supplied; see [implemented dictionary](REQUIREMENTS.md#implemented-dictionary).
+Implementation remains Task and Anchor as supplied; see [implemented dictionary](DATA_REQUIREMENTS.md#implemented-dictionary).
 
 Task fields: id, title, description, type, status, assignee, dueDate, createdDate, context, contextTool, contextUpdatedAt.
 Anchor fields: id, label, url.
