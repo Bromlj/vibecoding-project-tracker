@@ -5,6 +5,7 @@ import TaskEditor from './TaskEditor';
 import TypeBadge from './TypeBadge';
 import OwnerBadge from './OwnerBadge';
 import CopyContext from './CopyContext';
+import AnchorBoard from './AnchorBoard';
 import { dueState, DUE_STYLES, displayDate } from './deadlines';
 import { CONTEXT_TEMPLATE } from './context';
 import { button, primaryButton } from './ui';
@@ -41,7 +42,7 @@ export default function App() {
     <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-8">
       {storageError&&<p role="alert" className="mb-5 rounded-lg border border-red-400 bg-red-50 p-4 text-red-900">{storageError}</p>}
       <p role="status" aria-live="polite" className="mb-4 min-h-6 text-sm text-brand-primary">{message}</p>
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+      <AnchorBoard/><div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div><h2 id="board-title" className="text-2xl font-semibold">Project board</h2>
         <p className="mt-1 text-sm text-ink-muted">{tasks.length} tasks · {storageError ? "changes not saved" : "saved in this browser"}</p></div>
         <p className="text-sm text-ink-muted">Team names are demo placeholders.</p>
