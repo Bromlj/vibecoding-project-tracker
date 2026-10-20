@@ -107,7 +107,7 @@ Files are in the coursework `Milestone evidence` folder and copied under `Report
 | M12 | Attempts & lessons implemented | FR-24/DR-13; Review is supporting behaviour |
 | M13 | Public populated demo prepared and checked | E4; no formal presentation required in supplied assessment; at most 30-second demo per student clarification |
 | M13 marker | Repository has pitch-done, following user-pasted portal text | Slide/starter uses pitch-ready; live leaderboard acceptance is unverified |
-| Hackathon participation | Separate assessed 5% contribution | E11; attendance/active contribution must be supported by actual event records, not inferred from commits/tags |
+| Hackathon participation | Separate assessed 5% contribution; student confirms their name was recorded for attendance on 20 October | E11 and student message; attendance register not inspected here. Active event contribution still needs its actual supporting record; commits/tags alone do not prove it. See Report/06 Writing/Participation evidence.md in the coursework folder. |
 
 ## Outstanding evidence and assessment boundary
 
