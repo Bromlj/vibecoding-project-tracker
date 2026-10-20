@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { STAGES, TEAM, seedTasks, localDate, validTasks } from './data';
 import { useLocalStorage } from './storage';
 import TaskEditor from './TaskEditor';
 import TypeBadge from './TypeBadge';
 import OwnerBadge from './OwnerBadge';
+import { dueState, DUE_STYLES, displayDate } from './deadlines';
 import { button, primaryButton } from './ui';
 export { STAGES, TEAM } from './data';
 
@@ -11,6 +12,8 @@ export default function App() {
   const [tasks,setTasks,storageError] = useLocalStorage('vibetracker.tasks',seedTasks,validTasks);
   const [editing,setEditing] = useState(null);
   const [message,setMessage] = useState('');
+  const [now,setNow] = useState(()=>new Date());
+  useEffect(()=>{const tick=()=>setNow(new Date());const timer=setInterval(tick,60000);document.addEventListener('visibilitychange',tick);return ()=>{clearInterval(timer);document.removeEventListener('visibilitychange',tick);};},[]);
   const opener = useRef(null);
   const addButton = useRef(null);
   function open(task, event) { opener.current=event.currentTarget;setEditing(task); }
@@ -41,18 +44,18 @@ export default function App() {
         <p className="mt-1 text-sm text-ink-muted">{tasks.length} tasks · {storageError ? "changes not saved" : "saved in this browser"}</p></div>
         <p className="text-sm text-ink-muted">Team names are demo placeholders.</p>
       </div>
-      <section id="board" aria-labelledby="board-title" className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <p className="mb-4 text-sm text-ink-muted">Deadline tint: calm beyond 48h · warning within 48h · overdue after the due day · completed tasks neutral.</p><section id="board" aria-labelledby="board-title" className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {STAGES.map(stage=><section key={stage.id} aria-labelledby={'stage-'+stage.id} className="min-w-0">
           <div className="mb-4 flex items-center gap-3 border-b-2 border-slate-300 pb-3">
             <span className="h-2 w-2 rounded-full bg-brand-primary" aria-hidden="true"/>
             <h3 id={'stage-'+stage.id} className="font-semibold">{stage.label}</h3>
             <span className="ml-auto text-sm tabular-nums text-ink-muted">{tasks.filter(t=>t.status===stage.id).length}<span className="sr-only"> tasks</span></span>
           </div>
-          <ul className="space-y-3">{tasks.filter(t=>t.status===stage.id).map(task=><li key={task.id} data-task-id={task.id} className="rounded-xl border border-slate-300 bg-white p-4">
+          <ul className="space-y-3">{tasks.filter(t=>t.status===stage.id).map(task=><li key={task.id} data-task-id={task.id} className={"rounded-xl border border-slate-300 p-4 "+DUE_STYLES[dueState(task,now).id]}>
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2"><p className="break-all font-mono text-xs text-ink-muted">{task.id}</p><TypeBadge type={task.type}/></div>
             <h4><button onClick={e=>open(task,e)} className="min-h-11 w-full break-words rounded text-left font-semibold underline-offset-4 hover:text-brand-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary" aria-label={'Edit task: '+task.title}>{task.title}</button></h4>
             <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-relaxed text-ink-muted">{task.description}</p>
-            <div className="mt-5 border-t border-slate-200 pt-3"><OwnerBadge name={task.assignee}/></div>
+            <p className="mt-4 text-sm font-medium">{dueState(task,now).label}</p><p className="mt-1 text-sm text-ink-muted">{task.dueDate ? <>Due: <time dateTime={task.dueDate}>{displayDate(task.dueDate)}</time></> : "No deadline set"}</p><div className="mt-4 border-t border-slate-200 pt-3"><OwnerBadge name={task.assignee}/></div>
           </li>)}</ul>
           {!tasks.some(t=>t.status===stage.id)&&<div className="rounded-xl border border-dashed border-slate-300 p-5"><p className="mb-3 text-sm text-ink-muted">No tasks here yet.</p><button className={button} onClick={add}>Add task</button></div>}
         </section>)}

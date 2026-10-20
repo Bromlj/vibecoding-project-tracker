@@ -1,0 +1,27 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { dueState } from './deadlines.js';
+import { validDate, validTasks, seedTasks } from './data.js';
+test('date-only deadline changes only after end of selected local day',()=>{
+ const task={dueDate:'2026-10-20',status:'todo'};
+ assert.equal(dueState(task,new Date('2026-10-20T23:59:59.999')).label,'Due within 24 hours');
+ assert.equal(dueState(task,new Date('2026-10-21T00:00:00')).label,'Overdue');
+});
+test('24/48 hour boundaries have no undefined interval',()=>{
+ const task={dueDate:'2026-10-22',status:'review'};
+ const end=new Date('2026-10-22T23:59:59.999').getTime();
+ assert.equal(dueState(task,new Date(end-24*3600000)).label,'Due within 24 hours');
+ assert.equal(dueState(task,new Date(end-24*3600000-1)).label,'Due soon');
+ assert.equal(dueState(task,new Date(end-48*3600000)).label,'Due soon');
+ assert.equal(dueState(task,new Date(end-48*3600000-1)).label,'On track');
+});
+test('completed and undated tasks are neutral',()=>{
+ assert.equal(dueState({status:'done',dueDate:'2000-01-01'}).label,'Complete');
+ assert.equal(dueState({status:'todo',dueDate:null}).id,'neutral');
+});
+test('calendar validation rejects impossible dates; fixtures satisfy model',()=>{
+ assert.equal(validDate('2026-02-30'),false);
+ assert.equal(validDate('2024-02-29'),true);
+ assert.equal(validTasks(seedTasks()),true);
+ const bad=seedTasks();bad[0].status='unknown';assert.equal(validTasks(bad),false);
+});
