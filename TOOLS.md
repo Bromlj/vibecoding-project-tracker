@@ -6,12 +6,13 @@
 | Tailwind CSS 3 | Build-time styling | Shared tokens/responsive/focus utilities. |
 | Browser localStorage | Local persistence | Supplied PRD choice; browser/origin specific, no database or shared access. |
 | Browser Clipboard API | User-triggered copy | Secure context; rejection offers manual copy. No AI API. |
+| Browser SpeechSynthesis API | Optional user-started page/briefing reading | Browser-reported local voices only; pause/resume/stop, device availability fallback. No new dependency, microphone or AI service. Human audible-output evaluation pending. |
 | Native dialog/forms | Editing/input | Browser semantics without a UI library. |
 | Node.js/npm | Development/dependencies | Reproduce using npm ci and package-lock.json. |
 | Git/GitHub | Version history/remote fork | Exact milestone marker in commit message and Git tag. No webhook. |
 | Supabase JS 2.118 / PostgreSQL / Auth | Optional shared persistence and provider sign-in | Code/schema prepared; live schema/provider configuration and verification pending. |
-| axe-core / Playwright 4.14 integration | Development accessibility scans | 24 final screen/state scans; automatic rules do not certify accessibility. |
-| Node test runner | Development checks | Data/date/context regression tests; not shipped. |
+| axe-core / Playwright 4.14 integration | Development accessibility scans | 24 design-checkpoint scans plus five navigation/reading states in each of three browsers; automatic rules do not certify accessibility. |
+| Node test runner | Development checks | 21 data/date/context/navigation/speech-chunk tests; not shipped. |
 | Playwright (bundled environment) | Development checks | Browser smoke tests/screenshots; not an app dependency. |
 | Codex | Development assistance | Student reviews/explains the implementation; assessment AI declaration remains required. |
 

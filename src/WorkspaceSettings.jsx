@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { button, primaryButton, input } from './ui';
 import { PALETTES, validWorkspace } from './workspace';
 import TypeBadge from './TypeBadge';
@@ -6,12 +6,13 @@ import { useLocalStorage } from './storage';
 import Dialog from './Dialog.jsx';
 import { Deadline } from './TaskBoard';
 import OwnerBadge from './OwnerBadge';
+import { KeyboardGuide } from './NavigationHelp';
 
-export const DEFAULT_ACCESS = {textSize:'standard',contrast:'standard',reducedMotion:false,reduceEffects:false};
-export const validAccess = p => p && ['standard','large','largest'].includes(p.textSize) && ['standard','high'].includes(p.contrast) && typeof p.reducedMotion==='boolean' && typeof p.reduceEffects==='boolean';
+export const DEFAULT_ACCESS = {textSize:'standard',contrast:'standard',reducedMotion:false,reduceEffects:false,shortcuts:false};
+export const validAccess = p => p && ['standard','large','largest'].includes(p.textSize) && ['standard','high'].includes(p.contrast) && typeof p.reducedMotion==='boolean' && typeof p.reduceEffects==='boolean' && (p.shortcuts===undefined||typeof p.shortcuts==='boolean');
 export function useAccessibility() {
   const [saved,commit,error]=useLocalStorage('vibetracker.accessibility',()=>DEFAULT_ACCESS,validAccess);
-  const preferences=saved||DEFAULT_ACCESS;
+  const preferences=useMemo(()=>({...DEFAULT_ACCESS,...saved}),[saved]);
   useEffect(()=>{document.documentElement.dataset.textSize=preferences.textSize;document.documentElement.dataset.reducedMotion=String(preferences.reducedMotion);},[preferences.textSize,preferences.reducedMotion]);
   return {preferences,commit,error};
 }
@@ -57,6 +58,8 @@ export function AccessibilityFields({access,setAccess}) {
       <label className="mt-5 flex min-h-11 items-center gap-3 font-medium"><input type="checkbox" className="h-5 w-5 accent-teal-800" checked={access.reducedMotion} onChange={e=>setAccess({...access,reducedMotion:e.target.checked})}/>Reduce motion</label>
       <label className="mt-2 flex min-h-11 items-center gap-3 font-medium"><input type="checkbox" className="h-5 w-5 accent-teal-800" checked={access.reduceEffects} onChange={e=>setAccess({...access,reduceEffects:e.target.checked})}/>Reduce visual effects and modal shadows</label>
       <p className="mt-2 text-sm text-ink-muted">The interface avoids decorative blur and animation. Your device's reduced-motion preference is respected too. Browser zoom remains available.</p>
+      <label className="mt-5 flex min-h-11 items-center gap-3 font-medium"><input type="checkbox" className="h-5 w-5 accent-teal-800" checked={Boolean(access.shortcuts)} onChange={e=>setAccess({...access,shortcuts:e.target.checked})}/>Enable single-key shortcuts</label>
+      <details className="mt-2"><summary className="min-h-11 cursor-pointer py-3 font-medium">Keyboard and screen-reader guidance</summary><KeyboardGuide/><p className="mt-3 text-sm text-ink-muted">Navigation & reading in the main menu also offers direct section buttons and optional device-voice reading. Use your installed screen reader for headings, landmarks and control announcements.</p></details>
   </>;
 }
 

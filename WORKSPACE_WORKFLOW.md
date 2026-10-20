@@ -12,6 +12,7 @@
 6. **Milestones:** add/edit an achievement criterion and optional date; explicitly mark Reached or return to Pending. The reached timestamp is recorded/cleared accordingly. Delete requires confirmation. Task counts/links do not mark achievements automatically.
 7. **Appearance & settings:** rename the workspace, choose one of three prevalidated type palettes, or restore the default. Type labels/icons remain and deadline urgency is independent.
 8. **Accessibility settings:** browser-specific Standard/Large/Extra large text, higher contrast, reduced motion and reduced modal effects, with reset and explicit save. Keyboard/semantic support stays enabled regardless of preferences. No decorative blur is introduced. Browser zoom/device preferences remain available.
+9. **Navigation & reading:** direct destination buttons, opt-in single-key navigation and a guide are available from the sidebar/mobile Menu. Read page aloud uses available local device voices; task context/review can read the current briefing. Pause/resume/stop and a text fallback preserve control. Shortcuts are off by default and pause during typing/dialogs. See [accessibility navigation evidence](ACCESSIBILITY_NAVIGATION.md).
 
 ## Data and recovery
 
@@ -26,6 +27,8 @@ Saving validates and writes the entire candidate before replacing saved React st
 18 Node tests, production build and 14 scenario groups each in Chrome 155.0.8059.82, Edge 155.0.4283.45 and Firefox 153.0 pass. Twenty-four axe screen/state scans returned zero violations. Nine additional scripted groups cover draft clipboard equality, tab/focus/validation, backup restore, mobile navigation/stages, landscape keyboard, clipboard denial, image semantics and stale-tab protection. Reflow checks pass at 320/768/1280, including 200% CSS text sizing after wrapping corrections.
 
 See [DESIGN_REVIEW.md](DESIGN_REVIEW.md) for scope, limitations, source rationale and evidence index. These are synthetic developer checks, not participant research, screen-reader testing or full accessibility conformance.
+
+The subsequent navigation/reading extension raises the Node total to 21. Eight new browser check groups and five new automated accessibility states pass in each of the same three browsers; the 14 workspace groups were rechecked. Speech lifecycle was simulated, not listened to by a human. Details and source rationale are in ACCESSIBILITY_NAVIGATION.md.
 
 ## Shared accounts
 

@@ -27,6 +27,8 @@ Requirements are separated for navigation: [functional](FUNCTIONAL_REQUIREMENTS.
 - Team manages names and optional email/GitHub/GitLab metadata. Contact details alone do not connect accounts or invite people.
 - Project Milestones records achievement criteria; four deliverable links remain above each board. Neither a saved link nor a task count automatically marks a milestone reached.
 - Appearance & settings includes palette preview, accessibility preferences and backup download/restore. Accessibility is also reachable before setup.
+- Navigation & reading provides direct section buttons, a shortcut guide and optional device-voice reading. Enable single-key shortcuts to use P for Projects, B for Board, T for Team, N for a new task and F for search. They stay inactive while typing or in dialogs. [Full access guide and verification](ACCESSIBILITY_NAVIGATION.md).
+- Read briefing aloud is available in AI context and Review briefing, with pause/resume/stop. It uses available local device voices and does not save the task.
 - Explore demo opens separate synthetic examples without replacing your local work. On mobile choose a stage or View all stages.
 
 ## Data and limits

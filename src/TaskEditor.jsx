@@ -8,6 +8,8 @@ import { BriefingContent } from './BriefingReview';
 import { AI_TOOLS, CONTEXT_TEMPLATE, withContextTimestamp, updatedLabel } from './context';
 import { taskError, newId } from './workspace';
 import Icon from './Icon';
+import ReadAloud from './ReadAloud';
+import { serializeContext } from './context';
 
 export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
   const [draft,setDraft]=useState(task),[error,setError]=useState(''),[busy,setBusy]=useState(false),[deleting,setDeleting]=useState(false),[review,setReview]=useState(false);
@@ -59,6 +61,7 @@ export default function TaskEditor({task,members,onSave,onDelete,onClose}) {
           <div className="mt-5 flex flex-wrap gap-3"><button type="button" className={button} onClick={()=>setReview(true)}><Icon name="review"/>Review briefing</button><CopyContext task={copyDraft} compact/></div>
           <p className="mt-2 text-sm text-ink-muted">Review and copy use this draft, including unsaved edits.</p>
           </div></div>
+          {tab==='context'&&<ReadAloud text={serializeContext(copyDraft)}/>}
         </section>
         {deleting&&<div className="mt-5 rounded-lg border border-red-400 bg-red-50 p-4"><p role="alert" className="font-medium">Delete “{task.title}”? This cannot be undone.</p><div className="mt-3 flex flex-wrap gap-3"><button type="button" disabled={busy} className={button} onClick={()=>setDeleting(false)}>Keep task</button><button type="button" disabled={busy} className={button+' text-red-800'} onClick={remove}>Confirm delete</button></div></div>}
         {error&&<p id="task-error" role="alert" className="mt-4 rounded-lg border border-red-400 bg-red-50 p-3 text-red-900">{error}</p>}

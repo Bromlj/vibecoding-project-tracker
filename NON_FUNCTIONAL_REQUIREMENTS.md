@@ -4,6 +4,8 @@ Reorganised 20 October 2026 from the combined M2 baseline committed in `77e5eb2`
 
 Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen-policy label D and scope interpretation. Current code and verification are reconciled below as of the 20 October design checkpoint. See [design decisions and evidence](DESIGN_REVIEW.md) and [current workflow](WORKSPACE_WORKFLOW.md). The older detailed matrix in IMPLEMENTATION_STATUS.md remains historical; new evidence does not imply complete accessibility or user validation.
 
+Later accessibility extension: [navigation, reading and text alternatives](ACCESSIBILITY_NAVIGATION.md) records the added optional shortcuts, local-device read aloud and task-specific action names. Eight new check groups and five automated screen/state scans pass in each of Chrome, Edge and Firefox; named human screen-reader and audible speech verification remain pending. These supplement NFR-01/02/05/06/10 rather than replacing baseline keyboard or semantic access.
+
 | ID | Quality / constraint and how to check it | MVP | Origin | Evidence / remaining work |
 |---|---|---|---|---|
 | NFR-01 | Core interactions support keyboard use, visible focus, logical dialog entry/return and modal Tab/Shift+Tab containment; Escape permits exit or asks about unsaved edits. | Yes | S5; accessibility teaching/user instruction | Final browser keyboard scenarios pass; editor tabs support arrow/Home/End; discard/validation/focus return checked. Named screen-reader evaluation remains pending. |

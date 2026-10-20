@@ -2,6 +2,8 @@
 
 Engineering evidence for later student evaluation, not assessed report prose. This records the finished local design checkpoint; it does not certify the whole coursework or a live shared deployment.
 
+**Subsequent accessibility work:** [ACCESSIBILITY_NAVIGATION.md](ACCESSIBILITY_NAVIGATION.md) records opt-in single-key navigation, direct destination buttons, device-voice read aloud and clearer repeated action names. It includes the later 21-test/build checkpoint and additional Chrome/Edge/Firefox evidence. The design results below remain the earlier checkpoint, not a claim that every scan was repeated after every extension.
+
 ## Evidence and scope
 
 The student approved the supplied `product-design` package as a visual reference and requested reasoned adaptation, recorded decisions and accessibility checks. All fourteen reference screens were inspected, including projects, task details/context, review, team, milestones, links, settings, mobile and exceptional states. Existing functional requirements remain authoritative where a visual example differs.

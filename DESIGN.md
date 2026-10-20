@@ -232,6 +232,12 @@ The settings preview demonstrates the selected task palette before saving. Brows
 
 No meaningful raster imagery is needed for this workflow. Small authored SVGs repeat adjacent labels and are excluded from assistive speech with `aria-hidden`; action meaning is carried by the text. This applies the principle behind [WAI decorative-image guidance](https://www.w3.org/WAI/tutorials/images/decorative/), without inventing descriptions for redundant decoration. Any future image that conveys unique information needs an appropriate text alternative.
 
+### Navigation and reading assistance
+
+Navigation & reading offers labelled section buttons and an opt-in single-key guide. Keep shortcuts off by default, suppress them in fields/dialogs/native choices, and retain ordinary keyboard navigation. This reduces simultaneous-key demands while allowing people using dictation/screen-reader commands to leave the shortcuts off. Focus the chosen heading, stage or task; do not invoke destructive actions through a shortcut.
+
+Read-aloud controls sit before the long shortcut list. Task context and exact briefing review also offer reading, using available browser-reported local voices. Keep start/pause/resume/stop explicit, stop when the view closes, and retain text on failure. Read aloud complements semantic screen-reader access; it is not a screen-reader mode. Repeated Copy context and Review briefing accessible names include the task title. See [decision and verification record](ACCESSIBILITY_NAVIGATION.md).
+
 ## Do's and Don'ts
 
 ### Do:
