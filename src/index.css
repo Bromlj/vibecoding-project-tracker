@@ -19,7 +19,6 @@ input, textarea { caret-color: #115E59; scroll-margin-block: 6rem; }
 .dialog-actions { position: sticky; bottom: 0; z-index: 10; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .75rem; border-top: 1px solid #CBD5E1; background: white; padding: 1rem 1.5rem; }
 :root[data-text-size="large"] { font-size: 18px; }
 :root[data-text-size="largest"] { font-size: 20px; }
-[data-contrast="high"] { --feature-text: #102A83 !important; --bug-text: #790E2E !important; }
 [data-contrast="high"] .text-ink-muted { color: #233B36; }
 [data-contrast="high"] input, [data-contrast="high"] textarea, [data-contrast="high"] select, [data-contrast="high"] button { border-color: #334155; }
 [data-contrast="high"] .text-sm { font-weight: 500; }
@@ -297,3 +296,16 @@ html[data-theme] .task-card .deadline-card-urgent { background: transparent; col
 html[data-theme] .task-card .deadline-card-soon { background: transparent; color: var(--card-soon-text); }
 html[data-theme] .task-card .deadline-card-complete { background: transparent; color: var(--card-complete-text); }
 html[data-theme] .task-card:is(.task-card-urgent,.task-card-soon,.task-card-complete) :focus-visible { outline: 3px solid #172333; outline-offset: 3px; box-shadow: 0 0 0 2px white; }
+.colour-access-samples { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,9rem),1fr)); gap: .6rem; margin-top: .75rem; }
+.colour-access-samples p { font-size: .8125rem; }
+html[data-theme] [data-colour-vision]:not([data-colour-vision="workspace"]) .deadline-safe { background: transparent; color: inherit; border: 1px solid currentColor; }
+
+/* Visible boundaries on same-colour surfaces; state-specific leading borders
+   remain 5px, so shape continues to distinguish urgency without hue. */
+:is(.task-card,.kanban-column,.project-card,.deliverable-banner,.settings-preview,.empty-state,.how-to-steps > li,.ui-input,.ui-button,.demo-guide,.reading-tools,.app-dialog,.settings-layout form,.settings-layout > div > section) { border-width: 2px; }
+:is(.task-card-urgent,.task-card-soon,.task-card-complete) { border-left-width: 5px; }
+:is(.task-card-plain,.kanban-column,.project-card,.deliverable-banner,.settings-preview,.empty-state,.how-to-steps > li,.settings-layout form,.settings-layout > div > section) { border-color: #64788a; }
+html[data-theme="dark"] :is(.task-card-plain,.kanban-column,.project-card,.deliverable-banner,.settings-preview,.empty-state,.how-to-steps > li,.settings-layout form,.settings-layout > div > section) { border-color: #8ca0b1; }
+[data-contrast="high"] :is(.task-card,.kanban-column,.project-card,.deliverable-banner,.settings-preview,.empty-state,.how-to-steps > li,.ui-input,.ui-button,.app-dialog,.settings-layout form,.settings-layout > div > section) { border-width: 3px; }
+[data-contrast="high"] :is(.task-card-urgent,.task-card-soon,.task-card-complete) { border-left-width: 5px; }
+html[data-theme] .task-card:is(.task-card-urgent,.task-card-soon,.task-card-complete) { border-left-width: 5px; }

@@ -16,7 +16,7 @@ Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen
 | DR-08 | Four user-entered deliverable URLs and fixed slot labels locate deliverables; presence is derived. | No — required milestone | Every Board owns four fixed Anchor slots. URL/presence rules and per-project persistence checked. |
 | DR-09 | User-entered project milestone title/criteria/date/status plus generated ID/reached timestamp. | Yes | Each Board owns milestones with stable ID/title/criterion/targetDate/status/reachedAt. Implemented and validated. |
 | DR-10 | User-selected palette identifier and configured safe defaults. | No — earlier selected scope | Workspace.palette identifier default/violet/forest and optional cardPalette traffic/blue/mono (legacy defaults traffic). Browser appearance/accessibility preferences stored separately. Implemented. |
-| DR-11 | User-selected appearance/shortcut preferences; device-provided voice choices and user-selected speech rate. | No — selected accessibility extension | Accessibility.theme light/dark/system defaults system; shortcuts boolean defaults false. Old records without either remain valid. Voice/rate are transient component choices, not added to the workspace, backup or cloud data. |
+| DR-11 | User-selected appearance/shortcut preferences; device-provided voice choices and user-selected speech rate. | No — selected accessibility extension | Accessibility.theme light/dark/system defaults system; colourVision workspace/blue-amber/monochrome defaults workspace; shortcuts boolean defaults false. Unsaved previews are transient and excluded from storage/backups. Old records without either remain valid. Voice/rate are transient component choices, not added to the workspace, backup or cloud data. |
 | DR-12 | Authored how-to steps and labelled synthetic demonstration records; transient selected step/show-hide state. | No — selected usability extension | Guide content is bundled static text. Demo uses its own existing localStorage key; reset replaces only that demo snapshot. No analytics, research answers, automatic completion record or tutorial-progress persistence is collected. |
 
 ### Implemented dictionary
@@ -33,7 +33,7 @@ Read [REQUIREMENTS.md](REQUIREMENTS.md) for shared source labels S1–S5, chosen
 | Board | id, name (1–100), description (0–2,000), tasks, anchors, milestones | UUID from app; unique trimmed case-insensitive name; user content |
 | Member | id, name (1–100), email (0–254), github/gitlab (0–100) | App ID; optional user contact/profile metadata; format checks, no verification claim |
 | Milestone | id, title (1–160), criterion (1–2,000), targetDate/null, status, reachedAt | App ID, user achievement definition/date; explicit Pending/Reached, app clock on reached |
-| Accessibility preferences | theme, textSize, contrast, reducedMotion, reduceEffects, shortcuts | Browser-specific choices; shortcuts default false. Baseline keyboard/semantic access stays enabled |
+| Accessibility preferences | theme, colourVision, textSize, contrast, reducedMotion, reduceEffects, shortcuts | Browser-specific choices; shortcuts default false. Baseline keyboard/semantic access stays enabled |
 | Backup | JSON workspace snapshot | User-triggered export/validated confirmed restore; not authentication permissions |
 | Task.dueDate | valid YYYY-MM-DD or null | Optional user calendar date; end of local day for urgency |
 | Task.createdDate | valid YYYY-MM-DD | App local calendar date at creation; not editable |

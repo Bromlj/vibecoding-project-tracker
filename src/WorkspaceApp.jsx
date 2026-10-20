@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { STAGES, localDate } from './data';
-import { WORKSPACE_KEY, DEMO_KEY, changeBoard, taskForDisplay, PALETTES, initialWorkspace, cardPaletteStyle } from './workspace';
+import { WORKSPACE_KEY, DEMO_KEY, changeBoard, taskForDisplay, initialWorkspace } from './workspace';
+import {appearanceColours} from './appearance';
 import { WorkspaceSetup, MemberEditor, ProjectEditor, Members } from './WorkspaceForms';
 import WorkspaceSettings, { useAccessibility, downloadJson, AccessibilityDialog } from './WorkspaceSettings';
 import TaskEditor from './TaskEditor';
@@ -20,6 +21,7 @@ export { STAGES, TEAM } from './data';
 export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
   const {workspace,commit,error,mode}=store;
   const accessibility=useAccessibility();
+  const [palettePreview,setPalettePreview]=useState(null);
   const [view,setView]=useState('projects'),[editing,setEditing]=useState(null),[reviewing,setReviewing]=useState(null),[memberEditor,setMemberEditor]=useState(null),[projectEditor,setProjectEditor]=useState(null);
   const [message,setMessage]=useState(''),[now,setNow]=useState(()=>new Date());
   const [settingsDirty,setSettingsDirty]=useState(false),[accessOpen,setAccessOpen]=useState(false),[menuOpen,setMenuOpen]=useState(false);
@@ -32,8 +34,8 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
   async function change(update,success){const result=await commit(update);if(result.ok&&success)setMessage(success);return result;}
   const changeCurrentBoard=update=>change(old=>changeBoard(old,board.id,update));
   const tasks=useMemo(()=>board?.tasks.map(t=>taskForDisplay(t,workspace,board))||[],[board,workspace]);
-  const palette=PALETTES[workspace?.palette||'default'];
-  const access=accessibility.preferences;
+  const access=accessibility.effective;
+  const colours=appearanceColours(palettePreview?.palette||workspace?.palette,palettePreview?.cardPalette||workspace?.cardPalette,access.colourVision);
   function add(status='todo'){setEditing({id:'',title:'',description:'',type:'feature',status,assigneeId:null,dueDate:null,createdDate:localDate(),context:CONTEXT_TEMPLATE,contextTool:null,contextUpdatedAt:null,projectName:board.name});}
   async function saveTask(task){
     const {assignee,projectName,...record}=task;
@@ -73,7 +75,7 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
     return()=>document.removeEventListener('keydown',key);
   });
   async function openBoard(id){const result=await change(old=>({...old,selectedBoardId:id}));if(result.ok)navigate('board');}
-  return <div data-contrast={access.contrast} data-reduce-effects={String(access.reduceEffects)} className="app-shell" style={{...cardPaletteStyle(workspace?.cardPalette),'--feature-text':palette.feature[0],'--feature-bg':palette.feature[1],'--feature-border':palette.feature[2],'--bug-text':palette.bug[0],'--bug-bg':palette.bug[1],'--bug-border':palette.bug[2]}}>
+  return <div data-contrast={access.contrast} data-colour-vision={access.colourVision} data-reduce-effects={String(access.reduceEffects)} className="app-shell" style={colours}>
     <a href="#main-content" className="skip-link" onClick={()=>main.current?.focus()}>Skip to main content</a>
     <header className="mobile-header"><button className="wordmark" onClick={()=>navigate('projects')} aria-label="Vibecoding Project Tracker home"><strong>Vibecoding</strong><span>Project Tracker</span></button><button className={button} aria-expanded={menuOpen} aria-controls="workspace-sidebar" onClick={()=>setMenuOpen(!menuOpen)}><Icon name={menuOpen?'close':'menu'}/>Menu</button></header>
     <aside id="workspace-sidebar" className={'workspace-sidebar '+(menuOpen?'is-open':'')} onKeyDown={e=>{if(e.key==='Escape'){setMenuOpen(false);document.querySelector('.mobile-header button[aria-controls]')?.focus();}}}>
@@ -92,7 +94,7 @@ export default function WorkspaceApp({store,demo=false,cloudControls=null}) {
       {error&&<div role="alert" className="error-notice"><p>{error}</p><button className={button+' mt-3'} onClick={downloadRecovery}>Download recovery data</button></div>}
       <p role="status" aria-live="polite" className={'workspace-feedback '+(!message?'sr-only':'')}>{error?'':message}</p>
       {!workspace?<section className="empty-state"><h1>Your saved data needs attention</h1><p>Your records have been preserved. Download recovery data above, then inspect the saved data before resetting anything.</p><button className={button} onClick={()=>window.location.reload()}>Reload workspace</button></section>:view==='guide'?<HowTo ready={ready} onAction={guideAction} demo={demo}/>:!ready?<WorkspaceSetup existing={workspace} commit={commit} onDone={()=>{setView('projects');setMessage('Workspace created. Open your project to add the first task.');}}/>:<>
-        {view==='projects'?<Projects workspace={workspace} onOpen={openBoard} onNew={()=>setProjectEditor({})} onEdit={b=>setProjectEditor({board:b})}/>:view==='members'?<Members workspace={workspace} onAdd={()=>setMemberEditor({})} onEdit={m=>setMemberEditor({member:m})}/>:view==='settings'?<WorkspaceSettings onDirtyChange={setSettingsDirty} workspace={workspace} commit={commit} onSaved={setMessage} accessibility={accessibility}/>:<>
+        {view==='projects'?<Projects workspace={workspace} onOpen={openBoard} onNew={()=>setProjectEditor({})} onEdit={b=>setProjectEditor({board:b})}/>:view==='members'?<Members workspace={workspace} onAdd={()=>setMemberEditor({})} onEdit={m=>setMemberEditor({member:m})}/>:view==='settings'?<WorkspaceSettings onPalettePreview={setPalettePreview} onDirtyChange={setSettingsDirty} workspace={workspace} commit={commit} onSaved={setMessage} accessibility={accessibility}/>:<>
           <button className="text-action back-projects" onClick={()=>navigate('projects')}><Icon name="back" size={18}/>All projects</button>
           <div className="page-heading"><div><h1 tabIndex={-1}>{board.name}</h1>{board.description&&<p className="whitespace-pre-wrap">{board.description}</p>}<span className="section-caption">{tasks.length} tasks · {tasks.filter(t=>t.status==='done').length} complete</span></div><div className="flex flex-wrap gap-3"><button className={button} onClick={()=>setProjectEditor({board})}>Edit project</button>{view==='board'&&<button className={primaryButton} onClick={()=>add()}><Icon name="plus"/>Add task</button>}</div></div>
           <nav aria-label="Project sections" className="project-tabs">{[['board','Board'],['milestones','Milestones']].map(([id,label])=><button key={id} aria-current={view===id?'page':undefined} onClick={()=>navigate(id)}>{label}</button>)}</nav>
