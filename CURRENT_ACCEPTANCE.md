@@ -1,125 +1,66 @@
-# Current acceptance and evidence register
+# Current acceptance — report-aligned IDs
 
-Reconciled 20 October 2026 for report preparation. This is an engineering register, not assessed report prose. It supersedes ambiguous current-status statements in older notes, while preserving their historical evidence.
+Documentation reconciled 23 October 2026. Implementation/evidence remains the recorded 20 October checkpoint; this revision does not rerun tests or change application code. The original detailed evidence register is preserved in docs/history/2026-10-20/CURRENT_ACCEPTANCE.md. Translate legacy IDs using REPORT_ALIGNMENT.md. EVIDENCE.md and evidence/ remain unchanged.
 
-**Current outcome:** publicly accessible interactive prototype, with working browser-local interactions and a populated team example. The identified M8 specification mismatch has been corrected; some self-imposed evaluation criteria remain unverified. There is enough material to begin writing, but this is not an assertion of complete client acceptance or assessment completion.
+## Evidence meaning
 
-The earlier documentation-only reconciliation is followed by a scoped M8 code correction. Historical tags and priorities are unchanged. New checks are identified as E12; older evidence retains its original scope.
+Implemented means the behaviour exists in source. Recorded developer checks are scoped technical evidence, not representative-user research, complete WCAG conformance or client sign-off. An unmet or unverified criterion is not made passed by changing its ID or MVP classification.
 
-## Evidence key
+Existing records include 28 passing Node tests and a successful build; 14 developer workflow groups; 24 automated accessibility screen/state scans with no reported violations in those states; later focused hosted/appearance/attempt checks; and an earlier synthetic performance benchmark. These records cover different checkpoints. They must not be merged into a claim that every feature was tested on the latest deployment in every browser.
 
-Files are in the coursework `Milestone evidence` folder and copied under `Report/04 Evidence/Check results` unless stated otherwise. Tests at earlier checkpoints are not proof that every later feature was tested in every browser.
+## Functional acceptance
 
-| ID | Record and scope |
+| Current ID | Behaviour | Current boundary |
+|---|---|---|
+| FR-01 | Four stages/title/owner/mobile stage view | Implemented; recorded developer checks, not physical-device validation. |
+| FR-02 | Creation/defaults/validation | Implemented; not every browser-native partial-date state exhaustively tested. |
+| FR-03 | Explicit edit/save/cancel and protected drafts | Implemented; scoped developer checks recorded. |
+| FR-04 | Confirmed durable deletion | Implemented; controlled failed-delete checks recorded. |
+| FR-05 | Dropdown stage changes | Implemented; dragging not required. |
+| FR-06 | Assignment/handoff/Unassigned | Implemented locally; not authentication, notification or remote collaboration. |
+| FR-07 | Multiple separate boards | Implemented for one browser-local workspace. |
+| FR-08 | Current inert-text context | Implemented; no automatic AI integration. |
+| FR-09 | Manual prompts and outcomes | Implemented; truth of outcomes is not verified. |
+| FR-10 | Optional AI-tool label | Implemented; not a provider connection. |
+| FR-11 | Saved briefing freshness | Implemented; selected attempts affect briefing freshness, excluded attempts retain their own times. |
+| FR-12 | Copy and manual fallback | Implemented; HTTPS success and local denial have distinct recorded checks. |
+| FR-13 | Persistence/backup/recovery/demo isolation | Implemented; origin/device-specific, not synchronised. |
+| FR-14 | Milestone criteria and Pending/Reached | Implemented; achievement is asserted by the user. Legacy FR-17. |
+| FR-15 | Manual roster/contact metadata | Implemented; does not create shared accounts. Legacy FR-18. |
+| FR-16 | Feature/bug label/icon/colour | Implemented; no participant colour-perception study. Legacy FR-14. |
+| FR-17 | Warning/alarm/neutral deadline states | M8 correction recorded locally/publicly; 24–48h warning is a documented interpretation. Legacy FR-15. |
+| FR-18 | Four safe deliverable URLs | Implemented; editing-dialog adaptation; link presence is not completion. Legacy FR-16. |
+| FR-19 | Exact optional briefing review | Implemented; suggestions do not certify accuracy. |
+| FR-20 | Appearance preview/save/cancel/reset | Implemented; alternatives do not guarantee suitability for every access need. |
+| FR-21 | Optional keyboard shortcuts/navigation | Implemented; no switch-device or motor-user validation. |
+| FR-22 | Read aloud and fallback | Implemented; API stand-in checks, but human audible/device output unverified. |
+| FR-23 | Guide and isolated practice | Implemented; learning effectiveness not measured. |
+| FR-24 | Attempts and selected lessons | Implemented; editable self-reported records, not immutable history. |
+
+## Non-functional acceptance
+
+| ID | Status / limitation |
 |---|---|
-| E1 | Latest recorded 28 Node tests and successful production build: PROTOTYPE_DEMO.md / later RELEASE_READINESS.md checkpoint; test sources in src/*.test.js. Not rerun for this documentation task. |
-| E2 | Redesign-flow-results.json, Redesign-Edge-flow-results.json, Redesign-Firefox-flow-results.json: 14 synthetic developer workflow groups in each recorded browser, no recorded page errors. |
-| E3 | Release-design-accessibility-results.json: 24 automated screen/state scans, zero reported violations in those states. Not a complete manual accessibility audit. |
-| E4 | hosted-demo-results.txt: fresh Chrome public access, actual HTTPS clipboard equality, attempts save/reload, handoff, cancellation, focus return, one timeline scan, narrow dialog and sample links; no page errors. App checkpoint b2b9760. |
-| E5 | Live-preferences-results.json: live preview, cancel/nesting, failed-save retention, colour choices, borders, three scans and 320px reflow. |
-| E6 | Mobility-access-results.json and Edge/Firefox counterparts; Release-keyboard-results.json: navigation/keyboard and speech API stand-in checks. Not observed human screen-reader or audible/device testing. |
-| E7 | Release-Chrome-guide-results.json and Edge/Firefox counterparts: guided demo and local-work isolation checks. |
-| E8 | Release-performance-results.json: synthetic workload/timing only. Earlier benchmark is not a new hosted performance measurement. |
-| E9 | Source implementation and FR/NFR/DR dictionaries: inspection/documentation, not independent user evidence. |
-| E10 | Client screenshot collection, user-pasted portal instructions and repository tags: product/event inputs. Portal recognition and participation are not independently verified. |
-| E12 | M8-restored-local-results.json and M8-restored-hosted-results.json / screenshots: fresh local and public Chrome checks after bd6f9bc of warning/alarm/neutral completion, light/dark and three palettes, cancellation and borders; two automated scans per run, zero reported violations. Fresh 28 Node tests and production build passed. |
-| E11 | Latest supplied Assessment 1 DOCX, copied into Report/01 Assessment: submission and grading authority. |
+| NFR-01 | Scoped keyboard/focus checks; named human screen-reader session unrecorded. |
+| NFR-02 | Automated semantics checks; actual announcements unverified. |
+| NFR-03 | Non-colour cues inspected; participant comprehension unmeasured. |
+| NFR-04 | Contrast calculations/scoped scans; full manual conformance not established. |
+| NFR-05 | Emulated reflow/CSS text resizing; actual browser zoom and physical-device use unrecorded. |
+| NFR-06 | Main-control height present; complete target/spacing/exception audit unrecorded. |
+| NFR-07 | Controlled error/recovery checks recorded; prior saved data/drafts protected. |
+| NFR-08 | Local validation/recovery/stale-tab checks; live shared access unverified. |
+| NFR-09 | Consistent shared controls/developer review; representative-user observation remains unperformed. |
+| NFR-10 | Inert content, safe URLs and no automatic AI transmission; not complete security certification. |
+| NFR-11 | Earlier Chrome/Edge/Firefox scenarios; later hosted attempts flow checked in Chrome only. |
+| NFR-12 | Setup/package-lock documentation exists; beyond MVP in the report. Student understanding remains necessary. |
+| NFR-13 | Earlier synthetic benchmark: 5 boards/100 tasks/10 members, 30 repetitions; p95 modal 41.4 ms, project opening 58.5 ms, save 51.0 ms; restoration 113.8 ms. Beyond MVP. Not human performance, INP or public-network latency. |
 
-## Status language
+## Data acceptance
 
-**Implemented / checked** means the stated implementation has scoped developer evidence. **Partial evidence** means the full acceptance wording is not established. **Variance open** means the implemented adaptation differs from the client specification. **Deferred** is outside the current agreed prototype scope, not secretly marked passed. All result counts above retain their original checkpoint scope.
+DR-01–07: implemented local IDs, fields, relationships, context, tool labels and timestamps, subject to validation and local-clock limits. DR-08: implemented project milestone data (legacy DR-09); reached state is user-asserted. DR-09: implemented fixed deliverable URL slots (legacy DR-08); URL presence does not certify work. DR-10/11: workspace palettes and separate browser preferences implemented; voice output remains unverified. DR-12: authored guidance and labelled synthetic practice data implemented; not research records. DR-13: optional editable attempts and selected serialization implemented locally; prepared cloud validation is not live activation.
 
-## Functional requirements
+## Assessment and delivery boundaries
 
-| Requirement | Implementation | Evidence | Current status and remaining limitation |
-|---|---|---|---|
-| FR-01 | Four ordered Kanban stages; title/owner; mobile stage view | E2, E4 | Implemented / checked; viewport emulation is not a physical-device test. |
-| FR-02 | Labelled task creation, defaults and validation | E1, E2 | Implemented / checked; not every browser-native partial-date state exhaustively tested. |
-| FR-03 | Explicit save, shared draft and protected cancellation across task tabs | E2, E4 | Implemented / checked. |
-| FR-04 | Named delete confirmation and durable removal | E2 | Implemented / checked, including simulated failed deletion. |
-| FR-05 | Status dropdown changes board placement | E2 | Implemented / checked; drag and drop not required. |
-| FR-06 | Stable optional assignee and handoff | E1, E2, E4 | Implemented / checked; assignment does not authenticate or notify another user. |
-| FR-07 | Multiple separate project boards; create/name/rename/open | E1, E2 | Implemented / checked; one browser-local team. |
-| FR-08 | Editable current Markdown context, saved as inert text | E1, E2 | Implemented / checked; no automatic AI integration. |
-| FR-09 | User-recorded prompts/outcomes; labelled synthetic examples | E2, E4 | Implemented / checked; truth of outcomes is not verified by the app. |
-| FR-10 | Optional AI tool selector, including Other and Codex | E1, E4 | Implemented / checked; a label, not a provider connection. |
-| FR-11 | Exact/relative freshness; selected briefing changes update saved timestamp | E1, E2 | Implemented / checked; unselected attempts have their own timestamps. |
-| FR-12 | Saved-card/current-draft copy and manual fallback | E1, E2, E4 | Implemented / checked; HTTPS success and local rejection cases have distinct evidence. |
-| FR-13 | Versioned local persistence, migration, backup/restore and demo isolation | E1, E2, E7 | Implemented / checked; device/origin storage is not synchronised. |
-| FR-14 | Feature/bug text, icon and palette distinction | E3, E5, E9 | Implemented / checked; no colour-perception participant study. |
-| FR-15 / M8 | Distinct warning/alarm and neutral completed cards; calm future/undated | E1, E10, E12 | Implemented / checked against slide semantics; 24–48h warning is an explicit gap-resolution choice. See M8_SPECIFICATION_DECISION.md. |
-| FR-16 / M11 | Four per-project safe URL slots above board, shared editing dialog | E1, E2, E4 | Implemented / checked; dialog is an interaction adaptation from inline fields; sample links are not actual submitted deliverables. |
-| FR-17 | User-controlled project milestones, criteria and reached timestamp | E1, E2, E4 | Implemented / checked; achievement is manually asserted, not independently verified. |
-| FR-18 | Editable roster and optional email/GitHub/GitLab metadata | E1, E2 | Implemented / checked; no connected-account or remote collaboration claim. |
-| FR-19 | Exact optional briefing review and advisory hints | E1, E2, E4 | Implemented / checked; supporting feature, no longer sole M12 extension. |
-| FR-20 | Palette/preferences, live preview, reset/save/cancel, colour-vision alternatives | E1, E5 | Implemented / checked; selected alternatives do not guarantee suitability for every colour-vision condition. |
-| FR-21 | Optional shortcuts and visible navigation controls | E6 | Implemented / checked; no switch-device or motor-user validation. |
-| FR-22 | User-started device read aloud and fallback | E6 | Partial evidence: lifecycle tested using stand-in; real audible output and assistive-user use unrecorded. |
-| FR-23 | How-to guide, separate demo, protected reset | E7, E4 | Implemented / checked; learning effectiveness not measured with users. |
-| FR-24 / M12 | Editable attempts and lessons; choose records for next briefing | E1, E4 | Implemented / checked; self-reported authors/results, not immutable audit history or market-wide uniqueness. |
+The prototype/report must not claim all elicited requirements have been fully validated, a representative-user study occurred, every accessibility criterion passed, or live multi-user sharing works. Public registration-free demo access was recorded on 20 October and should be rechecked before submission. Shared-service setup remains deferred.
 
-## Non functional requirements
-
-| Requirement | Implementation | Evidence | Current status and remaining limitation |
-|---|---|---|---|
-| NFR-01 | Keyboard, focus, dialog containment/escape | E2, E6, E4 | Scoped keyboard checks pass; no named human screen-reader session. |
-| NFR-02 | Programmatic labels, roles, names and relationships | E3, E4, E6 | Partial evidence: automated checks pass, human announcement behaviour unverified. |
-| NFR-03 | Meaning without colour alone | E3, E5 | Implemented / inspected; participant comprehension unmeasured. |
-| NFR-04 | Text/control contrast targets | E1, E3, E5 | Calculated/scoped automated checks; not a full manual conformance audit. |
-| NFR-05 | 320px reflow and enlarged text | E2, E5, E4 | CSS resizing/emulated viewport checked; actual browser zoom and physical devices unverified. |
-| NFR-06 | Target size and spacing policy | E9 | Partial evidence: main-control sizing implemented; all exceptions/touch use not manually audited. |
-| NFR-07 | Honest feedback and retained data on errors | E2, E4, E5 | Implemented / checked using controlled failure scenarios. |
-| NFR-08 | Stable relationships, invalid storage and stale-tab protection | E1, E2 | Local checks recorded; live shared access and latest SQL revision execution deferred. |
-| NFR-09 | Consistent controls and observed usability | E2, E9 | Partial evidence: developer review only; representative-user completion/help/feedback unrecorded. |
-| NFR-10 | Inert context, safe URL rules, no automatic AI submission | E1, E2, E9 | Implemented / checked; no complete security-audit claim. |
-| NFR-11 | Named desktop browser compatibility and responsive layouts | E2, E6, E7, E4 | Earlier Chrome/Edge/Firefox checks; latest hosted attempts flow checked in Chrome only; real devices pending. |
-| NFR-12 | Explainable implementation and reproducible tool choices | E1, E9 | Documentation exists; student understanding/AI declaration still needs personal completion. |
-| NFR-13 | Chosen performance targets under defined synthetic workload | E8 | Earlier measured workload, not production/INP/client SLA or participant productivity evidence. |
-
-## Data requirements
-
-| Requirement | Implementation | Evidence | Current status and remaining limitation |
-|---|---|---|---|
-| DR-01 | Stable task identity | E1, E2 | Implemented / checked. |
-| DR-02 | Task text/type/status/dates and validation | E1, E2 | Implemented / checked. |
-| DR-03 | Project IDs and separate nested records | E1, E2 | Implemented / checked. |
-| DR-04 | Roster IDs/metadata and assignment references | E1, E2 | Implemented / checked; metadata is unverified, not account access. |
-| DR-05 | Current context/prompts/outcomes as plain text | E1, E2 | Implemented / checked; user-authored accuracy not guaranteed. |
-| DR-06 | Nullable AI-tool association | E1, E4 | Implemented / checked; no API credentials collected. |
-| DR-07 | App-generated creation/freshness times | E1, E2 | Implemented / checked; local clock, not trusted audit time. |
-| DR-08 | Four URL slots with fixed labels | E1, E2, E4 | Implemented / checked; presence does not prove deliverable completion. |
-| DR-09 | Project milestone criteria/state/date/time | E1, E2, E4 | Implemented / checked; user controls reached state. |
-| DR-10 | Workspace palette identifiers/defaults | E1, E5 | Implemented / checked; neutral completion across all palettes rechecked in E12. |
-| DR-11 | Browser appearance/access preferences and transient previews | E1, E5, E6 | Implemented / checked; actual voice output remains unverified. |
-| DR-12 | Guide and synthetic demo records | E7, E4 | Implemented / checked; examples are not actual client/research records. |
-| DR-13 | Optional nested manual attempt records and selected briefing content | E1, E4 | Implemented / checked locally; prepared cloud validator not activated/tested live. |
-
-## Client milestones and event evidence
-
-| Item | Current position | Evidence / limitation |
-|---|---|---|
-| M1 / M2 | Repository marker and requirements documentation recorded | E9/E10; not proof of portal recognition or attendance |
-| M3 / M4 / M5 | Design, model/board and CRUD implemented | FR-01–05, E1/E2/E9 |
-| M6 / M7 | Task-type distinction and ownership/handoff implemented | FR-06/14/18, E2/E4/E5 |
-| M8 | Slide semantics restored; local and public checks passed | FR-15; M8_SPECIFICATION_DECISION.md |
-| M9 / M10 | Context and copy implemented | FR-08–12, E1/E2/E4 |
-| M11 | Four links with dialog-based editing implemented | FR-16; link presence is not completion |
-| M12 | Attempts & lessons implemented | FR-24/DR-13; Review is supporting behaviour |
-| M13 | Public populated demo prepared and checked | E4; no formal presentation required in supplied assessment; at most 30-second demo per student clarification |
-| M13 marker | Repository has pitch-done, following user-pasted portal text | Slide/starter uses pitch-ready; live leaderboard acceptance is unverified |
-| Hackathon participation | Separate assessed 5% contribution; student confirms their name was recorded for attendance on 20 October | E11 and student message; attendance register not inspected here. Active event contribution still needs its actual supporting record; commits/tags alone do not prove it. See Report/06 Writing/Participation evidence.md in the coursework folder. |
-
-## Outstanding evidence and assessment boundary
-
-| Item | Required by supplied brief or chosen evaluation plan? | Position |
-|---|---|---|
-| Representative-user study | Not explicitly named as a compulsory submission in the supplied brief; relevant to chosen NFR-09 and evidence quality | No recorded study; do not claim target-user satisfaction, preference or productivity gains |
-| Named screen-reader/browser test | Included in the project's own AC-16; no prescribed named session in the supplied brief | AC-16 remains partially evidenced, not passed in full |
-| Browser zoom / physical mobile / audible speech / switch-device checks | Chosen accessibility/compatibility evidence beyond automated checks | Not recorded; keep distinct from CSS resizing and viewport emulation |
-| Provisional persona | Persona is assessed; validation evidence remains limited | Use supported information and explicit unknowns; no invented quotes/biography |
-| Final written submission | Compulsory individual report up to 2,000 words, screenshots/justification, coversheet and accessible prototype | Report prose, source reading/references, final figures, AI-use statement and official coversheet remain the student's work |
-| M8 specification correction | Original slide semantics restored at the student’s request | Prior adaptation is superseded; no invented client approval. The unspecified 24–48-hour interval remains a documented design choice. |
-
-The supplied assessment explicitly permits AI prototype creation and requires a tools/use statement. Its written-work rules remain separate. Relevant methods from teaching should be selected and explained; this register does not claim interviews, questionnaires, card sorting, SDDP, statistical significance testing or participant studies occurred.
-
-CHECKLIST.md remains the original 199-point specification. Its empty boxes are not a count of failures, nor a completed test ledger. This register provides requirement-level acceptance evidence without fabricating item-by-item sign-off.
+The student worked individually; team-oriented hackathon administration is not fabricated. Attendance was reported by the student; the actual attendance register and portal recognition were not inspected. Historical milestone tags/replayed markers remain unchanged. Prototype-generation permission does not automatically authorise AI-generated written assessment. The final report needs an accurate assistance declaration and must remain self-contained without requiring repository access.

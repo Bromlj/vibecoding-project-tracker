@@ -1,11 +1,23 @@
 # Vibecoding Project Tracker
 
-A local-first Kanban workspace for AI-assisted development. Track tasks, keep curated prompts/outcomes, copy a briefing to another tool, and pin deliverable links.
+A local-first Kanban workspace for AI-assisted development. Track tasks, retain prompts and outcomes, select useful attempts for a briefing, and keep deliverable links with each project.
 
-**20 October deployed prototype checkpoint:** the browser-local workspace and guided demo are publicly accessible. See [current coverage and verification limits](CURRENT_ACCEPTANCE.md), [supporting developer evidence](EVIDENCE.md), [teaching considerations](TEACHING_APPLICATION.md), [design system](DESIGN.md) and [workflow](WORKSPACE_WORKFLOW.md).
+## Prototype
+
+- App: https://vibecoding-project-tracker-umber.vercel.app/
+- Populated demo: https://vibecoding-project-tracker-umber.vercel.app/?demo=1
+
+Local and demo modes require no account, environment variables or database setup. Demo records are fictional and stored separately from the user's own work. The public prototype was checked on 20 October 2026; recheck assessor access before submission. Live shared accounts remain deferred.
+
+## Documentation authority — 23 October 2026
+
+Requirements now use the numbering and MVP priorities in the student's report. See [alignment and legacy-ID translation](REPORT_ALIGNMENT.md), [requirements sources and scope](REQUIREMENTS.md), [functional requirements](FUNCTIONAL_REQUIREMENTS.md), [non-functional requirements](NON_FUNCTIONAL_REQUIREMENTS.md), [data requirements](DATA_REQUIREMENTS.md), and [current acceptance](CURRENT_ACCEPTANCE.md).
+
+Older dated design/release notes retain their checkpoint wording and legacy requirement IDs. Translate those IDs through REPORT_ALIGNMENT.md; do not confuse them with the current report numbering. Original updated documents are retained in [the history folder](docs/history/2026-10-20/) and Git history. This reconciliation changes documentation only, not the application or recorded results.
 
 ## Run
-Requires Node.js 22.12+ (this build checked with Node 24) and npm.
+
+Node.js 22.12+ and npm are required; the recorded checks used Node 24.
 
 ```sh
 npm ci
@@ -15,63 +27,32 @@ npm run build
 npm run preview
 ```
 
-Open the URL printed by Vite. Local/demo mode requires no accounts, environment variables or database setup. Optional shared access is prepared separately in [CLOUD_SETUP.md](CLOUD_SETUP.md). React 18 is retained; Vite 8.3.4 and Tailwind 4.3.3 replace the starter build tools following dependency review. See [TOOLS.md](TOOLS.md), [DESIGN.md](DESIGN.md) and [REQUIREMENTS.md](REQUIREMENTS.md). Detailed acceptance points are in [CHECKLIST.md](CHECKLIST.md); [RELEASE_READINESS.md](RELEASE_READINESS.md) supersedes the historical gap audit.
+React 18, Vite 8.3.4 and Tailwind 4.3.3 form the existing build. package.json/package-lock.json are authoritative. Optional shared access is described in [CLOUD_SETUP.md](CLOUD_SETUP.md). See [TOOLS.md](TOOLS.md) for the existing development-tool inventory.
 
-Requirements are separated for navigation: [functional](FUNCTIONAL_REQUIREMENTS.md), [non-functional](NON_FUNCTIONAL_REQUIREMENTS.md), and [data with dictionary](DATA_REQUIREMENTS.md). The shared source/scope record stays in REQUIREMENTS.md.
+## Workflow
 
-## Use
-- Set up your workspace and first project, then open a board from Projects. Create additional projects from New project.
-- Add task or select a task title. Details holds type/status/owner/date; AI context holds useful prompts, actual outcomes, errors and next steps. Tab changes preserve the draft.
-- Save explicitly. Status moves the task through To Do, In Progress, Review and Done. Hand off to assigns a real roster member or Unassigned.
-- Copy context uses the saved card or the current editor draft. Review briefing shows the exact output; neither action saves or calls AI. Blocked clipboard access offers selectable text.
-- Team manages names and optional email/GitHub/GitLab metadata. Contact details alone do not connect accounts or invite people.
-- Project Milestones records achievement criteria; four deliverable links remain above each board. Neither a saved link nor a task count automatically marks a milestone reached.
-- Appearance & settings previews changes immediately: Light/Dark/System, text size, contrast, effects and palettes. Save keeps changes; Cancel restores saved values. Colour vision support in Accessibility overrides both task badges and whole-card colours for your browser, with blue/amber/neutral grey or monochrome plus labels/borders. Cards and controls have stronger boundaries. Accessibility is also reachable before setup; backup/restore remains in settings.
-- Navigation & reading provides direct section buttons, a shortcut guide and optional device-voice reading. Enable single-key shortcuts to use P for Projects, B for Board, T for Team, N for a new task and F for search. They stay inactive while typing or in dialogs. [Full access guide and verification](ACCESSIBILITY_NAVIGATION.md).
-- Read briefing aloud is available in AI context and Review briefing, with pause/resume/stop. It uses available local device voices and does not save the task.
-- How to use explains the full workflow. Explore demo opens an eight-step practice guide and separate synthetic examples. Hide/show the guide or confirm Reset demo practice to restore only example data. Back to my workspace returns to your own work. On mobile choose a stage or View all stages.
+1. Name the local workspace, add yourself and create the first project. Projects keeps separate boards, milestones and deliverable links.
+2. Add or edit a task. Details, AI context and Attempts & lessons share a draft. Save explicitly; cancelling does not silently save.
+3. Change the stage or hand off to a roster member. Names and optional contact/GitHub/GitLab fields are manual metadata, not connected accounts.
+4. Keep current context and successive attempts. Select which attempts enter the next briefing. Review and copy use saved card data or the visible editor draft, without saving or sending to an AI provider. Blocked clipboard access provides selectable text.
+5. Set milestone achievement criteria and explicitly mark Pending/Reached. The four deliverable slots indicate whether a URL exists, not whether work is complete.
+6. Use search, filters, mobile stage selection, appearance/preferences, optional shortcuts and device reading as needed. Settings offers explicit backup and validated restore.
+7. Explore demo/How to use provides isolated synthetic practice. Reset demo affects examples only; Back to my workspace returns to actual local work.
 
-## Data and limits
-Local data lives in this browser/origin's localStorage. Download a workspace backup before changing origin or clearing browser data; validated restore is explicit. Saving errors retain drafts and previous saved data. Invalid records are preserved with recovery download. Stale writes from another tab are blocked.
+The StudySprint team example demonstrates fictional owners, handovers and attempts. It does not simulate real connected users or establish research outcomes. See [PROTOTYPE_DEMO.md](PROTOTYPE_DEMO.md) and [WORKSPACE_WORKFLOW.md](WORKSPACE_WORKFLOW.md), applying the legacy-ID translation where needed.
 
-Date-only deadlines end at 23:59:59.999 in the local timezone. Overdue tasks use a distinct alarm fill (red by default); tasks due within 48 hours use a warning fill (amber), with a specific within-24-hours label. More than 48 hours is calm; undated tasks and completed tasks are neutral. Done overrides overdue status. Completion is neutral grey in every palette; labels, type badges, icons and solid/dashed/double borders remain. Blue/amber/grey and monochrome alternatives are available. Appearance follows the device by default, or a saved Light/Dark choice.
+## Persistence and limits
 
-Optional authentication/database code needs live Supabase configuration before shared use. There is no automatic AI execution, repository integration, real-time push collaboration, simultaneous multi-team administration or automatic milestone completion. Prototype checks are not a full WCAG conformance or user-study claim. The reviewed lockfile reports zero npm audit advisories as of 20 October 2026; continue checking dependencies when maintaining the tool.
+Data is stored in this browser and origin. Export a backup before clearing browser data or changing origin. Failed saves preserve drafts and previous data; invalid stored records remain available for recovery; stale-tab writes are blocked. This is not cross-device synchronisation.
 
-## Milestone checkpoints
-Each completed code stage has its exact live portal marker in its commit message and as a Git tag. Markers may differ from the original starter README.
+Date-only deadlines end at the end of the local calendar day. Overdue work has a distinct alarm presentation; work due within 48 hours has warning styling, with a specific within-24-hours label. The 24–48-hour interval is a documented design interpretation. Later/undated tasks are calm; completed tasks are neutral in every palette. Text, icons and border patterns accompany colour. See [M8_SPECIFICATION_DECISION.md](M8_SPECIFICATION_DECISION.md) for the historical correction.
 
-| Stage | Marker |
-|---|---|
-| M1 | git-linked |
-| M2 | prd-done (requirements documented after updated class instruction) |
-| M3 | design-done |
-| M4 | data-model |
-| M5 | crud-modal |
-| M6 | tag-style |
-| M7 | task-owner |
-| M8 | due-tint |
-| M9 | task-context |
-| M10 | copy-context |
-| M11 | project-deliverables |
-| M12 | secret-sauce |
-| M13 | pitch-done (public populated demo and access verified) |
+There is no automatic AI execution, repository integration, live push collaboration or automatic milestone completion. Optional shared-service code requires separate configuration and real-account verification. Prototype checks do not establish complete WCAG conformance, security certification or representative-user satisfaction.
 
-The student reports that the webhook is now configured. Fresh marker commits replay the completed M1–M13 progress after that repair, with each marker pushed individually. Existing M1–M12 tags remain on their original checkpoints; pitch-done identifies the prepared local demo. Portal recognition has not been independently verified. See [current milestone record](MILESTONE_PROGRESS.md).
+## Evidence and delivery
 
-## Deployment and demo
-The prototype is deployed at https://vibecoding-project-tracker-umber.vercel.app/. The deployment uses the GitHub fork Bromlj/vibecoding-project-tracker, Vite preset, repository root `./`, build `npm run build`, and output `dist`. Local/demo-only hosting needs no environment variables. Shared sign-in uses the public variables and live configuration described in CLOUD_SETUP.md; server secrets must never enter the frontend. Use the free Hobby option for this personal coursework prototype; no paid trial or add-on is required. See [Vercel Git deployment guidance](https://vercel.com/docs/git) and [Hobby plan](https://vercel.com/docs/plans/hobby).
+[EVIDENCE.md](EVIDENCE.md) links the stored Node/build, workflow, accessibility and synthetic performance records with checkpoint limitations. Browser harnesses and full screenshots remain outside this public repository. The 23 October documentation revision does not rerun those checks.
 
-Public access was verified in a fresh browser without Vercel login or app registration on 20 October 2026; recheck before submission. The lecturer's hackathon portal is separate. Browser storage on the new hosted origin starts separately from localhost; hosting does not add shared storage.
+[MILESTONE_PROGRESS.md](MILESTONE_PROGRESS.md) retains the M1–M13 record. Historical tags are unchanged. The repository uses pitch-done following the supplied portal instruction, while the slide says pitch-ready; portal recognition is not independently verified. Replayed progress commits are notifications, not newly implemented stages. Participation is separate from tag existence.
 
-The student's latest class clarification is that there is no formal presentation; at most an informal 30-second app demonstration if requested. Rehearsal is not a delivery prerequisite. See [DEMO.md](DEMO.md) for the optional walkthrough.
-
-## CM6312 working fork
-Working repository: https://github.com/Bromlj/vibecoding-project-tracker
-
-## Team example and Attempts & lessons
-Open `?demo=1` and choose **Open team example** (or **Add team example project** for an existing demo). Open **Build accessible study timer → Attempts & lessons** to see three approaches attributed to fictional teammates. Record an attempt, choose which lessons to copy, and hand off the task from Details. The example includes working sample links and project milestones. There is no demo member switcher or simulated login. See [PROTOTYPE_DEMO.md](PROTOTYPE_DEMO.md).
-
-## Live prototype
-
-[Open the app](https://vibecoding-project-tracker-umber.vercel.app/) or [open the populated demo](https://vibecoding-project-tracker-umber.vercel.app/?demo=1). Public access and core demo interactions verified on 20 October 2026; see RELEASE_READINESS.md. Local records remain browser-specific; live shared accounts are deferred.
+The prototype is deployed with Vite, repository root ./, npm run build and dist output. Local/demo hosting needs no environment variables. Shared-mode browser configuration must never contain server secrets; see CLOUD_SETUP.md. The student's clarification was no formal presentation, at most a short informal demo. The M11 Presentation slot remains an app requirement, not proof of a separate assessment submission.

@@ -1,43 +1,29 @@
-# Engineering requirements — CM6312 working baseline
+# Engineering requirements — report-aligned baseline
 
-Version 4, reconciled for report preparation on 20 October 2026. Current acceptance evidence and limitations are consolidated in [CURRENT_ACCEPTANCE.md](CURRENT_ACCEPTANCE.md). This is a development specification, not assessed report prose. It retains IDs from the earlier working baseline and reconciles them with the supplied starter. A documented requirement is not necessarily implemented or verified.
+Version 5, 23 October 2026. Current identifiers and MVP priorities follow the student's report requirement lists. This is an engineering specification, not evidence of new elicitation, code changes or completed evaluation. See [REPORT_ALIGNMENT.md](REPORT_ALIGNMENT.md) for the exact legacy-ID translation and preserved history.
 
-## Sources and interpretation
-- **S1 — Initial client description:** intuitive project management for vibe-coding; track tasks over time, important information and key milestones; record useful prompts/results; include Kanban. Supplied in the lecturer announcement.
-- **S2 — Client milestone slides:** M4 task model/columns; M5 modal CRUD/persistence; M6 type distinction; M7 ownership; M8 deadlines; M9 context; M10 copy; M11 deliverable anchors; M12 chosen extension; M13 demo. Screenshots supplied by the student; no invented slide/page numbers.
-- **S3 — Supplied starter PRD/scaffold:** React/Vite/Tailwind, locked Task/Anchor fields, localStorage and fixed roster; excludes accounts, backend and real-time/multi-team collaboration. Original version remains in Git history. Current reconciliation: [PRD.md](PRD.md).
-- **S4 — Student's client-discussion notes:** reported general developers, one team/multiple boards, optional manual team setup, identity metadata and customisable task colours. These are reported answers, not verbatim transcripts. The student's subsequent explicit full-product instruction adopts multiple boards, editable members, project milestones and palettes. These are no longer indefinitely deferred; shared access remains a separately configured extension.
-- **S5 — Consulted technical guidance:** [WCAG 2.2](https://www.w3.org/TR/WCAG22/), [WAI modal dialog pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/), [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText), [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
-- **D — Chosen implementation policy:** explicit decisions in [DESIGN.md](DESIGN.md), not attributed to the client or fabricated research.
+## Sources
 
-MVP flags retain the earlier baseline's priorities. “No — required milestone” is still required for the final hackathon build. “Implemented” describes code, while the verification column limits the evidence actually obtained. Deferred items have not been deleted from the baseline merely because they are absent from the app.
+- S1: Initial client description — task progress, useful prompts/results, project information and key milestones for AI-assisted development.
+- S2: Supplied hackathon slides — task model/four stages (M4), editing/persistence (M5), type distinction (M6), ownership (M7), deadlines (M8), context (M9), copying (M10), deliverable anchors (M11), selected extension (M12).
+- S3: Starter PRD/scaffold — React/Vite/Tailwind and localStorage; the starter excluded accounts and real-time collaboration. Original material remains in Git history.
+- S4: Consolidated client-discussion notes — general developers, one team/multiple boards, manual roster metadata and customisable colours. These are reported summaries, not verbatim transcripts or representative-user research.
+- S5: Consulted technical guidance — WCAG 2.2, WAI interaction patterns and browser API documentation.
+- D: Developer-selected interpretations/extensions, including the 24–48-hour deadline rule, explicit achievement criteria, recovery policies, appearance/navigation choices and Attempts & lessons.
 
-## Functional requirements
+## Current specification
 
-See [FUNCTIONAL_REQUIREMENTS.md](FUNCTIONAL_REQUIREMENTS.md) for 24 requirements (FR-01–24), including the later accessibility and guided-learning extensions.
+- [24 functional requirements](FUNCTIONAL_REQUIREMENTS.md): FR-01–24. FR-01–15 are MVP; FR-16–24 are delivered beyond the minimum baseline. Beyond MVP does not mean every item is optional: FR-16–18 are supplied hackathon features.
+- [13 non-functional requirements](NON_FUNCTIONAL_REQUIREMENTS.md): NFR-01–11 are MVP; NFR-12/13 are beyond MVP in the report. The changed priorities are explicitly recorded, not backdated.
+- [13 data requirements](DATA_REQUIREMENTS.md): DR-01–08 are MVP; DR-09–13 are beyond MVP.
+- [Current acceptance](CURRENT_ACCEPTANCE.md) separates implemented behaviour, recorded developer checks and unverified outcomes.
 
-## Non-functional requirements
+The report can use these concise definitions without requiring the assessor to consult GitHub. Code/schema details and earlier, richer acceptance descriptions remain available in the preserved 20 October documents. Historical source labels/claims are not evidence that the client approved every developer-selected interpretation.
 
-See [NON_FUNCTIONAL_REQUIREMENTS.md](NON_FUNCTIONAL_REQUIREMENTS.md) for 13 requirements (NFR-01–13).
+## Scope and outstanding evidence
 
-## Data requirements
+The delivered prototype is a browser-local workspace with multiple project boards and a separate synthetic demo. Manual ownership and handover do not authenticate or notify another user. Prepared cloud sharing remains deferred; there is no verified live remote collaboration, repository integration or automatic AI execution.
 
-See [DATA_REQUIREMENTS.md](DATA_REQUIREMENTS.md) for 13 requirements (DR-01–13) and the implemented data dictionary, sources and persistence rules.
+Existing developer records include 28 Node tests, production build success, named workflow checks, automated accessibility scans and a defined synthetic benchmark. Their original checkpoints and limitations remain in EVIDENCE.md. No test results have been created or rerun by this documentation alignment. Human screen-reader use, audible speech, physical-device use and representative-user outcomes remain unverified.
 
-## Expanded acceptance audit
-
-[CHECKLIST.md](CHECKLIST.md) retains the 199 supplied acceptance points, all unchecked. [RELEASE_READINESS.md](RELEASE_READINESS.md) reconciles all 17 groups with current code and checks; IMPLEMENTATION_STATUS.md is historical. Earlier quota/long-input failures were repaired and rechecked: drafts and prior data survive failed saves, failed deletion leaves the task, and over-limit text is retained with an error. The entire checklist has not been certified.
-
-## Verification routes and limits
-- `npm test`: date boundaries/validation, schema fixtures, timestamps, context formatting/review hints, URLs, demo validity, cloud contracts, shortcuts and same-name members (28 tests at the latest recorded checkpoint; no new tests run for this documentation reconciliation).
-- `npm run build`: actual production compilation, not proof of deployment or usability.
-- Browser checks conducted locally: CRUD/movement/reload/cancellation/delete; handoff/context persistence; clipboard success/denial; URLs; review; invalid-storage preservation; demo isolation; keyboard focus; cross-tab protection; selected contrast/reflow checks.
-- Private screenshots, browser scripts/results and per-stage rationale are retained in the subject workspace, outside this public code repository. They contain no invented participant evidence. A separate coursework evaluation must distinguish intention, code and observed results.
-- Current checks include Chrome, Edge and Firefox, the 24-state design audit plus guide/navigation scans, keyboard/reflow/failure scenarios and fresh performance measurements. Public prototype access was verified on 20 October 2026. Named human screen-reader evaluation and representative-user study remain unrecorded. These are different kinds of outstanding evidence; they are not all prerequisites for an initial hosted demo. There is no formal presentation or mandatory rehearsal, following the student's latest clarification.
-
-## Current scope decision
-The student explicitly requested the fuller local workspace after reviewing the starter-only gap. Version 2 implements editable members, multiple projects, project milestones, safe saving, palettes and visible accessibility preferences. This supersedes starter fixed-roster/single-board restrictions while preserving the four task stages and prompt/context workflow. The chosen schemas remain implementation decisions, not verbatim client statements.
-
-Supabase Auth/PostgreSQL is a later user-authorized optional sharing extension; local/demo access stays registration-free. Live configuration and verification remain separate from code readiness. The student's pasted portal instruction uses pitch-done; the slide/starter uses pitch-ready. The repository uses pitch-done. Portal acceptance has not been independently verified; historic tags are preserved.
-
-Latest M12 addition: FR-24 / DR-13, Attempts & lessons, is a student-selected extension beyond the client's current-context and copy requirements. See PROTOTYPE_DEMO.md for decisions, prototype scope and checks.
+CHECKLIST.md and other dated design/release notes preserve their original checkpoint wording and legacy identifiers. Use REPORT_ALIGNMENT.md to interpret them. The current documentation does not claim all acceptance points pass, full accessibility conformance, user satisfaction or improved productivity. AI-use disclosure and the assessment's written-work rules remain separate from prototype-generation permission.
