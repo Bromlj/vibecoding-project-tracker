@@ -45,6 +45,8 @@ The StudySprint team example demonstrates fictional owners, handovers and attemp
 
 Data is stored in this browser and origin. Export a backup before clearing browser data or changing origin. Failed saves preserve drafts and previous data; invalid stored records remain available for recovery; stale-tab writes are blocked. This is not cross-device synchronisation.
 
+Newly saved tasks record an ISO creation date-time as well as the existing local creation date (DR-07 update, 25 October 2026). Older backups and tasks retain their original date-only record; the app does not invent a time they never stored. The 20 October test evidence predates this change.
+
 Date-only deadlines end at the end of the local calendar day. Overdue work has a distinct alarm presentation; work due within 48 hours has warning styling, with a specific within-24-hours label. The 24–48-hour interval is a documented design interpretation. Later/undated tasks are calm; completed tasks are neutral in every palette. Text, icons and border patterns accompany colour. See [M8_SPECIFICATION_DECISION.md](M8_SPECIFICATION_DECISION.md) for the historical correction.
 
 There is no automatic AI execution, repository integration, live push collaboration or automatic milestone completion. Optional shared-service code requires separate configuration and real-account verification. Prototype checks do not establish complete WCAG conformance, security certification or representative-user satisfaction.

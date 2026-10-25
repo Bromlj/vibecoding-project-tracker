@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { blankWorkspace, createWorkspace, makeBoard, validWorkspace, initialWorkspace, changeBoard, removeMember, boardNameError, PALETTES, CARD_PALETTES, memberLabel } from './workspace.js';
-import { seedTasks } from './data.js';
+import { blankWorkspace, createWorkspace, makeBoard, validWorkspace, initialWorkspace, changeBoard, removeMember, boardNameError, PALETTES, CARD_PALETTES, memberLabel, prepareTaskForSave } from './workspace.js';
+import { seedTasks, localDate } from './data.js';
 import { writeSnapshot } from './storage.js';
 
 const member={name:'Alex',email:'alex@example.com',github:'alex-dev',gitlab:'alex.dev'};
@@ -25,6 +25,33 @@ test('setup, separate boards and stable member references survive rename',()=>{
   assert.equal(removeMember(ws,memberId).boards[0].tasks[0].assigneeId,null);
   assert.equal(validWorkspace(blankWorkspace()),true);
 });
+test('DR-07 records new task creation instants without rewriting existing identities or legacy dates',()=>{
+  const first=new Date('2026-10-25T14:27:12.345Z'), later=new Date('2026-10-26T10:00:00.000Z');
+  const draft={id:'',title:'A task',description:'',type:'feature',status:'todo',assigneeId:null,
+    dueDate:null,createdDate:'2000-01-01',context:'',contextTool:null,contextUpdatedAt:null};
+  const saved=prepareTaskForSave(draft,draft,first);
+  assert.ok(saved.id);
+  assert.equal(saved.createdAt,first.toISOString());
+  assert.equal(saved.createdDate,localDate(first));
+  assert.equal(draft.id,'');
+  const workspace=createWorkspace('Team',member,'Website');
+  workspace.boards[0].tasks.push(saved);
+  assert.equal(validWorkspace(workspace),true);
+  const edited=prepareTaskForSave({...saved,title:'Edited',id:'tampered',
+    createdAt:later.toISOString(),createdDate:'2000-01-01'},saved,later);
+  assert.equal(edited.id,saved.id);
+  assert.equal(edited.createdAt,saved.createdAt);
+  assert.equal(edited.createdDate,saved.createdDate);
+  workspace.boards[0].tasks[0]=edited;
+  assert.equal(validWorkspace(workspace),true);
+  const legacy={...edited};delete legacy.createdAt;
+  workspace.boards[0].tasks[0]=legacy;
+  assert.equal(validWorkspace(workspace),true);
+  const legacyEdit=prepareTaskForSave({...legacy,title:'Legacy edit'},legacy,later);
+  assert.equal(Object.hasOwn(legacyEdit,'createdAt'),false);
+  assert.equal(legacyEdit.createdDate,legacy.createdDate);
+});
+
 test('legacy migration retains tasks/ids/anchors and never deletes legacy keys',()=>{
   const storage=memory(), tasks=seedTasks();
   storage.setItem('vibetracker.tasks',JSON.stringify(tasks));

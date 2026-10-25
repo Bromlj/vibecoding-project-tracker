@@ -1,12 +1,12 @@
 import { useEffect, useState, useId } from 'react';
-import { STAGES, localDate } from './data';
+import { STAGES } from './data';
 import { button, primaryButton, input } from './ui';
 import TypeBadge from './TypeBadge';
 import CopyContext from './CopyContext';
 import Dialog from './Dialog.jsx';
 import { BriefingContent } from './BriefingReview';
 import { AI_TOOLS, CONTEXT_TEMPLATE, withContextTimestamp, updatedLabel, serializeContext } from './context';
-import { taskError, newId, memberLabel } from './workspace';
+import { taskError, prepareTaskForSave, memberLabel } from './workspace';
 import Icon from './Icon';
 import ReadAloud from './ReadAloud';
 import AttemptsPanel from './AttemptsPanel';
@@ -25,7 +25,8 @@ export default function TaskEditor({task,members,onSave,onDelete,onClose,attempt
     e.preventDefault();const dateInput=document.getElementById(tabsId+'-field-dueDate');
     const invalid=taskError(draft)||(!dateInput.validity.valid?'Choose a valid due date, or clear it completely.':'');if(invalid){setError(invalid);const name=invalid.startsWith('Attempt')?'attempts':invalid.startsWith('Context')?'context':invalid.startsWith('Description')?'description':invalid.includes('due date')?'dueDate':'title';setInvalidField(name);setTab(name==='attempts'?'attempts':name==='context'?'context':'details');requestAnimationFrame(()=>document.getElementById(name==='attempts'?'task-error':tabsId+'-field-'+name)?.focus());return;}
     setBusy(true);
-    const result=await onSave({...withContextTimestamp(draft,task),title:draft.title.trim(),id:draft.id||newId(),createdDate:draft.createdDate||localDate()});
+    const candidate={...withContextTimestamp(draft,task),title:draft.title.trim()};
+    const result=await onSave(prepareTaskForSave(candidate,task));
     setBusy(false);if(!result.ok)setError(result.error);
   }
   async function remove(){setBusy(true);const result=await onDelete(task.id);setBusy(false);if(!result.ok)setError(result.error);}
@@ -46,7 +47,7 @@ export default function TaskEditor({task,members,onSave,onDelete,onClose,attempt
           <label className="block font-medium">Due date <span className="text-sm text-ink-muted">(optional)</span><input id={tabsId+'-field-dueDate'} type="date" min="1000-01-01" max="9999-12-31" className={input} value={draft.dueDate||''} aria-invalid={invalidField==='dueDate'} aria-describedby={invalidField==='dueDate'?'task-error':undefined} onChange={e=>field('dueDate',e.target.value||null)}/></label>
         </div>
         <div className="mt-3"><TypeBadge type={draft.type}/></div>
-        <p className="mt-6 break-all text-sm text-ink-muted">Created: <time dateTime={draft.createdDate}>{draft.createdDate}</time>{task.id&&<> · Task ID: {task.id}</>}</p>
+        <p className="mt-6 break-all text-sm text-ink-muted">{task.id?<>Created: <time dateTime={task.createdAt||task.createdDate}>{task.createdAt?new Date(task.createdAt).toLocaleString('en-GB'):task.createdDate}</time>{!task.createdAt&&' (date only; saved before time tracking)'} · Task ID: {task.id}</>:'Creation date and time are recorded when you first save this task.'}</p>
         <p className="context-hint">Keep useful prompts, outcomes and the next step in <button type="button" className="text-action" onClick={()=>{setTab('context');document.getElementById(tabsId+'-context')?.focus();}}>AI context</button>.</p>
         </div>
         <section role="tabpanel" id={tabsId+'-panel-context'} aria-labelledby={tabsId+'-context'} hidden={tab!=='context'}>

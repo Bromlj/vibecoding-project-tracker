@@ -1,5 +1,5 @@
 import { AI_TOOLS } from './context.js';
-import { STAGES, TEAM, validDate, validTasks } from './data.js';
+import { STAGES, TEAM, validDate, validTasks, localDate } from './data.js';
 import { initialAnchors, validAnchors } from './anchors.js';
 import {addExampleProject} from './exampleProject.js';
 import { demoTasks } from './demo.js';
@@ -36,6 +36,16 @@ export function blankWorkspace() {
 export function makeBoard(name, description = '') {
   return { id: newId(), name: name.trim(), description: description.trim(), tasks: [], anchors: initialAnchors(), milestones: [] };
 }
+// Assign an exact creation instant only when a new task is saved. Keep existing
+// IDs, dates and timestamps unchanged; old backups legitimately have no createdAt.
+export function prepareTaskForSave(draft, original, now = new Date()) {
+  const { id, createdDate, createdAt, ...fields } = draft;
+  if (original.id) return {
+    ...fields, id: original.id, createdDate: original.createdDate,
+    ...(original.createdAt === undefined ? {} : {createdAt: original.createdAt}),
+  };
+  return {...fields, id: newId(), createdDate: localDate(now), createdAt: now.toISOString()};
+}
 export function memberError(member) {
   if (!text(member.name, 100, true)) return 'Enter a member name of up to 100 characters.';
   if (!text(member.email, 254) || !validEmail(member.email)) return 'Enter a valid email address, or leave it empty.';
@@ -68,7 +78,7 @@ export function validWorkspace(value) {
   return value.boards.every(board=>board && text(board.id,100,true) && text(board.name,100,true) && text(board.description,2000) && validAnchors(board.anchors) &&
     Array.isArray(board.tasks) && unique(board.tasks.map(t=>t?.id)) && board.tasks.every(t=>t && text(t.id,100,true) && !taskError(t) &&
       ['feature','bug'].includes(t.type) && STAGES.some(s=>s.id===t.status) && (t.assigneeId===null || members.has(t.assigneeId)) &&
-      validDate(t.createdDate) && validAttempts(t.attempts) && (t.contextTool===null || AI_TOOLS.includes(t.contextTool)) && (t.contextUpdatedAt===null || instant(t.contextUpdatedAt))) &&
+      validDate(t.createdDate) && (t.createdAt===undefined || (instant(t.createdAt) && t.createdAt.includes('T'))) && validAttempts(t.attempts) && (t.contextTool===null || AI_TOOLS.includes(t.contextTool)) && (t.contextUpdatedAt===null || instant(t.contextUpdatedAt))) &&
     Array.isArray(board.milestones) && unique(board.milestones.map(m=>m?.id)) && board.milestones.every(m=>m && text(m.id,100,true) && !milestoneError(m) &&
       ['pending','reached'].includes(m.status) && (m.status==='pending'?m.reachedAt===null:instant(m.reachedAt))));
 }

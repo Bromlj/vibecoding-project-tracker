@@ -1,6 +1,6 @@
 # Current acceptance — report-aligned IDs
 
-Documentation reconciled 23 October 2026. Implementation/evidence remains the recorded 20 October checkpoint; this revision does not rerun tests or change application code. The original detailed evidence register is preserved in docs/history/2026-10-20/CURRENT_ACCEPTANCE.md. Translate legacy IDs using REPORT_ALIGNMENT.md. EVIDENCE.md and evidence/ remain unchanged.
+Documentation reconciled 23 October 2026. A 25 October 2026 DR-07 follow-up added exact creation timestamps for new tasks without rewriting older date-only tasks. The 20 October recorded tests and other numerical evidence have not been rerun for that subsequent code change. The original detailed evidence register is preserved in docs/history/2026-10-20/CURRENT_ACCEPTANCE.md. Translate legacy IDs using REPORT_ALIGNMENT.md. EVIDENCE.md and evidence/ remain unchanged.
 
 ## Evidence meaning
 
@@ -57,7 +57,7 @@ Existing records include 28 passing Node tests and a successful build; 14 develo
 
 ## Data acceptance
 
-DR-01–07: implemented local IDs, fields, relationships, context, tool labels and timestamps, subject to validation and local-clock limits. DR-08: implemented project milestone data (legacy DR-09); reached state is user-asserted. DR-09: implemented fixed deliverable URL slots (legacy DR-08); URL presence does not certify work. DR-10/11: workspace palettes and separate browser preferences implemented; voice output remains unverified. DR-12: authored guidance and labelled synthetic practice data implemented; not research records. DR-13: optional editable attempts and selected serialization implemented locally; prepared cloud validation is not live activation.
+DR-01–07: implemented local IDs, fields, relationships, context and tool labels. New tasks now record an ISO `createdAt` instant when first saved (25 October implementation correction); older saved tasks remain valid with `createdDate` only. Saved context retains its own update instant. The creation-timestamp regression test was added but has not been executed as part of the 20 October evidence; runtime/browser re-verification remains outstanding. DR-08: implemented project milestone data (legacy DR-09); reached state is user-asserted. DR-09: implemented fixed deliverable URL slots (legacy DR-08); URL presence does not certify work. DR-10/11: workspace palettes and separate browser preferences implemented; voice output remains unverified. DR-12: authored guidance and labelled synthetic practice data implemented; not research records. DR-13: optional editable attempts and selected serialization implemented locally; prepared cloud validation is not live activation.
 
 ## Assessment and delivery boundaries
 

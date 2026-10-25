@@ -31,3 +31,10 @@ Original versions of the six updated existing documents are preserved byte-for-b
 Other dated engineering/design notes, including DESIGN.md, DESIGN_REVIEW.md, IMPLEMENTATION_STATUS.md, RELEASE_READINESS.md, PRD.md, M8_SPECIFICATION_DECISION.md and TEACHING_APPLICATION.md, retain their original IDs and checkpoint statements. Read their requirement IDs through the table above. They are historical rationale/evidence, not a second current numbering authority. Their original observations have not been rewritten to look contemporaneous with the report.
 
 EVIDENCE.md and evidence/ are unchanged. This documentation revision does not rerun tests, create participant findings, certify accessibility or activate shared accounts. The report must remain self-contained for an assessor who does not inspect GitHub.
+
+
+## Follow-up implementation audit — 25 October 2026
+
+A subsequent source review compared the canonical FR-01–24, NFR-01–13 and DR-01–13 lists with the implementation. The requirement IDs and MVP/beyond-MVP boundaries above already matched the supplied report. One substantive data gap was identified: `createdDate` held a local calendar date rather than a full task-creation timestamp as requested by DR-07. New task saves now generate a separate ISO `createdAt` instant, while legacy date-only records and backups remain valid. Editing an existing task does not change its identity or original creation time.
+
+A regression test was added for new creation times, immutable identities and legacy compatibility. **No new Node, build, browser, user or accessibility test execution is asserted by this audit.** The recorded 20 October results in EVIDENCE.md remain historical; WCAG conformance, physical-device use and representative-user outcomes still require independent verification. This follow-up is an implementation change, unlike the documentation-only 23 October identifier reconciliation described above.
