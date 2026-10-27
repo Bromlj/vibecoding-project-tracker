@@ -1,0 +1,35 @@
+name: Assessment interaction supplement
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/assessment-supplement.yml'
+      - 'scripts/capture-assessment-supplement.py'
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install audit tools
+        run: |
+          npm ci
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Capture isolated live frontend states
+        run: python scripts/capture-assessment-supplement.py
+      - name: Archive screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assessment-interaction-supplement
+          path: assessment-supplement/
+          retention-days: 30
