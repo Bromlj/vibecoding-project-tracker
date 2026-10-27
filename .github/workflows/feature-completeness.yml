@@ -1,0 +1,31 @@
+name: Feature completeness evidence
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/feature-completeness.yml'
+      - 'scripts/capture-feature-completeness.py'
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install capture tools
+        run: |
+          pip install playwright
+          python -m playwright install chromium
+      - name: Capture isolated frontend states
+        run: python scripts/capture-feature-completeness.py
+      - name: Preserve screenshots, source snapshot and per-case results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: feature-completeness
+          path: feature-completeness/
+          retention-days: 30
