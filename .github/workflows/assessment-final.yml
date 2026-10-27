@@ -1,0 +1,31 @@
+name: Assessment final targeted evidence
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/assessment-final.yml'
+      - 'scripts/capture-assessment-final.py'
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install capture browser
+        run: |
+          pip install playwright
+          python -m playwright install chromium
+      - name: Capture isolated public prototype
+        run: python scripts/capture-assessment-final.py
+      - name: Archive genuine screenshots and assertions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assessment-final-states
+          path: assessment-final/
+          retention-days: 30
