@@ -1,0 +1,53 @@
+name: Assessment frontend evidence
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/assessment-evidence.yml'
+      - 'scripts/capture-assessment-evidence.py'
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare snapshot
+        run: |
+          mkdir -p assessment-evidence
+          git rev-parse HEAD > assessment-evidence/source-commit.txt
+          git archive --format=zip -o assessment-evidence/source-snapshot.zip HEAD
+      - name: Record Node and build checks
+        continue-on-error: true
+        run: |
+          set +e
+          npm ci > assessment-evidence/npm-install.txt 2>&1
+          INSTALL=$?
+          echo "npm-ci=$INSTALL" > assessment-evidence/node-status.txt
+          if [ "$INSTALL" -eq 0 ]; then
+            npm test > assessment-evidence/node-tests-current.txt 2>&1
+            echo "npm-test=$?" >> assessment-evidence/node-status.txt
+            npm run build > assessment-evidence/build-current.txt 2>&1
+            echo "npm-build=$?" >> assessment-evidence/node-status.txt
+          fi
+          exit 0
+      - name: Install capture browser
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Capture isolated public demo
+        run: python scripts/capture-assessment-evidence.py
+      - name: Upload genuine screenshots and audit records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assessment-frontend-evidence
+          path: assessment-evidence/
+          retention-days: 30
