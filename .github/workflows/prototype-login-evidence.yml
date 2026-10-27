@@ -1,0 +1,44 @@
+name: Prototype login evidence
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/prototype-login-evidence.yml'
+      - 'scripts/capture-prototype-login.py'
+      - 'src/PrototypeSignIn.jsx'
+      - 'src/prototypeSession.js'
+      - 'src/prototypeSession.test.js'
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Source installation, tests and build
+        run: |
+          mkdir -p prototype-login-evidence
+          npm ci
+          set -o pipefail
+          npm test 2>&1 | tee prototype-login-evidence/node-tests.txt
+          npm run build 2>&1 | tee prototype-login-evidence/build.txt
+      - name: Install capture browser
+        run: |
+          pip install playwright
+          python -m playwright install chromium
+      - name: Capture deployed login and guest interaction
+        run: python scripts/capture-prototype-login.py
+      - name: Archive screenshots and exact results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prototype-login-evidence
+          path: prototype-login-evidence/
+          retention-days: 30
