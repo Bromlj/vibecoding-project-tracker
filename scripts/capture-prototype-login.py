@@ -41,7 +41,7 @@ with sync_playwright() as p:
   assert q.get_by_role('button',name='Prototype sign in',exact=True).is_visible()
   shot('L05-signed-out','Sign-out confirmation without deleting workspace data')
   q.get_by_role('button',name='Prototype sign in',exact=True).click()
-  q.get_by_label('Example account',exact=True).select_option('sam@example.test')
+  q.locator('dialog[open]').get_by_role('combobox').select_option('sam@example.test')
   q.get_by_label('Sample password',exact=True).fill('demo-only')
   q.get_by_role('button',name='Sign in to preview',exact=True).click()
   assert q.get_by_text('Preview account: Sam Patel (simulation)',exact=True).is_visible()
