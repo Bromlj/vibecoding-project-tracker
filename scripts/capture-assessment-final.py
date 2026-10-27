@@ -12,8 +12,8 @@ with sync_playwright() as p:
   try:M['checks'].append({'name':n,'result':'PASS','details':f()})
   except Exception as e:M['checks'].append({'name':n,'result':'NOT VERIFIED','details':str(e)})
   (O/'manifest.json').write_text(json.dumps(M,indent=2))
- def shot(n,title,note=''):
-  q.wait_for_timeout(200);q.locator('dialog[open]').screenshot(path=str(O/(n+'.png')))
+ def shot(n,title,note='',target=None):
+  q.wait_for_timeout(200);(target or q.locator('dialog[open]')).screenshot(path=str(O/(n+'.png')))
   M['screenshots'].append({'file':n+'.png','title':title,'note':note,'url':q.url,'viewport':q.viewport_size});(O/(n+'.txt')).write_text(q.locator('body').inner_text())
  def board():
   q.goto(URL,wait_until='networkidle');h=q.get_by_role('button',name='Hide guide',exact=True)
@@ -46,5 +46,19 @@ with sync_playwright() as p:
   q.keyboard.press('Escape');shot('S21-discard-draft','Explicit discard protection when closing an edited task','The example change is not saved.')
   return 'Protected dismissal displayed instead of silently discarding edits.'
  check('Unsaved-draft exit protection',draft)
+ def complete_panels():
+  board();q.get_by_role('button',name='Edit task: Build accessible study timer',exact=True).click();q.get_by_role('button',name='Delete task',exact=True).click()
+  panel=q.get_by_role('button',name='Keep task',exact=True).locator('../..');panel.scroll_into_view_if_needed()
+  shot('S23-delete-panel','Complete named deletion panel with both alternatives','The demo task was kept, not deleted.',panel)
+  q.get_by_role('button',name='Keep task',exact=True).click()
+  q.set_viewport_size({'width':1440,'height':1800})
+  q.get_by_role('tab',name='Attempts & lessons',exact=True).click()
+  entry=q.locator('li.attempt-entry').first
+  entry.locator('summary').click()
+  fields=entry.locator('details');fields.scroll_into_view_if_needed()
+  shot('S22-attempt-fields','Complete editable attempt fields: author, tool, outcome, prompt, result and lesson','Tall viewport used to expose the real scrollable controls; no data changed.',fields)
+  q.set_viewport_size({'width':1440,'height':1000})
+  return 'Named deletion alternatives and complete expanded attempt fields captured without committing changes.'
+ check('Complete evidence panels',complete_panels)
  b.close()
 (O/'manifest.json').write_text(json.dumps(M,indent=2));print(json.dumps(M['checks'],indent=2))
