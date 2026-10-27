@@ -8,6 +8,8 @@ on:
       - 'src/PrototypeSignIn.jsx'
       - 'src/prototypeSession.js'
       - 'src/prototypeSession.test.js'
+      - 'src/App.jsx'
+      - 'src/Dialog.jsx'
 permissions:
   contents: read
 jobs:
