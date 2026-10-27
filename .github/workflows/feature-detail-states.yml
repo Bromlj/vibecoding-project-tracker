@@ -1,0 +1,28 @@
+name: Feature detail states
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/feature-detail-states.yml'
+      - 'scripts/capture-feature-detail-states.py'
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          pip install playwright
+          python -m playwright install chromium
+      - run: python scripts/capture-feature-detail-states.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: feature-detail-states
+          path: feature-detail-states/
+          retention-days: 30
