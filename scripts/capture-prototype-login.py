@@ -1,4 +1,4 @@
-"""Capture the real deployed frontend login, using fictional credentials only."""
+"""Capture and validate the deployed frontend-only login with fictional accounts."""
 import json, os, time
 from pathlib import Path
 from datetime import datetime, timezone
@@ -14,49 +14,58 @@ with sync_playwright() as p:
   target=q.locator('dialog[open]') if dialog else q
   target.screenshot(path=str(OUT/(name+'.png')))
   (OUT/(name+'.txt')).write_text(q.locator('body').inner_text())
-  M['screenshots'].append({'file':name+'.png','title':title,'url':q.url,'viewport':q.viewport_size,'note':'Genuine public-site frontend; explicitly simulated login with fictional examples. No authentication claim.'});save()
+  M['screenshots'].append({'file':name+'.png','title':title,'url':q.url,'viewport':q.viewport_size,'note':'Real public-site frontend; fictional demo identities are not authenticated accounts.'});save()
  try:
   for attempt in range(15):
    q.goto(BASE+'?demo=1&login=1',wait_until='networkidle')
-   if q.get_by_role('heading',name='Sign in to the prototype',exact=True).count(): break
-   if attempt==14: raise AssertionError('New login was not present on the public deployment; no screenshot completion claimed.')
+   if q.get_by_role('heading',name='Sign in',exact=True).count(): break
+   if attempt==14: raise AssertionError('Updated login was not present on the public deployment.')
    time.sleep(5)
-  shot('L01-login','Prototype login, example identity and guest route',True)
+  dialog=q.locator('dialog[open]')
+  assert dialog.get_by_label('Email address',exact=True).is_visible()
+  assert dialog.get_by_label('Password',exact=True).is_visible()
+  assert dialog.get_by_text('Demo only — no real account is connected.',exact=True).is_visible()
+  assert 'Do not enter real credentials' not in dialog.inner_text()
+  shot('L01-login','Clean sign-in form and compact demo account choices',True)
   initial=q.evaluate('JSON.stringify({...localStorage})')
-  q.get_by_label('Sample password',exact=True).fill('not-the-sample')
-  q.get_by_role('button',name='Sign in to preview',exact=True).click()
-  assert q.get_by_role('alert').filter(has_text='Use a listed example').is_visible()
-  shot('L02-login-error','Sample-only validation without losing email',True)
-  q.get_by_label('Sample password',exact=True).fill('demo-only')
-  q.get_by_label('Show sample password',exact=True).check()
-  assert q.get_by_label('Sample password',exact=True).get_attribute('type')=='text'
-  shot('L03-password-visible','User-controlled sample password visibility',True)
+  dialog.get_by_label('Email address',exact=True).fill('alex@example.test')
+  dialog.get_by_label('Password',exact=True).fill('not-the-password')
+  dialog.get_by_role('button',name='Sign in',exact=True).click()
+  assert dialog.get_by_role('alert').filter(has_text='Email or password not recognised').is_visible()
+  shot('L02-login-error','Invalid details show one concise inline error',True)
+  dialog.get_by_role('button',name='Alex Morgan',exact=True).click()
+  assert dialog.get_by_label('Email address',exact=True).input_value()=='alex@example.test'
+  assert dialog.get_by_label('Password',exact=True).input_value()=='demo-only'
+  dialog.get_by_role('button',name='Show password',exact=True).click()
+  assert dialog.get_by_label('Password',exact=True).get_attribute('type')=='text'
+  shot('L03-password-visible','One-tap demo account and password visibility',True)
   requests=[];q.on('request',lambda r: requests.append(r.url))
-  q.get_by_role('button',name='Sign in to preview',exact=True).click()
-  assert q.get_by_text('Preview account: Alex Morgan (simulation)',exact=True).is_visible()
+  dialog.get_by_role('button',name='Sign in',exact=True).click()
+  assert q.locator('.sidebar-utilities').get_by_text('Alex Morgan').is_visible()
+  assert q.get_by_role('button',name='Sign out',exact=True).is_visible()
   assert q.evaluate('JSON.stringify({...localStorage})')==initial
-  assert not requests, 'Unexpected request during simulated login'
-  shot('L04-signed-in','Visible example account and simulated sign-in feedback')
-  q.get_by_role('button',name='Sign out of preview',exact=True).click()
-  assert q.get_by_role('button',name='Prototype sign in',exact=True).is_visible()
-  shot('L05-signed-out','Sign-out confirmation without deleting workspace data')
-  q.get_by_role('button',name='Prototype sign in',exact=True).click()
-  q.locator('dialog[open]').get_by_role('combobox').select_option('sam@example.test')
-  q.get_by_label('Sample password',exact=True).fill('demo-only')
-  q.get_by_role('button',name='Sign in to preview',exact=True).click()
-  assert q.get_by_text('Preview account: Sam Patel (simulation)',exact=True).is_visible()
-  shot('L06-second-user','Second fictional identity in the same prototype flow')
+  assert not requests, 'Unexpected request during frontend-only sign-in'
+  shot('L04-signed-in','Signed-in demo identity shown in sidebar')
+  q.get_by_role('button',name='Sign out',exact=True).click()
+  assert q.get_by_role('button',name='Sign in',exact=True).is_visible()
+  shot('L05-signed-out','Signed out without changing workspace data')
+  q.get_by_role('button',name='Sign in',exact=True).click()
+  dialog=q.locator('dialog[open]')
+  dialog.get_by_role('button',name='Sam Patel',exact=True).click()
+  dialog.get_by_role('button',name='Sign in',exact=True).click()
+  assert q.locator('.sidebar-utilities').get_by_text('Sam Patel').is_visible()
+  shot('L06-second-user','Second fictional teammate in same demo flow')
   q.goto(BASE+'?demo=1',wait_until='networkidle')
-  assert q.get_by_role('button',name='Prototype sign in',exact=True).is_visible()
-  assert not q.get_by_role('button',name='Sign out of preview',exact=True).count()
-  q.get_by_role('button',name='Prototype sign in',exact=True).click()
-  q.get_by_role('button',name='Continue without signing in',exact=True).click()
+  assert q.get_by_role('button',name='Sign in',exact=True).is_visible()
+  assert not q.get_by_role('button',name='Sign out',exact=True).count()
+  q.get_by_role('button',name='Sign in',exact=True).click()
+  q.locator('dialog[open]').get_by_role('button',name='Close',exact=True).click()
   assert not q.locator('dialog[open]').count()
-  shot('L07-guest','Assessor reaches populated demo without account creation')
+  shot('L07-guest','Workspace remains available without signing in')
   q.set_viewport_size({'width':390,'height':844})
   q.goto(BASE+'?demo=1&login=1',wait_until='networkidle')
-  shot('L08-mobile-login','Narrow-screen login form',True)
-  M['checks'].append({'name':'Prototype login lifecycle','result':'PASS','details':'Invalid sample rejected; visibility toggle; two example identities; sign-out; identity cleared on reload; guest bypass; no request or localStorage change on sign-in. Narrow viewport captured.'})
+  shot('L08-mobile-login','Mobile-friendly sign-in form',True)
+  M['checks'].append({'name':'Prototype login lifecycle','result':'PASS','details':'Invalid details rejected; account buttons auto-fill; password visibility; two demo identities; sign-out; identity clears on reload; guest bypass; no request or localStorage change on sign-in. Mobile captured.'})
  except Exception as e:
   M['checks'].append({'name':'Prototype login lifecycle','result':'NOT VERIFIED','details':str(e)})
   q.screenshot(path=str(OUT/'ERROR.png'));save();raise
