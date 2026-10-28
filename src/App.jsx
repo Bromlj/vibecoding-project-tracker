@@ -18,11 +18,11 @@ export default function App() {
   async function signOut(){const {error}=await cloudClient.auth.signOut();if(error)setAuthError('Sign-out could not be confirmed. Check your connection and retry.');else{setCloudId(null);setSession(null);}}
   function open(id){setCloudId(id);setAccess(false);}
   const account=<>{session&&<><span className="max-w-xs break-all text-sm text-ink-muted">{session.user.email}</span><button className={button} onClick={signOut}>Sign out</button></>}</>;
-  const prototypeControls=<>{previewAccount?<><span className="max-w-xs break-words text-sm text-ink-muted">Preview account: {previewAccount.name} (simulation)</span><button className={button} onClick={()=>{setPreviewAccount(null);setPreviewNotice('Prototype signed out. Workspace data is unchanged.');}}>Sign out of preview</button></>:<button className={button} onClick={()=>setPrototypeLogin(true)}>Prototype sign in</button>}</>;
+  const prototypeControls=<>{previewAccount?<><span className="max-w-xs break-words text-sm text-ink-muted">{previewAccount.name} <span className="text-xs">· demo</span></span><button className={button} onClick={()=>{setPreviewAccount(null);setPreviewNotice('Signed out of demo account.');}}>Sign out</button></>:<button className={button} onClick={()=>setPrototypeLogin(true)}>Sign in</button>}</>;
   return <>{authError&&<p role="alert" className="border-b border-red-400 bg-red-50 p-4 text-red-900">{authError}</p>}
-    <div role="status" aria-live="polite" className={previewNotice?'min-[1001px]:ml-56 border-b border-slate-300 bg-white p-3 text-sm text-ink-primary':'sr-only'}>{previewNotice}</div>
+    <div role="status" aria-live="polite" className="sr-only">{previewNotice}</div>
     {!demo&&cloudId&&session?<CloudWorkspace key={cloudId} client={cloudClient} id={cloudId} session={session} onLocal={()=>setCloudId(null)} onAccess={()=>setAccess(true)} accountControls={account}/>:<WorkspaceApp store={{workspace,commit,error,mode:'local'}} demo={demo} cloudControls={<>{prototypeControls}{!demo&&<><button className={button} onClick={()=>setAccess(true)}>Shared access</button>{account}</>}</>}/>}
     {access&&<CloudAccess client={cloudClient} session={session} localWorkspace={workspace} onOpen={open} onClose={()=>setAccess(false)}/>}
-    {prototypeLogin&&<PrototypeSignIn onClose={()=>setPrototypeLogin(false)} onContinue={account=>{setPreviewAccount(account);setPrototypeLogin(false);setPreviewNotice('Prototype signed in as '+account.name+'. This is a simulation, not authenticated access.');}}/>}
+    {prototypeLogin&&<PrototypeSignIn onClose={()=>setPrototypeLogin(false)} onContinue={account=>{setPreviewAccount(account);setPrototypeLogin(false);setPreviewNotice('Signed in as '+account.name+' using a demo account.');}}/>}
   </>;
 }
